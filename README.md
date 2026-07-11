@@ -1,8 +1,10 @@
 # pymodelet
 
 Python port of [Modelet](https://github.com/MattAtAIEra/modelet) — the
-SQL-first micro ORM created by Matt in 2006. See [TRIBUTE.md](TRIBUTE.md)
-for the story and the debt this port owes to the original.
+SQL-first micro ORM created by Matt in 2006. See the tribute for the story
+and the debt this port owes to the original:
+[English](TRIBUTE.md) · [繁體中文](TRIBUTE.zh.md) · [日本語](TRIBUTE.ja.md) ·
+[Deutsch](TRIBUTE.de.md) · [한국어](TRIBUTE.ko.md).
 
 **Website:** https://mattataiera.github.io/pymodelet/ ·
 **Comparison** with psycopg / aiosql / SQLAlchemy:
