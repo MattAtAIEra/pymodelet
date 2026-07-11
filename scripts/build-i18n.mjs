@@ -110,6 +110,12 @@ for (const page of PAGES) {
       `<meta name="description" content="${dict['meta.desc'].replace(/"/g, '&quot;')}">\n${headLinks(lang, page)}`);
     html = html.replace(/<script>\s*var I18N[\s\S]*<\/script>/, runtimeScript(lang, page));
 
+    // each language links to its own tribute file (TRIBUTE.zh.md, ...); English keeps TRIBUTE.md
+    if (lang !== 'en') {
+      html = html.replaceAll('/TRIBUTE.md"', `/TRIBUTE.${lang}.md"`);
+      html = html.replaceAll('>TRIBUTE.md<', `>TRIBUTE.${lang}.md<`);
+    }
+
     const dest = lang === 'en' ? path.join(OUT, page) : path.join(OUT, lang, page);
     fs.writeFileSync(dest, html);
     generated++;

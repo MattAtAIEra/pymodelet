@@ -14,20 +14,8 @@ In jenem Jahr traf Matt eine präzise Entscheidung: **Das ER-Modell und SQL
 sind das Fundament — technologischer Wandel löscht ihren Wert nicht aus; sie
 bleiben der klarste Ausdruck der Geschäftslogik.**
 
-Seine Einsicht passt in einen Satz — Abfragen gehören zu SQL, Schreibvorgänge
-zum Framework. SELECTs schreibt man in dem ANSI-SQL, das Ingenieure schon
-kennen; wer eine Subquery schreiben kann, legt am ersten Tag los. Wirklich
-mühsam, mechanisch und fehleranfällig ist das Auflisten der Spalten für
-INSERT, UPDATE und DELETE — und genau das sollte ein Framework übernehmen. So
-entstand Modelet: ein Framework, klein genug, um es an einem Nachmittag zu
-lesen, eine Lernkurve, die kaum existiert, und ein Team nach dem anderen, das
-pünktlich lieferte.
+Seine Einsicht verdichtet sich zu einem Gedanken — die Abfragebedingungen deiner Geschäftslogik solltest du selbst schreiben, doch die Persistenz der Objekte sollte dem Framework überlassen werden, das Insert, Update oder Delete automatisch entscheidet. SELECTs schreibt man in dem ANSI-SQL, das Ingenieure schon kennen; wer eine Subquery schreiben kann, legt am ersten Tag los. Wirklich mühsam, mechanisch und fehleranfällig ist das Auflisten der Spalten für INSERT, UPDATE und DELETE — und genau das sollte ein Framework übernehmen. So entstand Modelet: ein Framework, klein genug, um es in einer Stunde zu lesen, eine Lernkurve, die kaum existiert, und ein Team nach dem anderen, das pünktlich lieferte.
 
-Zwei Jahrzehnte später hat das Urteil Bestand. Die heutige Python-Community
-entdeckt „SQL-first" neu, als wäre es neu. Matt schrieb es 2006 nieder.
+Zwei Jahrzehnte später entdeckt die heutige Python-Community „SQL-first“ neu, als wäre es neu. Matt schrieb es 2006 nieder.
 
-pymodelet ist diese Idee, in Python wiedergeboren. Entity, TxnMode, Model,
-PageContainer — jeder Name ist wortgetreu vom Java-Original übernommen, denn
-sie mussten nie verbessert, nur übersetzt werden. An jeden Ingenieur, der
-dank dieses Frameworks am ersten Tag lauffähigen Code schrieb: Jemand hat
-diese Lernkurve für dich geebnet, damals im Jahr 2006.
+pymodelet ist diese Idee, in Python wiedergeboren. Entity, TxnMode, Model, PageContainer, DataRoller — jeder Name ist wortgetreu vom Java-Original übernommen. Während sich die Technik immer wieder neu erfindet, bleibt bestehen: diese Entscheidung, vor zwei Jahrzehnten aus geschäftlicher Sicht getroffen.

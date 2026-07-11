@@ -14,19 +14,8 @@ That year, Matt made a precise decision: **the ER model and SQL are the
 fundamentals — technological churn does not erase their value; they remain
 the clearest expression of business logic.**
 
-His insight fits in one sentence — queries belong to SQL, writes belong to
-the framework. SELECTs should be written in the ANSI SQL engineers already
-know; anyone who can write a subquery can start on day one. What is genuinely
-tedious, mechanical and error-prone is enumerating columns for INSERT, UPDATE
-and DELETE — and that is the part a framework should take over. So Modelet
-was born: a framework small enough to read in an afternoon, a learning curve
-that barely exists, and team after team that shipped on time.
+His insight condenses into a single idea — the query conditions of your business logic you should write yourself, but object persistence should be handed to the framework, which decides insert, update or delete automatically. SELECTs should be written in the ANSI SQL engineers already know; anyone who can write a subquery can start on day one. What is genuinely tedious, mechanical and error-prone is enumerating columns for INSERT, UPDATE and DELETE — and that is the part a framework should take over. So Modelet was born: a framework small enough to read in an hour, a learning curve that barely exists, and team after team that shipped on time.
 
-Twenty years on, the judgment has held. Today's Python community is
-rediscovering "SQL-first" as if it were new. Matt wrote it down in 2006.
+Twenty years on, today's Python community is rediscovering "SQL-first" as if it were new. Matt wrote it down in 2006.
 
-pymodelet is that idea reborn in Python. Entity, TxnMode, Model,
-PageContainer — every name is inherited verbatim from the Java original,
-because they never needed improving, only translating. To every engineer who
-shipped working code on day one because of this framework: someone flattened
-that learning curve for you, back in 2006.
+pymodelet is that idea reborn in Python. Entity, TxnMode, Model, PageContainer, DataRoller — every name is inherited verbatim from the Java original. As technology keeps reinventing itself, what endures is this decision, made two decades ago from the perspective of the business.
