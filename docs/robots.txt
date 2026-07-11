@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mattataiera.github.io/pymodelet/sitemap.xml

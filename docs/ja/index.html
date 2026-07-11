@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pymodelet — Python の SQL-first マイクロ ORM</title>
+<meta name="description" content="素の SQL でクエリし、型付きエンティティを取得;そのまま保存すれば追加/更新/削除は自動。どの DB-API 2.0 ドライバでも動く、依存ゼロの Python 向け SQL-first マイクロ ORM。Modelet(Java, 2006)からの移植。">
+<link rel="canonical" href="https://mattataiera.github.io/pymodelet/ja/">
+<link rel="alternate" hreflang="en" href="https://mattataiera.github.io/pymodelet/">
+<link rel="alternate" hreflang="zh-Hant" href="https://mattataiera.github.io/pymodelet/zh/">
+<link rel="alternate" hreflang="ja" href="https://mattataiera.github.io/pymodelet/ja/">
+<link rel="alternate" hreflang="de" href="https://mattataiera.github.io/pymodelet/de/">
+<link rel="alternate" hreflang="ko" href="https://mattataiera.github.io/pymodelet/ko/">
+<link rel="alternate" hreflang="x-default" href="https://mattataiera.github.io/pymodelet/">
+<style>
+  :root{
+    --bg:#fbfaf8; --surface:#ffffff; --surface-2:#f4f3ef;
+    --text:#1a1a2e; --muted:#5c5c72; --border:#e7e5df;
+    --primary:#4f46e5; --accent:#7c3aed; --heritage:#c2620a;
+    --code-bg:#f6f5f1; --code-text:#2a2a3a; --board:#ffffff;
+    --kw:#7c3aed; --str:#0f766e; --com:#94929e; --fn:#b4530a;
+    --grad:linear-gradient(120deg,#4f46e5,#7c3aed 55%,#c026d3);
+    --maxw:1080px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0c0c12; --surface:#14141d; --surface-2:#181824;
+      --text:#e9e9f2; --muted:#a0a0ba; --border:#26263440;
+      --primary:#818cf8; --accent:#a78bfa; --heritage:#fbbf24;
+      --code-bg:#111119; --code-text:#d6d6e6; --board:#f4f4fa;
+      --kw:#c4b5fd; --str:#5eead4; --com:#6b6b82; --fn:#fdba74;
+      --grad:linear-gradient(120deg,#818cf8,#a78bfa 55%,#e879f9);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#fbfaf8; --surface:#ffffff; --surface-2:#f4f3ef;
+    --text:#1a1a2e; --muted:#5c5c72; --border:#e7e5df;
+    --primary:#4f46e5; --accent:#7c3aed; --heritage:#c2620a;
+    --code-bg:#f6f5f1; --code-text:#2a2a3a; --board:#ffffff;
+    --kw:#7c3aed; --str:#0f766e; --com:#94929e; --fn:#b4530a;
+    --grad:linear-gradient(120deg,#4f46e5,#7c3aed 55%,#c026d3);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0c0c12; --surface:#14141d; --surface-2:#181824;
+    --text:#e9e9f2; --muted:#a0a0ba; --border:#26263440;
+    --primary:#818cf8; --accent:#a78bfa; --heritage:#fbbf24;
+    --code-bg:#111119; --code-text:#d6d6e6; --board:#f4f4fa;
+    --kw:#c4b5fd; --str:#5eead4; --com:#6b6b82; --fn:#fdba74;
+    --grad:linear-gradient(120deg,#818cf8,#a78bfa 55%,#e879f9);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:system-ui,-apple-system,"Segoe UI","Noto Sans","Noto Sans JP","Noto Sans KR",sans-serif;
+    line-height:1.65;-webkit-font-smoothing:antialiased}
+  code,pre,.mono{font-family:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace}
+  a{color:var(--primary);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);
+    background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--border)}
+  .nav-in{display:flex;align-items:center;gap:16px;height:60px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
+  .brand .dot{width:22px;height:22px;border-radius:7px;background:var(--grad);
+    box-shadow:0 2px 10px color-mix(in srgb,var(--accent) 45%,transparent)}
+  .nav-links{margin-left:auto;display:flex;gap:20px;align-items:center}
+  .nav-links a{color:var(--muted);font-size:.92rem;font-weight:500}
+  .nav-links a:hover{color:var(--text);text-decoration:none}
+  .ctrl{display:flex;gap:8px;align-items:center}
+  .lang-sel{appearance:none;cursor:pointer;background:var(--surface);border:1px solid var(--border);
+    color:var(--text);border-radius:8px;padding:7px 30px 7px 12px;font-size:.86rem;font-weight:600;
+    background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+    background-position:calc(100% - 15px) 52%,calc(100% - 10px) 52%;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+  .theme-btn{cursor:pointer;background:var(--surface);border:1px solid var(--border);color:var(--muted);
+    border-radius:8px;width:36px;height:36px;font-size:1rem;display:grid;place-items:center}
+  @media(max-width:780px){.nav-links a.hide-sm{display:none}}
+
+  header.hero{position:relative;overflow:hidden;padding:88px 0 72px;border-bottom:1px solid var(--border)}
+  .hero::before{content:"";position:absolute;inset:-40% 0 auto -10%;height:520px;
+    background:radial-gradient(60% 60% at 30% 20%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 70%);
+    pointer-events:none;filter:blur(8px)}
+  .badge{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;color:var(--accent);
+    background:color-mix(in srgb,var(--accent) 12%,transparent);
+    border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);padding:5px 12px;border-radius:999px}
+  h1.title{font-size:clamp(2.5rem,6vw,4.2rem);line-height:1.04;margin:22px 0 0;letter-spacing:-.03em;font-weight:800}
+  .title .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tagline{margin:20px 0 0;font-size:clamp(1.15rem,2.4vw,1.5rem);font-weight:600;letter-spacing:-.01em}
+  .lede{margin:22px 0 0;max-width:610px;color:var(--muted);font-size:1.06rem}
+  .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:.98rem;
+    padding:12px 22px;border-radius:11px;border:1px solid transparent;cursor:pointer}
+  .btn.primary{background:var(--grad);color:#fff;box-shadow:0 6px 22px color-mix(in srgb,var(--accent) 40%,transparent)}
+  .btn.primary:hover{text-decoration:none;filter:brightness(1.06)}
+  .btn.ghost{background:var(--surface);border-color:var(--border);color:var(--text)}
+  .btn.ghost:hover{text-decoration:none;border-color:var(--accent)}
+
+  section{padding:76px 0}
+  .band{background:var(--surface-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+  h2.sec{font-size:clamp(1.7rem,3.4vw,2.3rem);letter-spacing:-.02em;margin:12px 0 0;font-weight:800}
+  .sec-lede{color:var(--muted);max-width:660px;margin:14px 0 0;font-size:1.05rem}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:42px}
+  @media(max-width:760px){.split{grid-template-columns:1fr}}
+  .pcard{border:1px solid var(--border);border-radius:16px;padding:28px;background:var(--surface)}
+  .pcard.q{background:var(--surface-2)}
+  .pcard h3{margin:0 0 6px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  .pcard .tag{font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:6px;letter-spacing:.03em}
+  .tag.sql{color:var(--str);background:color-mix(in srgb,var(--str) 14%,transparent)}
+  .tag.fw{color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent)}
+  .pcard p{margin:8px 0 0;color:var(--muted);font-size:.98rem}
+  a.pcard{display:block;color:inherit}
+  a.pcard:hover{text-decoration:none;border-color:var(--accent);
+    box-shadow:0 6px 24px color-mix(in srgb,var(--accent) 18%,transparent)}
+  .cmp-go{display:inline-block;margin-top:16px;color:var(--primary);font-weight:600;font-size:.95rem}
+
+  /* scale stats */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px}
+  @media(max-width:640px){.stats{grid-template-columns:1fr}}
+  .stat{border:1px solid var(--border);border-radius:16px;padding:26px;background:var(--surface);text-align:center;position:relative}
+  .stat .num{font-size:clamp(2rem,5vw,2.8rem);font-weight:800;letter-spacing:-.02em;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .lbl{margin-top:6px;color:var(--muted);font-size:.92rem}
+  .stat .arrow{position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:var(--accent);font-size:1.3rem;z-index:2}
+  @media(max-width:640px){.stat .arrow{display:none}}
+  .scale-note{margin-top:26px;color:var(--muted);font-size:.98rem;max-width:760px;
+    border-left:3px solid var(--accent);padding-left:16px}
+
+  /* code windows */
+  .codewin{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--code-bg)}
+  .codewin .bar{display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid var(--border);
+    background:color-mix(in srgb,var(--surface) 60%,transparent)}
+  .codewin .bar .lbl{margin-left:6px;font-size:.82rem;font-weight:600;color:var(--muted)}
+  .codewin .bar .lang{margin-left:auto;font-size:.72rem;font-weight:700;color:var(--accent);
+    background:color-mix(in srgb,var(--accent) 12%,transparent);padding:3px 9px;border-radius:6px}
+  .dots{display:flex;gap:6px}.dots i{width:11px;height:11px;border-radius:50%;display:block;opacity:.5}
+  .dots i:nth-child(1){background:#ef4444}.dots i:nth-child(2){background:#eab308}.dots i:nth-child(3){background:#22c55e}
+  pre.code{margin:0;padding:20px;overflow-x:auto;font-size:.85rem;line-height:1.6;color:var(--code-text)}
+  .kw{color:var(--kw)}.str{color:var(--str)}.com{color:var(--com);font-style:italic}.fn{color:var(--fn)}
+
+  /* diagrams */
+  .board{background:var(--board);border:1px solid var(--border);border-radius:16px;padding:26px;margin-top:32px;
+    display:flex;justify-content:center;overflow-x:auto}
+  .board.flow svg{width:100%;height:auto;max-width:320px}
+  .board.cls svg{width:100%;height:auto;max-width:600px}
+  .jpa-note{margin-top:22px;color:var(--muted);font-size:.98rem;max-width:760px}
+  .jpa-note code{background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);
+    padding:2px 7px;border-radius:6px;font-size:.86em;font-weight:600}
+
+  /* quick start */
+  .qs-step{margin-top:38px}
+  .qs-step h3{font-size:1.08rem;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+  .qs-step h3 .n{width:26px;height:26px;flex:none;border-radius:8px;background:var(--grad);color:#fff;
+    display:grid;place-items:center;font-size:.85rem;font-weight:700}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:820px){.two{grid-template-columns:1fr}}
+
+  .heritage .eyebrow{color:var(--heritage)}
+  .quote{margin:32px 0 0;font-size:clamp(1.2rem,2.6vw,1.6rem);font-weight:600;letter-spacing:-.01em;line-height:1.45;max-width:840px}
+  .quote .hl{color:var(--heritage)}
+  .attrib{margin-top:22px;color:var(--muted);font-size:.98rem}.attrib b{color:var(--text)}
+
+  footer{border-top:1px solid var(--border);padding:48px 0;color:var(--muted);font-size:.92rem}
+  .foot-in{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+  .foot-links{display:flex;gap:20px;flex-wrap:wrap}
+  .foot-links a{color:var(--muted)}.foot-links a:hover{color:var(--text)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap nav-in">
+    <span class="brand"><span class="dot"></span>pymodelet</span>
+    <div class="nav-links">
+      <a href="#philosophy" class="hide-sm" data-i18n="nav.philosophy">設計思想</a>
+      <a href="#scale" class="hide-sm" data-i18n="nav.scale">スケール</a>
+      <a href="#flow" class="hide-sm" data-i18n="nav.flow">フロー</a>
+      <a href="#quickstart" data-i18n="nav.quickstart">クイックスタート</a>
+      <a href="#compare" class="hide-sm" data-i18n="nav.compare">比較</a>
+      <a href="https://github.com/MattAtAIEra/pymodelet">GitHub</a>
+    </div>
+    <div class="ctrl">
+      <select class="lang-sel" id="langSel" aria-label="Language">
+        <option value="en">English</option>
+        <option value="zh">繁體中文</option>
+        <option value="ja">日本語</option>
+        <option value="de">Deutsch</option>
+        <option value="ko">한국어</option>
+      </select>
+      <button class="theme-btn" id="themeBtn" aria-label="Theme">◐</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">● Python 3.10+ · Since 2006</span>
+    <h1 class="title" data-i18n-html="hero.title">SQL が分かれば、<br>もう <span class="grad">pymodelet</span> が使えます。</h1>
+    <p class="tagline" data-i18n="hero.tagline">クエリは SQL に、書き込みはフレームワークに。</p>
+    <p class="lede" data-i18n="hero.lede">使い慣れた ANSI SQL でクエリを書き、面倒な INSERT / UPDATE / DELETE はフレームワークに任せる。ほとんど存在しない学習コスト —— 20 年間変わりません。</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/MattAtAIEra/pymodelet" data-i18n="hero.cta1">GitHub で見る →</a>
+      <a class="btn ghost" href="#heritage" data-i18n="hero.cta2">物語を読む</a>
+    </div>
+  </div>
+</header>
+
+<section id="philosophy">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="phil.eyebrow">設計思想</div>
+    <h2 class="sec" data-i18n="phil.h2">ORM の潮流とは逆のトレードオフ</h2>
+    <p class="sec-lede" data-i18n="phil.lede">2006 年、Hibernate は HQL やセッションのライフサイクル、マッピングの作法を学ばなければ、生産的な一行すら書けませんでした。Modelet は逆です。SQL を尊重し、面倒な部分だけを引き受けます。</p>
+    <div class="split">
+      <div class="pcard q">
+        <h3><span class="tag sql">SELECT</span><span data-i18n="phil.c1title">クエリ → SQL</span></h3>
+        <p data-i18n="phil.c1body">SELECT は、エンジニアがすでに知っている ANSI SQL で書きます —— サブクエリも JOIN も。フレームワークは各行をオブジェクトに戻すだけ。新しいクエリ言語はありません。</p>
+      </div>
+      <div class="pcard">
+        <h3><span class="tag fw">WRITE</span><span data-i18n="phil.c2title">書き込み → フレームワーク</span></h3>
+        <p data-i18n="phil.c2body">機械的で間違いやすいのは、INSERT / UPDATE / DELETE のカラム列挙です。Modelet はエンティティの TxnMode 状態から生成し、主キーを書き戻し、監査項目を付与します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="scale" class="band">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="scale.eyebrow">スケール対応</div>
+    <h2 class="sec" data-i18n="scale.h2">メモリを食わない深いページング</h2>
+    <p class="sec-lede" data-i18n="scale.lede">結果セットが 100 件でも 50 万件でも、要求したページの行だけがエンティティになります。最後のページに到達しても、全件をアプリに読み込むことはありません。</p>
+    <div class="stats">
+      <div class="stat"><div class="num">500,000</div><div class="lbl" data-i18n="scale.stat1">結果セットの行数</div><span class="arrow">→</span></div>
+      <div class="stat"><div class="num">10</div><div class="lbl" data-i18n="scale.stat2">1 ページあたりの行数</div><span class="arrow">→</span></div>
+      <div class="stat"><div class="num">10</div><div class="lbl" data-i18n="scale.stat3">生成されるエンティティ数</div></div>
+    </div>
+    <p class="scale-note" data-i18n="scale.note">LIMIT / OFFSET はデータベースに委ねられ、アプリ層はページ分の行だけをマッピングします。メモリとマッピングのコストは一定 —— 1 ページ目でも 5 万ページ目でも O(ページ) であり、O(全件) ではありません。「全件をメモリに読み込む」方式はもうありません。</p>
+  </div>
+</section>
+
+<section id="flow">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="flow.eyebrow">処理の流れ</div>
+    <h2 class="sec" data-i18n="flow.h2">SQL からエンティティへ、そして自動で戻る</h2>
+    <p class="sec-lede" data-i18n="flow.lede">SQL を書けば、エンティティのリストが得られます。Web フォームは式言語 (EL) でユーザー入力をエンティティに束縛します。中間層は同じエンティティに saveOrUpdate を呼ぶだけ —— Modelet がそれを SQL に変換します。</p>
+    <div class="board flow"><svg id="flow-svg" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" style="max-width: 276px; background-color: transparent;" viewBox="0 0 276 925.0359497070312" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#flow-svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#000000;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#flow-svg .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#flow-svg .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#flow-svg .error-icon{fill:#552222;}#flow-svg .error-text{fill:#552222;stroke:#552222;}#flow-svg .edge-thickness-normal{stroke-width:1px;}#flow-svg .edge-thickness-thick{stroke-width:3.5px;}#flow-svg .edge-pattern-solid{stroke-dasharray:0;}#flow-svg .edge-thickness-invisible{stroke-width:0;fill:none;}#flow-svg .edge-pattern-dashed{stroke-dasharray:3;}#flow-svg .edge-pattern-dotted{stroke-dasharray:2;}#flow-svg .marker{fill:#666;stroke:#666;}#flow-svg .marker.cross{stroke:#666;}#flow-svg svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#flow-svg p{margin:0;}#flow-svg .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#000000;}#flow-svg .cluster-label text{fill:#333;}#flow-svg .cluster-label span{color:#333;}#flow-svg .cluster-label span p{background-color:transparent;}#flow-svg .label text,#flow-svg span{fill:#000000;color:#000000;}#flow-svg .node rect,#flow-svg .node circle,#flow-svg .node ellipse,#flow-svg .node polygon,#flow-svg .node path{fill:#eee;stroke:#999;stroke-width:1px;}#flow-svg .rough-node .label text,#flow-svg .node .label text,#flow-svg .image-shape .label,#flow-svg .icon-shape .label{text-anchor:middle;}#flow-svg .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#flow-svg .rough-node .label,#flow-svg .node .label,#flow-svg .image-shape .label,#flow-svg .icon-shape .label{text-align:center;}#flow-svg .node.clickable{cursor:pointer;}#flow-svg .root .anchor path{fill:#666!important;stroke-width:0;stroke:#666;}#flow-svg .arrowheadPath{fill:#333333;}#flow-svg .edgePath .path{stroke:#666;stroke-width:1px;}#flow-svg .flowchart-link{stroke:#666;fill:none;}#flow-svg .edgeLabel{background-color:white;text-align:center;}#flow-svg .edgeLabel p{background-color:white;}#flow-svg .edgeLabel rect{opacity:0.5;background-color:white;fill:white;}#flow-svg .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#flow-svg .cluster rect{fill:hsl(0, 0%, 98.9215686275%);stroke:#707070;stroke-width:1px;}#flow-svg .cluster text{fill:#333;}#flow-svg .cluster span{color:#333;}#flow-svg div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(-160, 0%, 93.3333333333%);border:1px solid #707070;border-radius:2px;pointer-events:none;z-index:100;}#flow-svg .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#flow-svg rect.text{fill:none;stroke-width:0;}#flow-svg .icon-shape,#flow-svg .image-shape{background-color:white;text-align:center;}#flow-svg .icon-shape p,#flow-svg .image-shape p{background-color:white;padding:2px;}#flow-svg .icon-shape .label rect,#flow-svg .image-shape .label rect{opacity:0.5;background-color:white;fill:white;}#flow-svg .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#flow-svg .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#flow-svg .node .neo-node{stroke:#999;}#flow-svg [data-look="neo"].node rect,#flow-svg [data-look="neo"].cluster rect,#flow-svg [data-look="neo"].node polygon{stroke:url(#flow-svg-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#flow-svg [data-look="neo"].swimlane.cluster rect{filter:none;}#flow-svg [data-look="neo"].node path{stroke:url(#flow-svg-gradient);stroke-width:1px;}#flow-svg [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#flow-svg [data-look="neo"].node .neo-line path{stroke:#999;filter:none;}#flow-svg [data-look="neo"].node circle{stroke:url(#flow-svg-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#flow-svg [data-look="neo"].node circle .state-start{fill:#000000;}#flow-svg [data-look="neo"].icon-shape .icon{fill:url(#flow-svg-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#flow-svg [data-look="neo"].icon-shape .icon-neo path{stroke:url(#flow-svg-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#flow-svg :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="flow-svg_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="flow-svg_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="flow-svg_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="flow-svg_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="flow-svg_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="flow-svg_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="flow-svg_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="flow-svg_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="flow-svg_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="flow-svg_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="flow-svg_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="flow-svg_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M138,62L138,66.167C138,70.333,138,78.667,138,86.333C138,94,138,101,138,104.5L138,108" id="flow-svg-L_A_B_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A_B_0" data-points="W3sieCI6MTM4LCJ5Ijo2Mn0seyJ4IjoxMzgsInkiOjg3fSx7IngiOjEzOCwieSI6MTEyfV0=" data-look="classic" marker-end="url(#flow-svg_flowchart-v2-pointEnd)"/><path d="M138,190L138,194.167C138,198.333,138,206.667,138,214.333C138,222,138,229,138,232.5L138,236" id="flow-svg-L_B_C_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_B_C_0" data-points="W3sieCI6MTM4LCJ5IjoxOTB9LHsieCI6MTM4LCJ5IjoyMTV9LHsieCI6MTM4LCJ5IjoyNDB9XQ==" data-look="classic" marker-end="url(#flow-svg_flowchart-v2-pointEnd)"/><path d="M138,318L138,322.167C138,326.333,138,334.667,138,342.333C138,350,138,357,138,360.5L138,364" id="flow-svg-L_C_D_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_C_D_0" data-points="W3sieCI6MTM4LCJ5IjozMTh9LHsieCI6MTM4LCJ5IjozNDN9LHsieCI6MTM4LCJ5IjozNjh9XQ==" data-look="classic" marker-end="url(#flow-svg_flowchart-v2-pointEnd)"/><path d="M138,494L138,498.167C138,502.333,138,510.667,138,518.333C138,526,138,533,138,536.5L138,540" id="flow-svg-L_D_E_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_D_E_0" data-points="W3sieCI6MTM4LCJ5Ijo0OTR9LHsieCI6MTM4LCJ5Ijo1MTl9LHsieCI6MTM4LCJ5Ijo1NDR9XQ==" data-look="classic" marker-end="url(#flow-svg_flowchart-v2-pointEnd)"/><path d="M138,622L138,626.167C138,630.333,138,638.667,138,646.333C138,654,138,661,138,664.5L138,668" id="flow-svg-L_E_F_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_E_F_0" data-points="W3sieCI6MTM4LCJ5Ijo2MjJ9LHsieCI6MTM4LCJ5Ijo2NDd9LHsieCI6MTM4LCJ5Ijo2NzJ9XQ==" data-look="classic" marker-end="url(#flow-svg_flowchart-v2-pointEnd)"/><path d="M138,798L138,802.167C138,806.333,138,814.667,138,822.333C138,830,138,837,138,840.5L138,844" id="flow-svg-L_F_G_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_F_G_0" data-points="W3sieCI6MTM4LCJ5Ijo3OTh9LHsieCI6MTM4LCJ5Ijo4MjN9LHsieCI6MTM4LCJ5Ijo4NDh9XQ==" data-look="classic" marker-end="url(#flow-svg_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_A_B_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_B_C_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_C_D_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_D_E_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_E_F_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_F_G_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="flow-svg-flowchart-A-0" data-look="classic" transform="translate(138, 35)"><rect class="basic label-container" style="" x="-98.765625" y="-27" width="197.53125" height="54"/><g class="label" style="" transform="translate(-68.765625, -12)"><rect/><foreignObject width="137.53125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>1 · Write ANSI SQL</p></span></div></foreignObject></g></g><g class="node default" id="flow-svg-flowchart-B-1" data-look="classic" transform="translate(138, 151)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>model.find(sql, params, Book)</p></span></div></foreignObject></g></g><g class="node default" id="flow-svg-flowchart-C-3" data-look="classic" transform="translate(138, 279)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>List&lt;Book&gt; — entities in hand</p></span></div></foreignObject></g></g><g class="node default" id="flow-svg-flowchart-D-5" data-look="classic" transform="translate(138, 431)"><rect class="basic label-container" style="" x="-130" y="-63" width="260" height="126"/><g class="label" style="" transform="translate(-100, -48)"><rect/><foreignObject width="200" height="96"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>2 · Web form + Expression Language<br />binds user input straight into the entity</p></span></div></foreignObject></g></g><g class="node default" id="flow-svg-flowchart-E-7" data-look="classic" transform="translate(138, 583)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>3 · model.save(entity) — saveOrUpdate</p></span></div></foreignObject></g></g><g class="node default" id="flow-svg-flowchart-F-9" data-look="classic" transform="translate(138, 735)"><rect class="basic label-container" style="" x="-130" y="-63" width="260" height="126"/><g class="label" style="" transform="translate(-100, -48)"><rect/><foreignObject width="200" height="96"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>Framework auto-generates the SQL<br />INSERT / UPDATE / DELETE</p></span></div></foreignObject></g></g><g class="node default" id="flow-svg-flowchart-G-11" data-look="classic" transform="translate(138, 882.5179862976074)"><path d="M0,10.011990407673862 a41.75,10.011990407673862 0,0,0 83.5,0 a41.75,10.011990407673862 0,0,0 -83.5,0 l0,49.01199040767386 a41.75,10.011990407673862 0,0,0 83.5,0 l0,-49.01199040767386" class="basic label-container outer-path" style="" transform="translate(-41.75, -34.517985611510795)"/><g class="label" style="" transform="translate(-34.25, -2)"><rect/><foreignObject width="68.5" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Database</p></span></div></foreignObject></g></g></g></g></g><defs><filter id="flow-svg-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="flow-svg-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><linearGradient id="flow-svg-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="hsl(0, 0%, 83.3333333333%)" stop-opacity="1"/><stop offset="100%" stop-color="hsl(0, 0%, 88.9215686275%)" stop-opacity="1"/></linearGradient></svg></div>
+    <p class="jpa-note" data-i18n-html="flow.jpa">エンティティは JPA 互換のアノテーション —— <code>@Table</code> <code>@Id</code> <code>@Column</code> <code>@Transient</code> <code>@Enumerated</code> <code>@GeneratedValue</code> —— で定義され、Jakarta Persistence のエンティティと同じように読めます。借りるのは語彙だけ、エンジンは終始 SQL-first です。</p>
+  </div>
+</section>
+
+<section id="quickstart" class="band">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="qs.eyebrow">クイックスタート</div>
+    <h2 class="sec" data-i18n="qs.h2">ひとつの例で、端から端まで</h2>
+    <p class="sec-lede" data-i18n="qs.lede">典型的な一対多：Author は複数の Book を持ちます。外部キーがすなわち関連 —— @OneToMany も遅延ロードもありません。</p>
+
+    <div class="qs-step">
+      <h3><span data-i18n="qs.classTitle">クラス図</span></h3>
+      <div class="board cls"><svg id="cls-svg" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="classDiagram" style="max-width: 547.383px; background-color: transparent;" viewBox="0 0 547.3828125 232" role="graphics-document document" aria-roledescription="class"><style>#cls-svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#000000;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#cls-svg .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#cls-svg .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#cls-svg .error-icon{fill:#552222;}#cls-svg .error-text{fill:#552222;stroke:#552222;}#cls-svg .edge-thickness-normal{stroke-width:1px;}#cls-svg .edge-thickness-thick{stroke-width:3.5px;}#cls-svg .edge-pattern-solid{stroke-dasharray:0;}#cls-svg .edge-thickness-invisible{stroke-width:0;fill:none;}#cls-svg .edge-pattern-dashed{stroke-dasharray:3;}#cls-svg .edge-pattern-dotted{stroke-dasharray:2;}#cls-svg .marker{fill:#666;stroke:#666;}#cls-svg .marker.cross{stroke:#666;}#cls-svg svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#cls-svg p{margin:0;}#cls-svg g.classGroup text{fill:#999;stroke:none;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:10px;}#cls-svg g.classGroup text .title{font-weight:bolder;}#cls-svg .cluster-label text{fill:#333;}#cls-svg .cluster-label span{color:#333;}#cls-svg .cluster-label span p{background-color:transparent;}#cls-svg .cluster rect{fill:hsl(0, 0%, 98.9215686275%);stroke:#707070;stroke-width:1px;}#cls-svg .cluster text{fill:#333;}#cls-svg .cluster span{color:#333;}#cls-svg .nodeLabel,#cls-svg .edgeLabel{color:#111111;}#cls-svg .noteLabel .nodeLabel,#cls-svg .noteLabel .edgeLabel{color:#fff;}#cls-svg .edgeLabel .label rect{fill:#eee;}#cls-svg .label text{fill:#111111;}#cls-svg .labelBkg{background:#eee;}#cls-svg .edgeLabel .label span{background:#eee;}#cls-svg .classTitle{font-weight:bolder;}#cls-svg .node rect,#cls-svg .node circle,#cls-svg .node ellipse,#cls-svg .node polygon,#cls-svg .node path{fill:#eee;stroke:#999;stroke-width:1;}#cls-svg .divider{stroke:#999;stroke-width:1;}#cls-svg g.clickable{cursor:pointer;}#cls-svg g.classGroup rect{fill:#eee;stroke:#999;}#cls-svg g.classGroup line{stroke:#999;stroke-width:1;}#cls-svg .classLabel .box{stroke:none;stroke-width:0;fill:#eee;opacity:0.5;}#cls-svg .classLabel .label{fill:#999;font-size:10px;}#cls-svg .relation{stroke:#666;stroke-width:1;fill:none;}#cls-svg .dashed-line{stroke-dasharray:3;}#cls-svg .dotted-line{stroke-dasharray:1 2;}#cls-svg [id$="-compositionStart"],#cls-svg .composition{fill:#666!important;stroke:#666!important;stroke-width:1;}#cls-svg [id$="-compositionEnd"],#cls-svg .composition{fill:#666!important;stroke:#666!important;stroke-width:1;}#cls-svg [id$="-dependencyStart"],#cls-svg .dependency{fill:#666!important;stroke:#666!important;stroke-width:1;}#cls-svg [id$="-dependencyEnd"],#cls-svg .dependency{fill:#666!important;stroke:#666!important;stroke-width:1;}#cls-svg [id$="-extensionStart"],#cls-svg .extension{fill:transparent!important;stroke:#666!important;stroke-width:1;}#cls-svg [id$="-extensionEnd"],#cls-svg .extension{fill:transparent!important;stroke:#666!important;stroke-width:1;}#cls-svg [id$="-aggregationStart"],#cls-svg .aggregation{fill:transparent!important;stroke:#666!important;stroke-width:1;}#cls-svg [id$="-aggregationEnd"],#cls-svg .aggregation{fill:transparent!important;stroke:#666!important;stroke-width:1;}#cls-svg [id$="-lollipopStart"],#cls-svg .lollipop{fill:#eee!important;stroke:#666!important;stroke-width:1;}#cls-svg [id$="-lollipopEnd"],#cls-svg .lollipop{fill:#eee!important;stroke:#666!important;stroke-width:1;}#cls-svg .edgeTerminals{font-size:11px;line-height:initial;}#cls-svg .classTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#cls-svg .edgeLabel[data-look="neo"]{background-color:white;text-align:center;}#cls-svg .edgeLabel[data-look="neo"] p{background-color:white;}#cls-svg .edgeLabel[data-look="neo"] rect{opacity:0.5;background-color:white;fill:white;}#cls-svg .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#cls-svg .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#cls-svg .node .neo-node{stroke:#999;}#cls-svg [data-look="neo"].node rect,#cls-svg [data-look="neo"].cluster rect,#cls-svg [data-look="neo"].node polygon{stroke:url(#cls-svg-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#cls-svg [data-look="neo"].swimlane.cluster rect{filter:none;}#cls-svg [data-look="neo"].node path{stroke:url(#cls-svg-gradient);stroke-width:1px;}#cls-svg [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#cls-svg [data-look="neo"].node .neo-line path{stroke:#999;filter:none;}#cls-svg [data-look="neo"].node circle{stroke:url(#cls-svg-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#cls-svg [data-look="neo"].node circle .state-start{fill:#000000;}#cls-svg [data-look="neo"].icon-shape .icon{fill:url(#cls-svg-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#cls-svg [data-look="neo"].icon-shape .icon-neo path{stroke:url(#cls-svg-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#cls-svg :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><defs><marker id="cls-svg_class-aggregationStart" class="marker aggregation class" refX="18" refY="7" markerWidth="190" markerHeight="240" orient="auto"><path d="M 18,7 L9,13 L1,7 L9,1 Z"/></marker></defs><defs><marker id="cls-svg_class-aggregationEnd" class="marker aggregation class" refX="1" refY="7" markerWidth="20" markerHeight="28" orient="auto"><path d="M 18,7 L9,13 L1,7 L9,1 Z"/></marker></defs><defs><marker id="cls-svg_class-aggregationStart-margin" class="marker aggregation class" refX="15" refY="7" markerWidth="190" markerHeight="240" orient="auto" markerUnits="userSpaceOnUse"><path d="M 18,7 L9,13 L1,7 L9,1 Z" style="stroke-width: 2;"/></marker></defs><defs><marker id="cls-svg_class-aggregationEnd-margin" class="marker aggregation class" refX="1" refY="7" markerWidth="20" markerHeight="28" orient="auto" markerUnits="userSpaceOnUse"><path d="M 18,7 L9,13 L1,7 L9,1 Z" style="stroke-width: 2;"/></marker></defs><defs><marker id="cls-svg_class-extensionStart" class="marker extension class" refX="18" refY="7" markerWidth="20" markerHeight="28" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1,7 L18,13 V 1 Z"/></marker></defs><defs><marker id="cls-svg_class-extensionEnd" class="marker extension class" refX="1" refY="7" markerWidth="20" markerHeight="28" orient="auto"><path d="M 1,1 V 13 L18,7 Z"/></marker></defs><marker id="cls-svg_class-extensionStart-margin" class="marker extension class" refX="18" refY="7" markerWidth="20" markerHeight="28" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 20 14"><polygon points="10,7 18,13 18,1" style="stroke-width: 2; stroke-dasharray: 0;"/></marker><defs><marker id="cls-svg_class-extensionEnd-margin" class="marker extension class" refX="9" refY="7" markerWidth="20" markerHeight="28" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 20 14"><polygon points="10,1 10,13 18,7" style="stroke-width: 2; stroke-dasharray: 0;"/></marker></defs><defs><marker id="cls-svg_class-compositionStart" class="marker composition class" refX="18" refY="7" markerWidth="190" markerHeight="240" orient="auto"><path d="M 18,7 L9,13 L1,7 L9,1 Z"/></marker></defs><defs><marker id="cls-svg_class-compositionEnd" class="marker composition class" refX="1" refY="7" markerWidth="20" markerHeight="28" orient="auto"><path d="M 18,7 L9,13 L1,7 L9,1 Z"/></marker></defs><defs><marker id="cls-svg_class-compositionStart-margin" class="marker composition class" refX="15" refY="7" markerWidth="190" markerHeight="240" orient="auto" markerUnits="userSpaceOnUse"><path viewBox="0 0 15 15" d="M 18,7 L9,13 L1,7 L9,1 Z" style="stroke-width: 0;"/></marker></defs><defs><marker id="cls-svg_class-compositionEnd-margin" class="marker composition class" refX="3.5" refY="7" markerWidth="20" markerHeight="28" orient="auto" markerUnits="userSpaceOnUse"><path d="M 18,7 L9,13 L1,7 L9,1 Z" style="stroke-width: 0;"/></marker></defs><defs><marker id="cls-svg_class-dependencyStart" class="marker dependency class" refX="6" refY="7" markerWidth="190" markerHeight="240" orient="auto"><path d="M 5,7 L9,13 L1,7 L9,1 Z"/></marker></defs><defs><marker id="cls-svg_class-dependencyEnd" class="marker dependency class" refX="13" refY="7" markerWidth="20" markerHeight="28" orient="auto"><path d="M 18,7 L9,13 L14,7 L9,1 Z"/></marker></defs><defs><marker id="cls-svg_class-dependencyStart-margin" class="marker dependency class" refX="4" refY="7" markerWidth="190" markerHeight="240" orient="auto" markerUnits="userSpaceOnUse"><path d="M 5,7 L9,13 L1,7 L9,1 Z" style="stroke-width: 0;"/></marker></defs><defs><marker id="cls-svg_class-dependencyEnd-margin" class="marker dependency class" refX="16" refY="7" markerWidth="20" markerHeight="28" orient="auto" markerUnits="userSpaceOnUse"><path d="M 18,7 L9,13 L14,7 L9,1 Z" style="stroke-width: 0;"/></marker></defs><defs><marker id="cls-svg_class-lollipopStart" class="marker lollipop class" refX="13" refY="7" markerWidth="190" markerHeight="240" orient="auto"><circle fill="transparent" cx="7" cy="7" r="6"/></marker></defs><defs><marker id="cls-svg_class-lollipopEnd" class="marker lollipop class" refX="1" refY="7" markerWidth="190" markerHeight="240" orient="auto"><circle fill="transparent" cx="7" cy="7" r="6"/></marker></defs><defs><marker id="cls-svg_class-lollipopStart-margin" class="marker lollipop class" refX="13" refY="7" markerWidth="190" markerHeight="240" orient="auto" markerUnits="userSpaceOnUse"><circle fill="transparent" cx="7" cy="7" r="6" stroke-width="2"/></marker></defs><defs><marker id="cls-svg_class-lollipopEnd-margin" class="marker lollipop class" refX="1" refY="7" markerWidth="190" markerHeight="240" orient="auto" markerUnits="userSpaceOnUse"><circle fill="transparent" cx="7" cy="7" r="6" stroke-width="2"/></marker></defs><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M188.664,116L200.465,116C212.266,116,235.867,116,258.469,116C281.07,116,302.672,116,313.473,116L324.273,116" id="cls-svg-id_Author_Book_1" class="edge-thickness-normal edge-pattern-solid relation" style=";;;" data-edge="true" data-et="edge" data-id="id_Author_Book_1" data-points="W3sieCI6MTg4LjY2NDA2MjUsInkiOjExNn0seyJ4IjoyNTkuNDY4NzUsInkiOjExNn0seyJ4IjozMzAuMjczNDM3NSwieSI6MTE2fV0=" data-look="classic" marker-end="url(#cls-svg_class-dependencyEnd)"/></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(259.46875, 116)"><g class="label" data-id="id_Author_Book_1" transform="translate(-45.8046875, -12)"><foreignObject width="91.609375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>author_id FK</p></span></div></foreignObject></g></g><g class="edgeTerminals" transform="translate(206.16406125, 131)"><g class="inner" transform="translate(-3.0625, -8.25)"><foreignObject width="6.125" height="16.5" style="width: 9px; height: 12px;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5;"><span class="edgeLabel"><p>1</p></span></div></foreignObject></g></g><g class="edgeTerminals" transform="translate(307.77343874999997, 96)"><g class="inner" transform="translate(-8.2578125, -8.25)"/><foreignObject width="16.515625" height="16.5" style="width: 36px; height: 12px;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5;"><span class="edgeLabel"><p>0..*</p></span></div></foreignObject></g></g><g class="nodes"><g class="node default" id="cls-svg-classId-Author-0" data-look="classic" transform="translate(98.33203125, 116)"><g class="basic label-container outer-path"><path d="M-90.33203125 -84 L90.33203125 -84 L90.33203125 84 L-90.33203125 84" stroke="none" stroke-width="0" fill="#eee" style=""/><path d="M-90.33203125 -84 C-48.09135495021872 -84, -5.850678650437445 -84, 90.33203125 -84 M-90.33203125 -84 C-40.53637353544613 -84, 9.259284179107738 -84, 90.33203125 -84 M90.33203125 -84 C90.33203125 -46.44650651262657, 90.33203125 -8.89301302525314, 90.33203125 84 M90.33203125 -84 C90.33203125 -35.915275904405696, 90.33203125 12.169448191188607, 90.33203125 84 M90.33203125 84 C33.62552328108947 84, -23.080984687821058 84, -90.33203125 84 M90.33203125 84 C43.72512958390963 84, -2.8817720821807455 84, -90.33203125 84 M-90.33203125 84 C-90.33203125 46.76038756011587, -90.33203125 9.520775120231747, -90.33203125 -84 M-90.33203125 84 C-90.33203125 28.143588537111867, -90.33203125 -27.712822925776265, -90.33203125 -84" stroke="#999" stroke-width="1.3" fill="none" stroke-dasharray="0 0" style=""/></g><g class="annotation-group text" transform="translate(-61.0546875, -60)"><g class="label" style="" transform="translate(0,-12)"><foreignObject width="122.109375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 161px; text-align: center;"><span class="nodeLabel markdown-node-label" style=""><p>«@Table author»</p></span></div></foreignObject></g></g><g class="label-group text" transform="translate(-26.21875, -36)"><g class="label" style="font-weight: bolder" transform="translate(0,-12)"><foreignObject width="52.4375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 96px; text-align: center;"><span class="nodeLabel markdown-node-label" style=""><p>Author</p></span></div></foreignObject></g></g><g class="members-group text" transform="translate(-78.33203125, 12)"><g class="label" style="" transform="translate(0,-12)"><foreignObject width="61.84375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 114px; text-align: center;"><span class="nodeLabel markdown-node-label" style=""><p>+Long id</p></span></div></foreignObject></g><g class="label" style="" transform="translate(0,12)"><foreignObject width="95.609375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 141px; text-align: center;"><span class="nodeLabel markdown-node-label" style=""><p>+String name</p></span></div></foreignObject></g></g><g class="methods-group text" transform="translate(-78.33203125, 84)"/><g class="divider" style=""><path d="M-90.33203125 -12 C-25.22404671144318 -11.999639618507203, 39.88393782711364 -11.999279237014406, 90.33203125 -11.999 M-90.33203125 -12 C-36.31303571240236 -11.999700997559835, 17.70595982519528 -11.99940199511967, 90.33203125 -11.999" stroke="#999" stroke-width="1.3" fill="none" stroke-dasharray="0 0" style=""/></g><g class="divider" style=""><path d="M-90.33203125 60 C-30.995962096631516 60.00032843316115, 28.34010705673697 60.0006568663223, 90.33203125 60.001 M-90.33203125 60 C-40.51952525501203 60.0002757189521, 9.292980739975945 60.0005514379042, 90.33203125 60.001" stroke="#999" stroke-width="1.3" fill="none" stroke-dasharray="0 0" style=""/></g></g><g class="node default" id="cls-svg-classId-Book-1" data-look="classic" transform="translate(434.828125, 116)"><g class="basic label-container outer-path"><path d="M-104.5546875 -108 L104.5546875 -108 L104.5546875 108 L-104.5546875 108" stroke="none" stroke-width="0" fill="#eee" style=""/><path d="M-104.5546875 -108 C-61.359535672695294 -108, -18.16438384539059 -108, 104.5546875 -108 M-104.5546875 -108 C-53.79884677780149 -108, -3.043006055602973 -108, 104.5546875 -108 M104.5546875 -108 C104.5546875 -61.943272919795376, 104.5546875 -15.886545839590752, 104.5546875 108 M104.5546875 -108 C104.5546875 -64.78452052140611, 104.5546875 -21.56904104281223, 104.5546875 108 M104.5546875 108 C41.01155095336512 108, -22.531585593269753 108, -104.5546875 108 M104.5546875 108 C57.75683318648517 108, 10.958978872970334 108, -104.5546875 108 M-104.5546875 108 C-104.5546875 53.98318724570876, -104.5546875 -0.033625508582474595, -104.5546875 -108 M-104.5546875 108 C-104.5546875 31.855422208183498, -104.5546875 -44.289155583633004, -104.5546875 -108" stroke="#999" stroke-width="1.3" fill="none" stroke-dasharray="0 0" style=""/></g><g class="annotation-group text" transform="translate(-55.71875, -84)"><g class="label" style="" transform="translate(0,-12)"><foreignObject width="111.4375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 152px; text-align: center;"><span class="nodeLabel markdown-node-label" style=""><p>«@Table book»</p></span></div></foreignObject></g></g><g class="label-group text" transform="translate(-20, -60)"><g class="label" style="font-weight: bolder" transform="translate(0,-12)"><foreignObject width="40" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 85px; text-align: center;"><span class="nodeLabel markdown-node-label" style=""><p>Book</p></span></div></foreignObject></g></g><g class="members-group text" transform="translate(-92.5546875, -12)"><g class="label" style="" transform="translate(0,-12)"><foreignObject width="61.84375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 114px; text-align: center;"><span class="nodeLabel markdown-node-label" style=""><p>+Long id</p></span></div></foreignObject></g><g class="label" style="" transform="translate(0,12)"><foreignObject width="116.109375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 163px; text-align: center;"><span class="nodeLabel markdown-node-label" style=""><p>+Long author_id</p></span></div></foreignObject></g><g class="label" style="" transform="translate(0,36)"><foreignObject width="80.484375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 131px; text-align: center;"><span class="nodeLabel markdown-node-label" style=""><p>+String title</p></span></div></foreignObject></g><g class="label" style="" transform="translate(0,60)"><foreignObject width="129.390625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 177px; text-align: center;"><span class="nodeLabel markdown-node-label" style=""><p>+BigDecimal price</p></span></div></foreignObject></g></g><g class="methods-group text" transform="translate(-92.5546875, 108)"/><g class="divider" style=""><path d="M-104.5546875 -36 C-48.89934319681402 -35.99973384577184, 6.756001106371954 -35.99946769154369, 104.5546875 -35.999 M-104.5546875 -36 C-39.14237081217897 -35.999687186111636, 26.269945875642065 -35.999374372223265, 104.5546875 -35.999" stroke="#999" stroke-width="1.3" fill="none" stroke-dasharray="0 0" style=""/></g><g class="divider" style=""><path d="M-104.5546875 84 C-54.7524146489624 84.00023816374971, -4.9501417979248 84.00047632749944, 104.5546875 84.001 M-104.5546875 84 C-25.23002606534854 84.00037934531359, 54.09463536930292 84.0007586906272, 104.5546875 84.001" stroke="#999" stroke-width="1.3" fill="none" stroke-dasharray="0 0" style=""/></g></g></g></g></g><defs><filter id="cls-svg-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="cls-svg-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><linearGradient id="cls-svg-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="hsl(0, 0%, 83.3333333333%)" stop-opacity="1"/><stop offset="100%" stop-color="hsl(0, 0%, 88.9215686275%)" stop-opacity="1"/></linearGradient></svg></div>
+    </div>
+
+    <div class="qs-step">
+      <h3><span class="n">1</span><span data-i18n="qs.entitiesTitle">JPA 互換アノテーションでエンティティを定義</span></h3>
+      <div class="codewin">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">models.py</span><span class="lang">Python 3.10+</span></div>
+<pre class="code"><span class="fn">@Table</span>(<span class="str">"author"</span>)
+<span class="fn">@dataclass</span>
+<span class="kw">class</span> <span class="fn">Author</span>(Entity):
+    name: str | <span class="kw">None</span> = <span class="kw">None</span>
+
+<span class="fn">@Table</span>(<span class="str">"book"</span>)
+<span class="fn">@dataclass</span>
+<span class="kw">class</span> <span class="fn">Book</span>(Entity):
+    author_id: int | <span class="kw">None</span> = <span class="kw">None</span>          <span class="com"># FK = the relationship</span>
+    title: str | <span class="kw">None</span> = <span class="fn">Column</span>(<span class="str">"bookName"</span>)
+    price: Decimal | <span class="kw">None</span> = <span class="kw">None</span></pre>
+      </div>
+    </div>
+
+    <div class="qs-step">
+      <h3><span class="n">2</span><span data-i18n="qs.queryTitle">知っている SQL でクエリ</span></h3>
+      <div class="codewin">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">query.py</span><span class="lang">find → list</span></div>
+<pre class="code"><span class="com"># plain ANSI SQL in, a list of entities out</span>
+books = model.<span class="fn">find</span>(
+    <span class="str">"select * from book where author_id = ? order by id"</span>,
+    [author_id], Book)</pre>
+      </div>
+    </div>
+
+    <div class="qs-step">
+      <h3><span class="n">3</span><span data-i18n="qs.saveTitle">saveOrUpdate —— フレームワークが SQL を書く</span></h3>
+      <div class="codewin">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">save.py</span><span class="lang">save</span></div>
+<pre class="code">book = <span class="fn">Book</span>(author_id=author.id,
+            title=<span class="str">"pymodelet in Action"</span>)
+model.<span class="fn">save</span>(book)    <span class="com"># new entity → INSERT, id written back</span>
+
+book.price = Decimal(<span class="str">"499"</span>)
+model.<span class="fn">save</span>(book)    <span class="com"># loaded entity → UPDATE. same call.</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="cmp.eyebrow">直接対決</div>
+    <h2 class="sec" data-i18n="cmp.h2">pymodelet は何と、どう比べられるか</h2>
+    <p class="sec-lede" data-i18n="cmp.lede">本来なら手に取る SQL-first ツールと、観点ごとに率直に比較 —— そして移植元の Java オリジナルへ。</p>
+    <div class="split">
+      <a class="pcard" href="compare-python.html">
+        <h3><span class="tag sql">Python</span><span data-i18n="cmp.py.t">vs SQL-first 勢</span></h3>
+        <p data-i18n="cmp.py.d">psycopg の row factory、aiosql、SQLAlchemy Core + Pydantic —— どれも読み取り側の面倒は見てくれます。pymodelet は書き込みまで楽にしてくれます。</p>
+        <span class="cmp-go" data-i18n="cmp.cta2">比較を読む →</span>
+      </a>
+      <a class="pcard" href="https://github.com/MattAtAIEra/modelet">
+        <h3><span class="tag fw">Java</span><span data-i18n="cmp.java.t">The original Modelet</span></h3>
+        <p data-i18n="cmp.java.d">pymodelet は、Matt が 2006 年に Java で生んだ SQL-first フレームワーク Modelet の忠実な移植です。オリジナル —— そして MyBatis・Hibernate との比較へ。</p>
+        <span class="cmp-go" data-i18n="cmp.cta">GitHub で Modelet を見る →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="heritage" class="heritage band">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="heritage.eyebrow">系譜 · 2006</div>
+    <h2 class="sec" data-i18n="heritage.h2">静かで、しかし的確な決断</h2>
+    <p class="quote" data-i18n-html="heritage.quote">「SQL と戦うな、<span class="hl">敬え。</span>」20 年後、Python コミュニティは「SQL-first」をまるで新しいものかのように再発見しています —— Matt は 2006 年にそれを書き記していました。</p>
+    <p class="attrib" data-i18n-html="heritage.attrib">Modelet は 2006 年に <b>Matt</b> が、ORM の学習コストを平らにし、チームの開発を加速するために作りました。全文は <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md">TRIBUTE.md</a> に。</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <span class="brand"><span class="dot"></span><span data-i18n="footer.tagline">pymodelet · クエリは SQL に、書き込みはフレームワークに</span></span>
+    <div class="foot-links">
+      <a href="compare-python.html" data-i18n="footer.cmppy">比較</a>
+      <a href="https://github.com/MattAtAIEra/pymodelet">Repository</a>
+      <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md" data-i18n="footer.tribute">献辞</a>
+      <a href="https://github.com/MattAtAIEra/modelet" data-i18n="footer.java">Java オリジナル</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var PAGE='index.html', LANG='ja';
+  var root=document.documentElement;
+  var themeBtn=document.getElementById('themeBtn');
+  var langSel=document.getElementById('langSel');
+  var savedTheme=null; try{savedTheme=localStorage.getItem('modelet-theme')}catch(e){}
+  if(savedTheme){root.setAttribute('data-theme',savedTheme)}
+  function curTheme(){var t=root.getAttribute('data-theme');return t?t:(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}
+  themeBtn.addEventListener('click',function(){
+    var n=curTheme()==='dark'?'light':'dark';root.setAttribute('data-theme',n);
+    try{localStorage.setItem('modelet-theme',n)}catch(e){}
+  });
+  langSel.value=LANG;
+  langSel.addEventListener('change',function(){
+    var t=langSel.value;
+    try{localStorage.setItem('modelet-lang',t)}catch(e){}
+    if(t===LANG)return;
+    var up=(LANG==='en')?'':'../';
+    location.href=up+(t==='en'?'':t+'/')+PAGE;
+  });
+})();
+</script>
+</body>
+</html>

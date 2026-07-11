@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pymodelet vs the SQL-first field</title>
+<meta name="description" content="Every SQL-first tool in the Python ecosystem takes care of the read side. pymodelet makes even the writes effortless — the only package where SQL gives you a list of entities you can save right back, with insert/update/delete decided automatically. Compared honestly with psycopg row factories, aiosql and SQLAlchemy Core + Pydantic.">
+<style>
+  :root{
+    --bg:#fbfaf8; --surface:#ffffff; --surface-2:#f4f3ef;
+    --text:#1a1a2e; --muted:#5c5c72; --border:#e7e5df;
+    --primary:#4f46e5; --accent:#7c3aed; --heritage:#c2620a;
+    --code-bg:#f6f5f1; --code-text:#2a2a3a;
+    --kw:#7c3aed; --str:#0f766e; --com:#94929e; --fn:#b4530a;
+    --grad:linear-gradient(120deg,#4f46e5,#7c3aed 55%,#c026d3);
+    --maxw:1080px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0c0c12; --surface:#14141d; --surface-2:#181824;
+      --text:#e9e9f2; --muted:#a0a0ba; --border:#26263440;
+      --primary:#818cf8; --accent:#a78bfa; --heritage:#fbbf24;
+      --code-bg:#111119; --code-text:#d6d6e6;
+      --kw:#c4b5fd; --str:#5eead4; --com:#6b6b82; --fn:#fdba74;
+      --grad:linear-gradient(120deg,#818cf8,#a78bfa 55%,#e879f9);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#fbfaf8; --surface:#ffffff; --surface-2:#f4f3ef;
+    --text:#1a1a2e; --muted:#5c5c72; --border:#e7e5df;
+    --primary:#4f46e5; --accent:#7c3aed; --heritage:#c2620a;
+    --code-bg:#f6f5f1; --code-text:#2a2a3a;
+    --kw:#7c3aed; --str:#0f766e; --com:#94929e; --fn:#b4530a;
+    --grad:linear-gradient(120deg,#4f46e5,#7c3aed 55%,#c026d3);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0c0c12; --surface:#14141d; --surface-2:#181824;
+    --text:#e9e9f2; --muted:#a0a0ba; --border:#26263440;
+    --primary:#818cf8; --accent:#a78bfa; --heritage:#fbbf24;
+    --code-bg:#111119; --code-text:#d6d6e6;
+    --kw:#c4b5fd; --str:#5eead4; --com:#6b6b82; --fn:#fdba74;
+    --grad:linear-gradient(120deg,#818cf8,#a78bfa 55%,#e879f9);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:system-ui,-apple-system,"Segoe UI","Noto Sans","Noto Sans JP","Noto Sans KR",sans-serif;
+    line-height:1.65;-webkit-font-smoothing:antialiased}
+  code,pre{font-family:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace}
+  a{color:var(--primary);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);
+    background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--border)}
+  .nav-in{display:flex;align-items:center;gap:16px;height:60px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;color:var(--text)}
+  .brand:hover{text-decoration:none}
+  .brand .dot{width:22px;height:22px;border-radius:7px;background:var(--grad);
+    box-shadow:0 2px 10px color-mix(in srgb,var(--accent) 45%,transparent)}
+  .brand .back{color:var(--muted);font-weight:500;font-size:.9rem}
+  .nav-links{margin-left:auto;display:flex;gap:20px;align-items:center}
+  .nav-links a{color:var(--muted);font-size:.92rem;font-weight:500}
+  .nav-links a:hover{color:var(--text);text-decoration:none}
+  .ctrl{display:flex;gap:8px;align-items:center}
+  .lang-sel{appearance:none;cursor:pointer;background:var(--surface);border:1px solid var(--border);
+    color:var(--text);border-radius:8px;padding:7px 30px 7px 12px;font-size:.86rem;font-weight:600;
+    background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+    background-position:calc(100% - 15px) 52%,calc(100% - 10px) 52%;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+  .theme-btn{cursor:pointer;background:var(--surface);border:1px solid var(--border);color:var(--muted);
+    border-radius:8px;width:36px;height:36px;font-size:1rem;display:grid;place-items:center}
+  @media(max-width:780px){.nav-links a.hide-sm{display:none}}
+
+  header.hero{position:relative;overflow:hidden;padding:76px 0 64px;border-bottom:1px solid var(--border)}
+  .hero::before{content:"";position:absolute;inset:-40% 0 auto -10%;height:480px;
+    background:radial-gradient(60% 60% at 30% 20%,color-mix(in srgb,var(--accent) 20%,transparent),transparent 70%);
+    pointer-events:none;filter:blur(8px)}
+  .eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+  h1.title{font-size:clamp(2rem,5vw,3.3rem);line-height:1.08;margin:16px 0 0;letter-spacing:-.03em;font-weight:800}
+  .title .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tagline{margin:18px 0 0;font-size:clamp(1.05rem,2.2vw,1.3rem);font-weight:600;max-width:820px}
+  .subline{margin:14px 0 0;font-size:1.02rem;font-weight:600;max-width:800px;color:var(--accent);
+    border-left:3px solid var(--accent);padding-left:14px}
+  .lede{margin:18px 0 0;max-width:700px;color:var(--muted);font-size:1.04rem}
+
+  section{padding:72px 0}
+  .band{background:var(--surface-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  h2.sec{font-size:clamp(1.6rem,3.2vw,2.15rem);letter-spacing:-.02em;margin:12px 0 0;font-weight:800}
+  .sec-lede{color:var(--muted);max-width:680px;margin:14px 0 0;font-size:1.04rem}
+
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:42px}
+  @media(max-width:760px){.cards{grid-template-columns:1fr}}
+  .pcard{border:1px solid var(--border);border-radius:16px;padding:26px;background:var(--surface)}
+  .pcard.win{border-color:color-mix(in srgb,var(--accent) 45%,transparent);
+    background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+  .pcard h3{margin:0 0 8px;font-size:1.1rem}
+  .pcard .who{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .pcard.win .who{color:var(--accent)}
+  .pcard p{margin:8px 0 0;color:var(--muted);font-size:.95rem}
+
+  .tblwrap{overflow-x:auto;margin-top:42px;border:1px solid var(--border);border-radius:14px;background:var(--surface)}
+  table.cmp{border-collapse:collapse;width:100%;min-width:940px;font-size:.89rem}
+  .cmp th,.cmp td{padding:13px 15px;border-bottom:1px solid var(--border);vertical-align:top;text-align:left}
+  .cmp thead th{background:var(--surface-2);font-size:.82rem;letter-spacing:.02em}
+  .cmp tbody th{font-weight:600;color:var(--muted);font-size:.85rem;min-width:140px}
+  .cmp tr:last-child th,.cmp tr:last-child td{border-bottom:none}
+  .cmp td.hl{background:color-mix(in srgb,var(--accent) 7%,transparent);font-weight:600}
+  .cmp thead th.hl{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+
+  .codewin{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--code-bg)}
+  .codewin .bar{display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid var(--border);
+    background:color-mix(in srgb,var(--surface) 60%,transparent)}
+  .codewin .bar .lbl{margin-left:6px;font-size:.82rem;font-weight:600;color:var(--muted)}
+  .codewin .bar .lang{margin-left:auto;font-size:.72rem;font-weight:700;color:var(--accent);
+    background:color-mix(in srgb,var(--accent) 12%,transparent);padding:3px 9px;border-radius:6px}
+  .dots{display:flex;gap:6px}.dots i{width:11px;height:11px;border-radius:50%;display:block;opacity:.5}
+  .dots i:nth-child(1){background:#ef4444}.dots i:nth-child(2){background:#eab308}.dots i:nth-child(3){background:#22c55e}
+  pre.code{margin:0;padding:18px;overflow-x:auto;font-size:.83rem;line-height:1.6;color:var(--code-text)}
+  .kw{color:var(--kw)}.str{color:var(--str)}.com{color:var(--com);font-style:italic}.fn{color:var(--fn)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:38px}
+  @media(max-width:820px){.two{grid-template-columns:1fr}}
+  .cap{margin-top:22px;color:var(--muted);font-size:.98rem;border-left:3px solid var(--accent);padding-left:16px;max-width:760px}
+
+
+  .cta-band{position:relative;overflow:hidden;border-top:1px solid var(--border);
+    background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+  .cta-band::before{content:"";position:absolute;inset:auto -10% -55% 20%;height:420px;
+    background:radial-gradient(55% 55% at 60% 40%,color-mix(in srgb,var(--accent) 26%,transparent),transparent 70%);
+    pointer-events:none;filter:blur(8px)}
+  .cta-in{position:relative;text-align:center;max-width:760px;margin:0 auto}
+  .cta-in .eyebrow{color:var(--accent)}
+  .cta-h{font-size:clamp(1.5rem,3.2vw,2.15rem);letter-spacing:-.02em;font-weight:800;
+    margin:14px auto 0;max-width:720px;line-height:1.32}
+  .cta-btn{display:inline-flex;align-items:center;gap:9px;margin-top:30px;font-weight:600;font-size:1.02rem;
+    padding:14px 28px;border-radius:12px;border:1px solid transparent;background:var(--grad);color:#fff;
+    box-shadow:0 6px 24px color-mix(in srgb,var(--accent) 42%,transparent)}
+  .cta-btn:hover{text-decoration:none;filter:brightness(1.06)}
+  footer{border-top:1px solid var(--border);padding:44px 0;color:var(--muted);font-size:.92rem}
+  .foot-in{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+  .foot-links{display:flex;gap:20px;flex-wrap:wrap}
+  .foot-links a{color:var(--muted)}.foot-links a:hover{color:var(--text)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap nav-in">
+    <a class="brand" href="index.html"><span class="dot"></span>pymodelet <span class="back" data-i18n="nav.back">← back</span></a>
+    <div class="nav-links">
+      <a href="#field" class="hide-sm" data-i18n="nav.field">The field</a>
+      <a href="#table" class="hide-sm" data-i18n="nav.table">Side by side</a>
+      <a href="#writes" data-i18n="nav.writes">The write side</a>
+      <a href="https://github.com/MattAtAIEra/pymodelet">GitHub</a>
+    </div>
+    <div class="ctrl">
+      <select class="lang-sel" id="langSel" aria-label="Language">
+        <option value="en">English</option>
+        <option value="zh">繁體中文</option>
+        <option value="ja">日本語</option>
+        <option value="de">Deutsch</option>
+        <option value="ko">한국어</option>
+      </select>
+      <button class="theme-btn" id="themeBtn" aria-label="Theme">◐</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="hero.eyebrow">Python · Head-to-head</span>
+    <h1 class="title" data-i18n-html="hero.h1"><span class="grad">pymodelet</span> vs the SQL-first field</h1>
+    <p class="tagline" data-i18n="hero.tagline">Every SQL-first tool in the Python ecosystem takes care of the read side. pymodelet makes even the writes effortless.</p>
+    <p class="subline" data-i18n="hero.sub">pymodelet is currently the only package where you run SQL to get a list of entities, save that same list right back — and insert, update or delete is decided automatically.</p>
+    <p class="lede" data-i18n="hero.lede">Here is what still sets pymodelet apart.</p>
+  </div>
+</header>
+
+<section id="field">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="fld.eyebrow">The field</span>
+    <h2 class="sec" data-i18n="fld.h2">Four SQL-first packages at a glance</h2>
+    <div class="cards">
+      <div class="pcard win">
+        <div class="who">pymodelet</div>
+        <h3 data-i18n="fld.pm.t">Reads and writes, both answered</h3>
+        <p data-i18n="fld.pm.d">Plain SQL in, typed entities out — on any DB-API 2.0 driver, zero dependencies. And the part nobody else does: saveOrUpdate generates every INSERT / UPDATE / DELETE from the entity, writes the key back, stamps audit fields.</p>
+      </div>
+      <div class="pcard">
+        <div class="who">psycopg 3 · row_factory</div>
+        <h3 data-i18n="fld.pg.t">Beautiful reads, PostgreSQL only</h3>
+        <p data-i18n="fld.pg.d">class_row maps SELECTs into dataclasses with zero extra packages — the cleanest read path there is, if you are on PostgreSQL. Every write statement is still yours to compose, and the key comes back only if you remember RETURNING.</p>
+      </div>
+      <div class="pcard">
+        <div class="who">aiosql</div>
+        <h3 data-i18n="fld.aio.t">SQL files as functions</h3>
+        <p data-i18n="fld.aio.d">Queries live in .sql files and become callable functions — the most elegant way to manage the read side. But writes are hand-authored one by one, and rows come back as rows: turning them into typed entities is your job.</p>
+      </div>
+      <div class="pcard">
+        <div class="who">SQLAlchemy Core + Pydantic</div>
+        <h3 data-i18n="fld.sa.t">Solid plumbing, manual mapping</h3>
+        <p data-i18n="fld.sa.d">text() queries over a battle-tested pool, entities validated by Pydantic. But the mapping is manual per query — UserEntity(**row._mapping) — and the write side is exactly where you left it: unwritten.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="table" class="band">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="tbl.eyebrow">Side by side</span>
+    <h2 class="sec" data-i18n="tbl.h2">The comparison, dimension by dimension</h2>
+    <div class="tblwrap">
+      <table class="cmp">
+        <thead>
+          <tr><th></th><th class="hl">pymodelet</th><th>psycopg row_factory</th><th>aiosql</th><th>SA Core + Pydantic</th></tr>
+        </thead>
+        <tbody>
+          <tr><th data-i18n="r1">Queries</th>
+            <td class="hl" data-i18n="r1a">Plain SQL in code</td>
+            <td data-i18n="r1b">Plain SQL in code</td>
+            <td data-i18n="r1c">SQL in .sql files</td>
+            <td data-i18n="r1d">SQL via text()</td></tr>
+          <tr><th data-i18n="r2">Row → entity</th>
+            <td class="hl" data-i18n="r2a">Automatic — case-insensitive match, Enum / Decimal / datetime coercion</td>
+            <td data-i18n="r2b">class_row(dataclass), exact column names</td>
+            <td data-i18n="r2c">Rows come back as rows; conversion is DIY</td>
+            <td data-i18n="r2d">Manual — Entity(**row._mapping) per query</td></tr>
+          <tr><th data-i18n="r3">INSERT / UPDATE / DELETE</th>
+            <td class="hl" data-i18n="r3a">Generated — save() with saveOrUpdate semantics</td>
+            <td data-i18n="r3b">Hand-written, every statement</td>
+            <td data-i18n="r3c">Hand-written, every statement, in .sql</td>
+            <td data-i18n="r3d">Hand-written, every statement</td></tr>
+          <tr><th data-i18n="r4">Generated key write-back</th>
+            <td class="hl" data-i18n="r4a">Automatic after insert</td>
+            <td data-i18n="r4b">Manual — RETURNING clause</td>
+            <td data-i18n="r4c">Manual</td>
+            <td data-i18n="r4d">Manual</td></tr>
+          <tr><th data-i18n="r5">Databases</th>
+            <td class="hl" data-i18n="r5a">Any DB-API 2.0 driver — SQLite, MySQL, PostgreSQL dialects</td>
+            <td data-i18n="r5b">PostgreSQL only</td>
+            <td data-i18n="r5c">Many drivers</td>
+            <td data-i18n="r5d">Any SQLAlchemy engine</td></tr>
+          <tr><th data-i18n="r6">Dependencies</th>
+            <td class="hl" data-i18n="r6a">Zero</td>
+            <td data-i18n="r6b">psycopg</td>
+            <td data-i18n="r6c">aiosql</td>
+            <td data-i18n="r6d">SQLAlchemy + Pydantic</td></tr>
+          <tr><th data-i18n="r7">Deep pagination</th>
+            <td class="hl" data-i18n="r7a">Built-in PageContainer — O(page), page 50,000 costs like page 1</td>
+            <td data-i18n="r7b">DIY</td>
+            <td data-i18n="r7c">DIY</td>
+            <td data-i18n="r7d">DIY</td></tr>
+          <tr><th data-i18n="r8">Audit fields</th>
+            <td class="hl" data-i18n="r8a">Built-in — AppEntity + contextvars login</td>
+            <td data-i18n="r8b">DIY</td>
+            <td data-i18n="r8c">DIY</td>
+            <td data-i18n="r8d">DIY</td></tr>
+          <tr><th data-i18n="r9">Transactions</th>
+            <td class="hl" data-i18n="r9a">with model.txn(): — rollback on error</td>
+            <td data-i18n="r9b">Manual commit / rollback</td>
+            <td data-i18n="r9c">Manual commit / rollback</td>
+            <td data-i18n="r9d">engine.begin()</td></tr>
+          <tr><th data-i18n="r10">Java twin</th>
+            <td class="hl" data-i18n="r10a">Yes — same concepts and JPA-style vocabulary as Modelet (Java), 1:1</td>
+            <td data-i18n="r10b">—</td>
+            <td data-i18n="r10c">—</td>
+            <td data-i18n="r10d">—</td></tr>
+          <tr><th data-i18n="r11">Size</th>
+            <td class="hl" data-i18n="r11a">~600 lines, read in one sitting</td>
+            <td data-i18n="r11b">Built into the driver</td>
+            <td data-i18n="r11c">&lt; 1,000 lines</td>
+            <td data-i18n="r11d">Large library</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="writes">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="wr.eyebrow">The decisive difference</span>
+    <h2 class="sec" data-i18n="wr.h2">pymodelet: effortless reads and writes, readable code, fewer AI tokens</h2>
+    <p class="sec-lede" data-i18n="wr.lede">Picture a routine data-CRUD scenario: create a user, save it, then fix the email later. The other packages make you author both SQL statements; pymodelet makes them disappear — you and your AI stay focused on business logic instead of generating pointless tokens.</p>
+    <div class="two">
+      <div class="codewin">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">aiosql — users.sql + Python</span><span class="lang">every statement, by hand</span></div>
+<pre class="code"><span class="com">-- users.sql — you write and maintain each one</span>
+<span class="com">-- name: insert_user!</span>
+INSERT INTO users (name, email) VALUES (:name, :email);
+
+<span class="com">-- name: update_user_email!</span>
+UPDATE users SET email = :email WHERE id = :id;
+
+<span class="com"># Python</span>
+queries.<span class="fn">insert_user</span>(conn, name=<span class="str">"Alice"</span>, email=<span class="str">"alice@test.com"</span>)
+queries.<span class="fn">update_user_email</span>(conn, id=<span class="str">1</span>, email=<span class="str">"alice@corp.com"</span>)</pre>
+      </div>
+      <div class="codewin">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="lbl">pymodelet</span><span class="lang">zero statements</span></div>
+<pre class="code">user = <span class="fn">User</span>(name=<span class="str">"Alice"</span>, email=<span class="str">"alice@test.com"</span>)
+model.<span class="fn">save</span>(user)          <span class="com"># INSERT — id written back</span>
+
+user.email = <span class="str">"alice@corp.com"</span>
+model.<span class="fn">save</span>(user)          <span class="com"># UPDATE — same call, saveOrUpdate</span>
+
+<span class="com"># delete? user.txn_mode = TxnMode.DELETE; model.save(user)</span></pre>
+      </div>
+    </div>
+    <p class="cap" data-i18n="wr.cap">Add a column: in aiosql that touches the table, the INSERT, the UPDATE and every call site that names the fields. In pymodelet it touches the table and one dataclass field — the SQL regenerates itself.</p>
+  </div>
+</section>
+
+<section id="cta" class="cta-band">
+  <div class="wrap cta-in">
+    <div class="eyebrow" data-i18n="cta.eyebrow">Get started</div>
+    <h2 class="cta-h" data-i18n="cta.msg">Let your AI enjoy the satisfaction of clean code, too — readable, maintainable, not just fewer tokens.</h2>
+    <a class="cta-btn" href="https://github.com/MattAtAIEra/pymodelet" data-i18n="cta.btn">View the source on GitHub →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <a class="brand" href="index.html"><span class="dot"></span><span data-i18n="foot.tagline">pymodelet · Queries belong to SQL, writes belong to the framework</span></a>
+    <div class="foot-links">
+      <a href="index.html" data-i18n="foot.home">Home</a>
+      <a href="https://mattataiera.github.io/modelet/compare-java.html" data-i18n="foot.java">Java comparison</a>
+      <a href="https://github.com/MattAtAIEra/pymodelet">Repository</a>
+      <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md">Tribute</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var I18N = {
+    en:{
+      "cta.eyebrow":"Get started","cta.msg":"Let your AI enjoy the satisfaction of clean code, too — readable, maintainable, not just fewer tokens.","cta.btn":"View the source on GitHub →",
+      "meta.title":"pymodelet vs the SQL-first field — an honest comparison","meta.desc":"Every SQL-first tool in the Python ecosystem takes care of the read side. pymodelet makes even the writes effortless — SQL gives you entities you can save right back, with insert/update/delete decided automatically.",
+      "nav.back":"← back","nav.field":"The field","nav.table":"Side by side","nav.writes":"The write side",
+      "hero.eyebrow":"Python · Head-to-head",
+      "hero.h1":"<span class=\"grad\">pymodelet</span> vs the SQL-first field",
+      "hero.tagline":"Every SQL-first tool in the Python ecosystem takes care of the read side. pymodelet makes even the writes effortless.",
+      "hero.sub":"pymodelet is currently the only package where you run SQL to get a list of entities, save that same list right back — and insert, update or delete is decided automatically.",
+      "hero.lede":"Here is what still sets pymodelet apart.",
+      "fld.eyebrow":"The field","fld.h2":"Four SQL-first packages at a glance",
+      "fld.pm.t":"Reads and writes, both answered","fld.pm.d":"Plain SQL in, typed entities out — on any DB-API 2.0 driver, zero dependencies. And the part nobody else does: saveOrUpdate generates every INSERT / UPDATE / DELETE from the entity, writes the key back, stamps audit fields.",
+      "fld.pg.t":"Beautiful reads, PostgreSQL only","fld.pg.d":"class_row maps SELECTs into dataclasses with zero extra packages — the cleanest read path there is, if you are on PostgreSQL. Every write statement is still yours to compose, and the key comes back only if you remember RETURNING.",
+      "fld.aio.t":"SQL files as functions","fld.aio.d":"Queries live in .sql files and become callable functions — the most elegant way to manage the read side. But writes are hand-authored one by one, and rows come back as rows: turning them into typed entities is your job.",
+      "fld.sa.t":"Solid plumbing, manual mapping","fld.sa.d":"text() queries over a battle-tested pool, entities validated by Pydantic. But the mapping is manual per query — UserEntity(**row._mapping) — and the write side is exactly where you left it: unwritten.",
+      "tbl.eyebrow":"Side by side","tbl.h2":"The comparison, dimension by dimension",
+      "r1":"Queries","r1a":"Plain SQL in code","r1b":"Plain SQL in code","r1c":"SQL in .sql files","r1d":"SQL via text()",
+      "r2":"Row → entity","r2a":"Automatic — case-insensitive match, Enum / Decimal / datetime coercion","r2b":"class_row(dataclass), exact column names","r2c":"Rows come back as rows; conversion is DIY","r2d":"Manual — Entity(**row._mapping) per query",
+      "r3":"INSERT / UPDATE / DELETE","r3a":"Generated — save() with saveOrUpdate semantics","r3b":"Hand-written, every statement","r3c":"Hand-written, every statement, in .sql","r3d":"Hand-written, every statement",
+      "r4":"Generated key write-back","r4a":"Automatic after insert","r4b":"Manual — RETURNING clause","r4c":"Manual","r4d":"Manual",
+      "r5":"Databases","r5a":"Any DB-API 2.0 driver — SQLite, MySQL, PostgreSQL dialects","r5b":"PostgreSQL only","r5c":"Many drivers","r5d":"Any SQLAlchemy engine",
+      "r6":"Dependencies","r6a":"Zero","r6b":"psycopg","r6c":"aiosql","r6d":"SQLAlchemy + Pydantic",
+      "r7":"Deep pagination","r7a":"Built-in PageContainer — O(page), page 50,000 costs like page 1","r7b":"DIY","r7c":"DIY","r7d":"DIY",
+      "r8":"Audit fields","r8a":"Built-in — AppEntity + contextvars login","r8b":"DIY","r8c":"DIY","r8d":"DIY",
+      "r9":"Transactions","r9a":"with model.txn(): — rollback on error","r9b":"Manual commit / rollback","r9c":"Manual commit / rollback","r9d":"engine.begin()",
+      "r10":"Java twin","r10a":"Yes — same concepts and JPA-style vocabulary as Modelet (Java), 1:1","r10b":"—","r10c":"—","r10d":"—",
+      "r11":"Size","r11a":"~600 lines, read in one sitting","r11b":"Built into the driver","r11c":"< 1,000 lines","r11d":"Large library",
+      "wr.eyebrow":"The decisive difference","wr.h2":"pymodelet: effortless reads and writes, readable code, fewer AI tokens",
+      "wr.lede":"Picture a routine data-CRUD scenario: create a user, save it, then fix the email later. The other packages make you author both SQL statements; pymodelet makes them disappear — you and your AI stay focused on business logic instead of generating pointless tokens.",
+      "wr.cap":"Add a column: in aiosql that touches the table, the INSERT, the UPDATE and every call site that names the fields. In pymodelet it touches the table and one dataclass field — the SQL regenerates itself.",
+      "foot.tagline":"pymodelet · Queries belong to SQL, writes belong to the framework",
+      "foot.home":"Home","foot.java":"Java comparison"
+    },
+    zh:{
+      "cta.eyebrow":"開始使用","cta.msg":"讓你的 AI 也可以享受乾淨程式帶來的成就感,好懂好維護,不只是省掉 token。","cta.btn":"在 GitHub 上查看原始碼 →",
+      "meta.title":"pymodelet vs SQL-first 陣營 — 誠實比較","meta.desc":"Python 生態系的每一個 SQL-first 工具都照顧到了讀取面。pymodelet 連寫入都讓你輕鬆自在 —— 下 SQL 得到 entity、直接儲存、自動判斷新增修改刪除。",
+      "nav.back":"← 回主頁","nav.field":"競爭者們","nav.table":"逐項對照","nav.writes":"寫入面",
+      "hero.eyebrow":"Python · 正面對決",
+      "hero.h1":"<span class=\"grad\">pymodelet</span> vs SQL-first 陣營",
+      "hero.tagline":"Python 生態系的每一個 SQL-first 工具都照顧到了讀取面。pymodelet 連寫入都讓你輕鬆自在。",
+      "hero.sub":"pymodelet 是目前唯一讓你下 SQL 得到 list of entity,再把 list of entity 直接儲存,自動判斷新增、修改、刪除的套件。",
+      "hero.lede":"以下是 pymodelet 依然與眾不同的地方。",
+      "fld.eyebrow":"競爭者們","fld.h2":"四個 SQL-first 套件簡介",
+      "fld.pm.t":"讀與寫,都有答案","fld.pm.d":"純 SQL 進、型別化 entity 出 —— 站在任何 DB-API 2.0 驅動上,零依賴。還有別人都沒做的那一塊:saveOrUpdate 從 entity 自動產生每一句 INSERT / UPDATE / DELETE,回填主鍵、蓋上稽核欄位。",
+      "fld.pg.t":"漂亮的讀取,僅限 PostgreSQL","fld.pg.d":"class_row 把 SELECT 直接映射成 dataclass,一個額外套件都不用 —— 若你用 PostgreSQL,這是最乾淨的讀取路徑。但每一句寫入語句仍要自己組,主鍵也得記得寫 RETURNING 才拿得回來。",
+      "fld.aio.t":"SQL 檔案即函式","fld.aio.d":"查詢住在 .sql 檔裡、變成可呼叫的函式 —— 管理讀取面最優雅的方式。但寫入語句要一句一句手寫,查回來的是 row 不是 entity:轉型是你的工作。",
+      "fld.sa.t":"管線紮實,映射手動","fld.sa.d":"text() 查詢跑在久經沙場的連線池上,entity 交給 Pydantic 驗證。但映射是每條查詢手動一次 —— UserEntity(**row._mapping) —— 寫入面則原封不動:還沒寫。",
+      "tbl.eyebrow":"逐項對照","tbl.h2":"一個維度一個維度地比",
+      "r1":"查詢","r1a":"程式碼裡的純 SQL","r1b":"程式碼裡的純 SQL","r1c":".sql 檔裡的 SQL","r1d":"text() 包的 SQL",
+      "r2":"Row → entity","r2a":"自動 —— 不分大小寫配對,Enum / Decimal / datetime 自動轉型","r2b":"class_row(dataclass),欄位名須完全一致","r2c":"回來的是 row;轉型自己來","r2d":"手動 —— 每條查詢 Entity(**row._mapping)",
+      "r3":"INSERT / UPDATE / DELETE","r3a":"自動產生 —— save() 即 saveOrUpdate","r3b":"手寫,每一句","r3c":"手寫,每一句,寫在 .sql","r3d":"手寫,每一句",
+      "r4":"主鍵回填","r4a":"insert 後自動","r4b":"手動 —— 要寫 RETURNING","r4c":"手動","r4d":"手動",
+      "r5":"資料庫","r5a":"任何 DB-API 2.0 驅動 —— SQLite、MySQL、PostgreSQL 方言","r5b":"僅 PostgreSQL","r5c":"多種驅動","r5d":"任何 SQLAlchemy engine",
+      "r6":"依賴","r6a":"零","r6b":"psycopg","r6c":"aiosql","r6d":"SQLAlchemy + Pydantic",
+      "r7":"深頁分頁","r7a":"內建 PageContainer —— O(頁),第 5 萬頁和第 1 頁一樣便宜","r7b":"自己做","r7c":"自己做","r7d":"自己做",
+      "r8":"稽核欄位","r8a":"內建 —— AppEntity + contextvars 登入情境","r8b":"自己做","r8c":"自己做","r8d":"自己做",
+      "r9":"交易","r9a":"with model.txn(): —— 出錯自動 rollback","r9b":"手動 commit / rollback","r9c":"手動 commit / rollback","r9d":"engine.begin()",
+      "r10":"Java 雙生","r10a":"有 —— 與 Modelet(Java)概念與 JPA 式詞彙一比一","r10b":"—","r10c":"—","r10d":"—",
+      "r11":"規模","r11a":"約 600 行,一口氣讀完","r11b":"驅動內建","r11c":"不到 1,000 行","r11d":"大型函式庫",
+      "wr.eyebrow":"決定性差異","wr.h2":"pymodelet 讓讀寫都便利,程式更易讀,AI 省 token",
+      "wr.lede":"假設一個資料 AUDI 情境:新增一位使用者、存檔,後來又修正 email。其他套件都要你把兩句 SQL 寫出來;pymodelet 讓它們直接消失。真正讓你跟 AI 專注商業邏輯,節省無謂的 token 產出。",
+      "wr.cap":"加一個欄位:在 aiosql 要動資料表、INSERT、UPDATE,還有每個點名欄位的呼叫處。在 pymodelet 只要動資料表和一個 dataclass 欄位 —— SQL 自己重新長出來。",
+      "foot.tagline":"pymodelet · 查詢交給 SQL,寫入交給框架",
+      "foot.home":"主頁","foot.java":"Java 比較"
+    },
+    ja:{
+      "cta.eyebrow":"はじめる","cta.msg":"あなたの AI にも、きれいなコードがもたらす達成感を —— 読みやすく、保守しやすく、ただトークンを節約するだけではなく。","cta.btn":"GitHub でソースを見る →",
+      "meta.title":"pymodelet vs SQL-first 勢 — 率直な比較","meta.desc":"Python エコシステムの SQL-first ツールはどれも読み取り側の面倒を見てくれます。pymodelet は書き込みまで楽に —— SQL でエンティティを取得し、そのまま保存、追加・更新・削除は自動判定。",
+      "nav.back":"← ホームへ","nav.field":"競合たち","nav.table":"項目別比較","nav.writes":"書き込み側",
+      "hero.eyebrow":"Python · 直接対決",
+      "hero.h1":"<span class=\"grad\">pymodelet</span> vs SQL-first 勢",
+      "hero.tagline":"Python エコシステムの SQL-first ツールはどれも読み取り側の面倒を見てくれます。pymodelet は書き込みまで楽にしてくれます。",
+      "hero.sub":"SQL を投げて list of entity を受け取り、その list をそのまま保存すれば、追加・更新・削除は自動判定 —— それができるのは、現時点で pymodelet だけです。",
+      "hero.lede":"それでも pymodelet が際立つ理由を示します。",
+      "fld.eyebrow":"競合たち","fld.h2":"4 つの SQL-first パッケージの紹介",
+      "fld.pm.t":"読みも書きも、答えあり","fld.pm.d":"素の SQL を入れ、型付きエンティティが出てくる —— どの DB-API 2.0 ドライバでも、依存ゼロで。そして誰もやらなかった部分:saveOrUpdate がエンティティから INSERT / UPDATE / DELETE を全て生成し、キーを書き戻し、監査項目を付与します。",
+      "fld.pg.t":"美しい読み取り、ただし PostgreSQL 限定","fld.pg.d":"class_row は SELECT を追加パッケージなしで dataclass に写します —— PostgreSQL なら最も綺麗な読み取り経路。しかし書き込み文はすべて自作、キーの取得も RETURNING を忘れなければ、の話です。",
+      "fld.aio.t":"SQL ファイルが関数になる","fld.aio.d":"クエリは .sql ファイルに住み、呼び出せる関数になります —— 読み取り側の管理として最もエレガント。しかし書き込みは一文ずつ手書きで、返るのは row のまま:型付きエンティティへの変換はあなたの仕事です。",
+      "fld.sa.t":"配管は堅牢、マッピングは手動","fld.sa.d":"実績あるプール上で text() クエリ、エンティティは Pydantic が検証。しかしマッピングはクエリごとに手動 —— UserEntity(**row._mapping) —— そして書き込み側は手つかずのまま残ります。",
+      "tbl.eyebrow":"項目別比較","tbl.h2":"観点ごとに、並べて比べる",
+      "r1":"クエリ","r1a":"コード内の素の SQL","r1b":"コード内の素の SQL","r1c":".sql ファイル内の SQL","r1d":"text() 経由の SQL",
+      "r2":"Row → エンティティ","r2a":"自動 —— 大文字小文字を無視して照合、Enum / Decimal / datetime を型変換","r2b":"class_row(dataclass)、カラム名は完全一致","r2c":"row のまま返る。変換は自前","r2d":"手動 —— クエリごとに Entity(**row._mapping)",
+      "r3":"INSERT / UPDATE / DELETE","r3a":"自動生成 —— save() は saveOrUpdate 意味論","r3b":"手書き。全文","r3c":"手書き。全文を .sql に","r3d":"手書き。全文",
+      "r4":"生成キーの書き戻し","r4a":"insert 後に自動","r4b":"手動 —— RETURNING 句","r4c":"手動","r4d":"手動",
+      "r5":"データベース","r5a":"任意の DB-API 2.0 ドライバ —— SQLite、MySQL、PostgreSQL 方言","r5b":"PostgreSQL のみ","r5c":"多数のドライバ","r5d":"任意の SQLAlchemy エンジン",
+      "r6":"依存","r6a":"ゼロ","r6b":"psycopg","r6c":"aiosql","r6d":"SQLAlchemy + Pydantic",
+      "r7":"深いページング","r7a":"内蔵 PageContainer —— O(ページ)。5 万ページ目も 1 ページ目と同じコスト","r7b":"自作","r7c":"自作","r7d":"自作",
+      "r8":"監査項目","r8a":"内蔵 —— AppEntity + contextvars ログイン","r8b":"自作","r8c":"自作","r8d":"自作",
+      "r9":"トランザクション","r9a":"with model.txn(): —— 例外時は自動ロールバック","r9b":"手動 commit / rollback","r9c":"手動 commit / rollback","r9d":"engine.begin()",
+      "r10":"Java の双子","r10a":"あり —— Modelet(Java)と概念・JPA 風語彙が 1:1","r10b":"—","r10c":"—","r10d":"—",
+      "r11":"規模","r11a":"約 600 行、一気に読める","r11b":"ドライバ内蔵","r11c":"1,000 行未満","r11d":"大規模ライブラリ",
+      "wr.eyebrow":"決定的な違い","wr.h2":"pymodelet なら読み書きが楽、コードは読みやすく、AI のトークンも節約",
+      "wr.lede":"ありふれたデータ CRUD の場面を想像してください:ユーザーを登録して保存し、あとからメールアドレスを修正する。他のパッケージでは二つの SQL 文を自分で書くことになりますが、pymodelet ならそれらは消えてなくなります。あなたと AI は業務ロジックに集中でき、無駄なトークン生成も省けます。",
+      "wr.cap":"カラムを一つ追加すると:aiosql ではテーブル、INSERT、UPDATE、そしてフィールド名を列挙する全呼び出し箇所に手が入ります。pymodelet ならテーブルと dataclass のフィールド一つ —— SQL は自動的に生え変わります。",
+      "foot.tagline":"pymodelet · クエリは SQL に、書き込みはフレームワークに",
+      "foot.home":"ホーム","foot.java":"Java 比較"
+    },
+    de:{
+      "cta.eyebrow":"Loslegen","cta.msg":"Lass auch deine KI die Befriedigung von sauberem Code erleben — lesbar, wartbar, nicht bloß weniger Tokens.","cta.btn":"Quellcode auf GitHub ansehen →",
+      "meta.title":"pymodelet vs. das SQL-first-Feld — ein ehrlicher Vergleich","meta.desc":"Jedes SQL-first-Tool im Python-Ökosystem kümmert sich um die Leseseite. Mit pymodelet werden selbst die Schreibvorgänge mühelos — SQL liefert Entitäten, die du direkt zurückspeicherst.",
+      "nav.back":"← zurück","nav.field":"Das Feld","nav.table":"Im Vergleich","nav.writes":"Die Schreibseite",
+      "hero.eyebrow":"Python · Direktvergleich",
+      "hero.h1":"<span class=\"grad\">pymodelet</span> vs. das SQL-first-Feld",
+      "hero.tagline":"Jedes SQL-first-Tool im Python-Ökosystem kümmert sich um die Leseseite. Mit pymodelet werden selbst die Schreibvorgänge mühelos.",
+      "hero.sub":"pymodelet ist derzeit das einzige Paket, bei dem du SQL absetzt, eine Liste von Entitäten erhältst und dieselbe Liste direkt zurückspeicherst — Insert, Update oder Delete wird automatisch entschieden.",
+      "hero.lede":"Hier ist, was pymodelet weiterhin abhebt.",
+      "fld.eyebrow":"Das Feld","fld.h2":"Vier SQL-first-Pakete im Überblick",
+      "fld.pm.t":"Lesen und Schreiben, beides beantwortet","fld.pm.d":"Pures SQL rein, typisierte Entitäten raus — auf jedem DB-API-2.0-Treiber, null Abhängigkeiten. Und der Teil, den sonst niemand macht: saveOrUpdate generiert jedes INSERT / UPDATE / DELETE aus der Entität, schreibt den Schlüssel zurück, setzt Audit-Felder.",
+      "fld.pg.t":"Schönes Lesen, nur PostgreSQL","fld.pg.d":"class_row mappt SELECTs ohne Zusatzpakete in Dataclasses — der sauberste Lesepfad, wenn du auf PostgreSQL bist. Jedes Schreib-Statement bleibt deine Aufgabe, und den Schlüssel gibt es nur mit RETURNING zurück.",
+      "fld.aio.t":"SQL-Dateien als Funktionen","fld.aio.d":"Abfragen wohnen in .sql-Dateien und werden aufrufbare Funktionen — die eleganteste Verwaltung der Leseseite. Aber Schreibvorgänge werden Stück für Stück von Hand verfasst, und Zeilen kommen als Zeilen zurück: die Umwandlung in typisierte Entitäten ist dein Job.",
+      "fld.sa.t":"Solide Leitungen, manuelles Mapping","fld.sa.d":"text()-Abfragen über einem bewährten Pool, Entitäten von Pydantic validiert. Aber das Mapping ist pro Abfrage manuell — UserEntity(**row._mapping) — und die Schreibseite bleibt genau da, wo du sie gelassen hast: ungeschrieben.",
+      "tbl.eyebrow":"Im Vergleich","tbl.h2":"Der Vergleich, Dimension für Dimension",
+      "r1":"Abfragen","r1a":"Pures SQL im Code","r1b":"Pures SQL im Code","r1c":"SQL in .sql-Dateien","r1d":"SQL via text()",
+      "r2":"Zeile → Entität","r2a":"Automatisch — Groß-/Kleinschreibung egal, Enum / Decimal / datetime konvertiert","r2b":"class_row(dataclass), exakte Spaltennamen","r2c":"Zeilen bleiben Zeilen; Konvertierung selbst gemacht","r2d":"Manuell — Entity(**row._mapping) pro Abfrage",
+      "r3":"INSERT / UPDATE / DELETE","r3a":"Generiert — save() mit saveOrUpdate-Semantik","r3b":"Handgeschrieben, jedes Statement","r3c":"Handgeschrieben, jedes Statement, in .sql","r3d":"Handgeschrieben, jedes Statement",
+      "r4":"Schlüssel-Rückschreibung","r4a":"Automatisch nach dem Insert","r4b":"Manuell — RETURNING-Klausel","r4c":"Manuell","r4d":"Manuell",
+      "r5":"Datenbanken","r5a":"Jeder DB-API-2.0-Treiber — SQLite-, MySQL-, PostgreSQL-Dialekte","r5b":"Nur PostgreSQL","r5c":"Viele Treiber","r5d":"Jede SQLAlchemy-Engine",
+      "r6":"Abhängigkeiten","r6a":"Null","r6b":"psycopg","r6c":"aiosql","r6d":"SQLAlchemy + Pydantic",
+      "r7":"Tiefe Paginierung","r7a":"Eingebauter PageContainer — O(Seite), Seite 50.000 kostet wie Seite 1","r7b":"Selbst bauen","r7c":"Selbst bauen","r7d":"Selbst bauen",
+      "r8":"Audit-Felder","r8a":"Eingebaut — AppEntity + contextvars-Login","r8b":"Selbst bauen","r8c":"Selbst bauen","r8d":"Selbst bauen",
+      "r9":"Transaktionen","r9a":"with model.txn(): — Rollback bei Fehlern","r9b":"Manuelles Commit / Rollback","r9c":"Manuelles Commit / Rollback","r9d":"engine.begin()",
+      "r10":"Java-Zwilling","r10a":"Ja — gleiche Konzepte und JPA-artiges Vokabular wie Modelet (Java), 1:1","r10b":"—","r10c":"—","r10d":"—",
+      "r11":"Umfang","r11a":"~600 Zeilen, in einem Rutsch lesbar","r11b":"Im Treiber eingebaut","r11c":"< 1.000 Zeilen","r11d":"Große Bibliothek",
+      "wr.eyebrow":"Der entscheidende Unterschied","wr.h2":"pymodelet: Lesen und Schreiben mühelos, lesbarer Code, weniger KI-Tokens",
+      "wr.lede":"Stell dir ein alltägliches Daten-CRUD-Szenario vor: einen Benutzer anlegen, speichern, später die E-Mail korrigieren. Bei den anderen Paketen schreibst du beide SQL-Statements selbst; pymodelet lässt sie verschwinden — du und deine KI bleibt bei der Geschäftslogik, statt sinnlose Tokens zu erzeugen.",
+      "wr.cap":"Eine neue Spalte: In aiosql berührt sie die Tabelle, das INSERT, das UPDATE und jede Aufrufstelle, die Felder benennt. In pymodelet nur die Tabelle und ein Dataclass-Feld — das SQL erzeugt sich neu.",
+      "foot.tagline":"pymodelet · Abfragen gehören zu SQL, Schreibvorgänge zum Framework",
+      "foot.home":"Startseite","foot.java":"Java-Vergleich"
+    },
+    ko:{
+      "cta.eyebrow":"시작하기","cta.msg":"당신의 AI도 깔끔한 코드가 주는 성취감을 누리게 하세요 —— 읽기 쉽고, 유지보수하기 쉽게, 단지 토큰을 아끼는 것을 넘어.","cta.btn":"GitHub에서 소스 보기 →",
+      "meta.title":"pymodelet vs SQL-first 진영 — 정직한 비교","meta.desc":"Python 생태계의 모든 SQL-first 도구는 읽기 측을 챙깁니다. pymodelet은 쓰기까지 편안하게 —— SQL로 엔티티를 받고 그대로 저장하면 추가·수정·삭제 자동 판별.",
+      "nav.back":"← 홈으로","nav.field":"경쟁자들","nav.table":"항목별 비교","nav.writes":"쓰기 측",
+      "hero.eyebrow":"Python · 정면 비교",
+      "hero.h1":"<span class=\"grad\">pymodelet</span> vs SQL-first 진영",
+      "hero.tagline":"Python 생태계의 모든 SQL-first 도구는 읽기 측을 챙겨 줍니다. pymodelet은 쓰기까지 편안하게 만들어 줍니다.",
+      "hero.sub":"SQL을 실행해 list of entity를 받고, 그 list를 그대로 저장하면 추가·수정·삭제가 자동으로 판별됩니다 —— 현재 이것이 가능한 패키지는 pymodelet뿐입니다.",
+      "hero.lede":"그럼에도 pymodelet이 다른 이유를 보입니다.",
+      "fld.eyebrow":"경쟁자들","fld.h2":"네 가지 SQL-first 패키지 소개",
+      "fld.pm.t":"읽기와 쓰기, 둘 다 답이 있다","fld.pm.d":"순수 SQL을 넣으면 타입 있는 엔티티가 나옵니다 —— 어떤 DB-API 2.0 드라이버에서든, 의존성 제로로. 그리고 아무도 하지 않은 부분: saveOrUpdate가 엔티티로부터 모든 INSERT / UPDATE / DELETE를 생성하고, 키를 되써 주고, 감사 필드를 채웁니다.",
+      "fld.pg.t":"아름다운 읽기, 단 PostgreSQL 전용","fld.pg.d":"class_row는 추가 패키지 없이 SELECT를 dataclass로 매핑합니다 —— PostgreSQL이라면 가장 깔끔한 읽기 경로. 하지만 쓰기 문장은 전부 직접 조립해야 하고, 키는 RETURNING을 기억해야만 돌아옵니다.",
+      "fld.aio.t":"SQL 파일이 함수가 된다","fld.aio.d":"쿼리는 .sql 파일에 살고 호출 가능한 함수가 됩니다 —— 읽기 측 관리로는 가장 우아한 방식. 하지만 쓰기는 한 문장씩 손으로 쓰고, 돌아오는 것은 row 그대로: 타입 있는 엔티티로 바꾸는 일은 당신 몫입니다.",
+      "fld.sa.t":"배관은 탄탄, 매핑은 수동","fld.sa.d":"검증된 풀 위에서 text() 쿼리를 돌리고, 엔티티는 Pydantic이 검증합니다. 하지만 매핑은 쿼리마다 수동 —— UserEntity(**row._mapping) —— 그리고 쓰기 측은 당신이 둔 그 자리에 그대로: 아직 안 써진 채로.",
+      "tbl.eyebrow":"항목별 비교","tbl.h2":"차원 하나하나, 나란히 비교",
+      "r1":"쿼리","r1a":"코드 속 순수 SQL","r1b":"코드 속 순수 SQL","r1c":".sql 파일 속 SQL","r1d":"text() 경유 SQL",
+      "r2":"Row → 엔티티","r2a":"자동 —— 대소문자 무시 매칭, Enum / Decimal / datetime 형 변환","r2b":"class_row(dataclass), 컬럼명 완전 일치","r2c":"row 그대로 반환; 변환은 직접","r2d":"수동 —— 쿼리마다 Entity(**row._mapping)",
+      "r3":"INSERT / UPDATE / DELETE","r3a":"자동 생성 —— save()가 곧 saveOrUpdate","r3b":"손으로 작성, 모든 문장","r3c":"손으로 작성, 모든 문장, .sql에","r3d":"손으로 작성, 모든 문장",
+      "r4":"생성 키 되쓰기","r4a":"insert 후 자동","r4b":"수동 —— RETURNING 절","r4c":"수동","r4d":"수동",
+      "r5":"데이터베이스","r5a":"모든 DB-API 2.0 드라이버 —— SQLite, MySQL, PostgreSQL 방언","r5b":"PostgreSQL 전용","r5c":"다수 드라이버","r5d":"모든 SQLAlchemy 엔진",
+      "r6":"의존성","r6a":"제로","r6b":"psycopg","r6c":"aiosql","r6d":"SQLAlchemy + Pydantic",
+      "r7":"깊은 페이징","r7a":"내장 PageContainer —— O(페이지), 5만 페이지도 1페이지 비용","r7b":"직접 구현","r7c":"직접 구현","r7d":"직접 구현",
+      "r8":"감사 필드","r8a":"내장 —— AppEntity + contextvars 로그인","r8b":"직접 구현","r8c":"직접 구현","r8d":"직접 구현",
+      "r9":"트랜잭션","r9a":"with model.txn(): —— 오류 시 자동 롤백","r9b":"수동 commit / rollback","r9c":"수동 commit / rollback","r9d":"engine.begin()",
+      "r10":"Java 쌍둥이","r10a":"있음 —— Modelet(Java)과 개념·JPA식 어휘가 1:1","r10b":"—","r10c":"—","r10d":"—",
+      "r11":"규모","r11a":"약 600줄, 한자리에서 완독","r11b":"드라이버 내장","r11c":"1,000줄 미만","r11d":"대형 라이브러리",
+      "wr.eyebrow":"결정적 차이","wr.h2":"pymodelet: 읽기도 쓰기도 간편, 코드는 더 읽기 쉽게, AI 토큰은 절약",
+      "wr.lede":"흔한 데이터 CRUD 상황을 떠올려 보세요: 사용자를 등록해 저장하고, 나중에 이메일을 수정합니다. 다른 패키지는 두 SQL 문장을 직접 쓰게 하지만, pymodelet은 그것들을 사라지게 합니다 —— 당신과 AI는 비즈니스 로직에 집중하고, 무의미한 토큰 생성은 아낍니다.",
+      "wr.cap":"컬럼 하나를 추가하면: aiosql에서는 테이블, INSERT, UPDATE, 그리고 필드를 나열하는 모든 호출부에 손이 갑니다. pymodelet은 테이블과 dataclass 필드 하나뿐 —— SQL은 스스로 다시 자랍니다.",
+      "foot.tagline":"pymodelet · 쿼리는 SQL에게, 쓰기는 프레임워크에게",
+      "foot.home":"홈","foot.java":"Java 비교"
+    }
+  };
+
+  (function(){
+    var root=document.documentElement;
+    var themeBtn=document.getElementById('themeBtn');
+    var langSel=document.getElementById('langSel');
+    var savedTheme=null; try{savedTheme=localStorage.getItem('modelet-theme')}catch(e){}
+    if(savedTheme){root.setAttribute('data-theme',savedTheme)}
+    function curTheme(){var t=root.getAttribute('data-theme');return t?t:(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}
+    themeBtn.addEventListener('click',function(){
+      var n=curTheme()==='dark'?'light':'dark';root.setAttribute('data-theme',n);
+      try{localStorage.setItem('modelet-theme',n)}catch(e){}
+    });
+    function apply(lang){
+      var dict=I18N[lang]||I18N.en;
+      document.querySelectorAll('[data-i18n]').forEach(function(el){
+        var k=el.getAttribute('data-i18n');if(dict[k]!=null)el.textContent=dict[k];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(function(el){
+        var k=el.getAttribute('data-i18n-html');if(dict[k]!=null)el.innerHTML=dict[k];
+      });
+      root.setAttribute('lang',lang);langSel.value=lang;
+      try{localStorage.setItem('modelet-lang',lang)}catch(e){}
+    }
+    var savedLang=null; try{savedLang=localStorage.getItem('modelet-lang')}catch(e){}
+    if(!savedLang){var n=(navigator.language||'en').slice(0,2).toLowerCase();savedLang=I18N[n]?n:'en'}
+    apply(savedLang);
+    langSel.addEventListener('change',function(){apply(langSel.value)});
+  })();
+</script>
+</body>
+</html>

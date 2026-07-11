@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pymodelet"
+version = "0.1.0"
+description = "SQL-first micro ORM: write queries in plain ANSI SQL, let the framework handle INSERT/UPDATE/DELETE"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Matt Jiang" }]
+keywords = ["sql", "orm", "database", "sql-first", "modelet"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Topic :: Database",
+]
+
+[project.urls]
+Homepage = "https://mattataiera.github.io/pymodelet/"
+Repository = "https://github.com/MattAtAIEra/pymodelet"
+"Java original" = "https://github.com/MattAtAIEra/modelet"
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
