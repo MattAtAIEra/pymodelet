@@ -20,6 +20,7 @@
     --code-bg:#f6f5f1; --code-text:#2a2a3a; --board:#ffffff;
     --kw:#7c3aed; --str:#0f766e; --com:#94929e; --fn:#b4530a;
     --grad:linear-gradient(120deg,#4f46e5,#7c3aed 55%,#c026d3);
+    --grad-q:linear-gradient(120deg,#0d9488,#0891b2);
     --maxw:1080px;
   }
   @media (prefers-color-scheme:dark){
@@ -30,6 +31,7 @@
       --code-bg:#111119; --code-text:#d6d6e6; --board:#f4f4fa;
       --kw:#c4b5fd; --str:#5eead4; --com:#6b6b82; --fn:#fdba74;
       --grad:linear-gradient(120deg,#818cf8,#a78bfa 55%,#e879f9);
+      --grad-q:linear-gradient(120deg,#2dd4bf,#22d3ee);
     }
   }
   :root[data-theme="light"]{
@@ -39,6 +41,7 @@
     --code-bg:#f6f5f1; --code-text:#2a2a3a; --board:#ffffff;
     --kw:#7c3aed; --str:#0f766e; --com:#94929e; --fn:#b4530a;
     --grad:linear-gradient(120deg,#4f46e5,#7c3aed 55%,#c026d3);
+    --grad-q:linear-gradient(120deg,#0d9488,#0891b2);
   }
   :root[data-theme="dark"]{
     --bg:#0c0c12; --surface:#14141d; --surface-2:#181824;
@@ -47,6 +50,7 @@
     --code-bg:#111119; --code-text:#d6d6e6; --board:#f4f4fa;
     --kw:#c4b5fd; --str:#5eead4; --com:#6b6b82; --fn:#fdba74;
     --grad:linear-gradient(120deg,#818cf8,#a78bfa 55%,#e879f9);
+      --grad-q:linear-gradient(120deg,#2dd4bf,#22d3ee);
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -84,6 +88,8 @@
     border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);padding:5px 12px;border-radius:999px}
   h1.title{font-size:clamp(2.5rem,6vw,4.2rem);line-height:1.04;margin:22px 0 0;letter-spacing:-.03em;font-weight:800}
   .title .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tagline .g-q{background:var(--grad-q);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+  .tagline .g-w{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
   .tagline{margin:20px 0 0;font-size:clamp(1.15rem,2.4vw,1.5rem);font-weight:600;letter-spacing:-.01em}
   .lede{margin:22px 0 0;max-width:610px;color:var(--muted);font-size:1.06rem}
   .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
@@ -195,7 +201,7 @@
   <div class="wrap">
     <span class="badge">● Python 3.10+ · Since 2006</span>
     <h1 class="title" data-i18n-html="hero.title">會 SQL,<br>就會用 <span class="grad">pymodelet</span>。</h1>
-    <p class="tagline" data-i18n="hero.tagline">查詢交給 SQL,寫入交給框架。</p>
+    <p class="tagline" data-i18n-html="hero.tagline"><span class="g-q">查詢</span>交給 SQL,<span class="g-w">寫入</span>交給框架。</p>
     <p class="lede" data-i18n="hero.lede">用你已經會的 ANSI SQL 寫查詢,把繁瑣的 INSERT / UPDATE / DELETE 交給框架。幾乎不存在的學習曲線 —— 二十年來如一日。</p>
     <div class="cta">
       <a class="btn primary" href="https://github.com/MattAtAIEra/pymodelet" data-i18n="hero.cta1">在 GitHub 上查看 →</a>
@@ -337,7 +343,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       <a href="compare-python.html" data-i18n="footer.cmppy">比較</a>
       <a href="https://github.com/MattAtAIEra/pymodelet">Repository</a>
       <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md" data-i18n="footer.tribute">致敬文</a>
-      <a href="https://github.com/MattAtAIEra/modelet" data-i18n="footer.java">Java 原版</a>
+      <a href="https://mattataiera.github.io/modelet/" data-i18n="footer.java">Modelet(Java)</a>
     </div>
   </div>
 </footer>
