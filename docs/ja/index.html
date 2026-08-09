@@ -160,8 +160,10 @@
       linear-gradient(0deg,rgba(11,11,20,.96) 2%,rgba(11,11,20,.28) 30%,rgba(11,11,20,0) 52%),
       radial-gradient(120% 80% at 72% 6%,rgba(129,140,248,.08),transparent 60%);
   }
-  .hero .wrap{position:relative;z-index:2;}
-  .hero-inner{padding-bottom:clamp(64px,9vh,120px);padding-top:clamp(88px,10vh,136px);max-width:640px;}
+  /* the column centers between header and scene tag (auto margins =
+     safe centering: on short viewports it falls back to the top) */
+  .hero .wrap{position:relative;z-index:2;margin-block:auto;}
+  .hero-inner{padding-block:80px;max-width:640px;}
   .hero h1{
     font-size:clamp(2.3rem,4.6vw,3.5rem);
     line-height:1.06;letter-spacing:-.024em;
@@ -329,7 +331,7 @@
   @media (max-width:560px){
     .hero h1{font-size:clamp(2.05rem,8.6vw,2.9rem);letter-spacing:-.02em;}
     .hero .lead{font-size:1rem;}
-    .hero-inner{padding-top:88px;}
+    .hero-inner{padding-top:88px;padding-bottom:64px;}
     .brand{font-size:1.02rem;}
     .brand .since{display:none;}
     .site-header{height:58px;}
@@ -674,7 +676,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity â†
       if(textR<=textL) textR=r.right-host.left;
       if(textT>=H) textT=H*0.1;
     }
-    artTop=clamp(Math.round(textT/cellH), 4, Math.floor(rows*0.25));
+    artTop=clamp(Math.round(textT/cellH), 4, Math.floor(rows*0.4));
     artL=Math.ceil((textR+20)/cellW);
     var mirror=Math.floor((W-textL)/cellW);
     compact = cols<64 || Math.min(cols-2,Math.max(mirror,artL+NEED_MID))-artL < 40;
@@ -792,7 +794,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity â†
     var P0=8.6; t=t%P0;
     dust(t);
     var full = tier==='full' && !compact;
-    var m=Math.floor(rows*(compact?0.40:0.42));
+    var m=compact? Math.floor(rows*0.40) : Math.max(Math.floor(rows*0.42), artTop+10);
     var pw = full?24:(compact?17:19);
     var px = compact? Math.floor(cols*0.05) : artL;
     var py = compact? Math.floor(rows*0.09) : artTop;
@@ -885,7 +887,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity â†
     var P1=8.4; t=t%P1;
     dust(t);
     var full = tier==='full' && !compact;
-    var m=Math.floor(rows*(compact?0.40:0.42));
+    var m=compact? Math.floor(rows*0.40) : Math.max(Math.floor(rows*0.42), artTop+10);
     var A=2.8, act=Math.floor(t/A), u=t-act*A;
     var MODES=['INSERT','UPDATE','DELETE'];
     var MCOL=[GREEN,AMBER,ROSE];
@@ -1018,7 +1020,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity â†
     put(cx,ty-2,'â”‚',shade(AMBER,0.4+rp*0.6));
 
     /* years */
-    var by=Math.floor(rows*(compact?0.60:0.40));
+    var by=compact? Math.floor(rows*0.60) : Math.max(Math.floor(rows*0.40), artTop+9);
     var lx, rx;
     if(compact){
       lx=Math.floor(cols*0.08); rx=cols-lx-6;
