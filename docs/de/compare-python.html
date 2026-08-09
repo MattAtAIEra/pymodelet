@@ -340,13 +340,16 @@ model.<span class="fn">save</span>(user)          <span class="com"># UPDATE —
   var root=document.documentElement;
   var themeBtn=document.getElementById('themeBtn');
   var langSel=document.getElementById('langSel');
-  var savedTheme=null; try{savedTheme=localStorage.getItem('modelet-theme')}catch(e){}
-  if(savedTheme){root.setAttribute('data-theme',savedTheme)}
-  function curTheme(){var t=root.getAttribute('data-theme');return t?t:(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}
-  themeBtn.addEventListener('click',function(){
-    var n=curTheme()==='dark'?'light':'dark';root.setAttribute('data-theme',n);
-    try{localStorage.setItem('modelet-theme',n)}catch(e){}
-  });
+  // the index page is single-theme by design and ships no theme button
+  if(themeBtn){
+    var savedTheme=null; try{savedTheme=localStorage.getItem('modelet-theme')}catch(e){}
+    if(savedTheme){root.setAttribute('data-theme',savedTheme)}
+    var curTheme=function(){var t=root.getAttribute('data-theme');return t?t:(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')};
+    themeBtn.addEventListener('click',function(){
+      var n=curTheme()==='dark'?'light':'dark';root.setAttribute('data-theme',n);
+      try{localStorage.setItem('modelet-theme',n)}catch(e){}
+    });
+  }
   langSel.value=LANG;
   langSel.addEventListener('change',function(){
     var t=langSel.value;
