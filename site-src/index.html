@@ -144,7 +144,7 @@
   /* ============================================================
      HERO â€” the signature: the ORM machine, rendered live in ASCII
      ============================================================ */
-  .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;}
+  .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-start;overflow:hidden;}
   #ascii{position:absolute;inset:0;width:100%;height:100%;display:block;}
   .hero-scrim{
     position:absolute;inset:0;pointer-events:none;
@@ -154,7 +154,7 @@
       radial-gradient(120% 80% at 72% 6%,rgba(129,140,248,.08),transparent 60%);
   }
   .hero .wrap{position:relative;z-index:2;}
-  .hero-inner{padding-bottom:clamp(64px,9vh,120px);padding-top:110px;max-width:640px;}
+  .hero-inner{padding-bottom:clamp(64px,9vh,120px);padding-top:clamp(88px,10vh,136px);max-width:640px;}
   .hero h1{
     font-size:clamp(2.3rem,4.6vw,3.5rem);
     line-height:1.06;letter-spacing:-.024em;
@@ -322,7 +322,7 @@
   @media (max-width:560px){
     .hero h1{font-size:clamp(2.05rem,8.6vw,2.9rem);letter-spacing:-.02em;}
     .hero .lead{font-size:1rem;}
-    .hero-inner{padding-top:96px;}
+    .hero-inner{padding-top:88px;}
     .brand{font-size:1.02rem;}
     .brand .since{display:none;}
     .site-header{height:58px;}
@@ -608,7 +608,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity â†
   var W=0,H=0,dpr=1,cols=0,rows=0,cellW=8,cellH=14,fontSize=13;
   var chMain=[],coMain=[], chA=[],coA=[], chB=[],coB=[], thr=[];
   var curCh=null, curCo=null;
-  var artL=0, artR=0, zW=0, tier='full', compact=false;
+  var artL=0, artR=0, zW=0, artTop=5, tier='full', compact=false;
 
   var SCENES=3;
   var LABELS=['model.find() Â· SQL â†’ objects','model.save() Â· object â†’ SQL','the pattern Â· 2006 â†’ AI era'];
@@ -650,22 +650,24 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity â†
   function measureZone(){
     var inner=document.querySelector('.hero-inner');
     var host=canvas.parentElement.getBoundingClientRect();
-    var textL=Math.floor(W*0.27), textR=Math.floor(W*0.62);
+    var textL=Math.floor(W*0.27), textR=Math.floor(W*0.62), textT=H*0.1;
     if(inner){
       var r=inner.getBoundingClientRect();
       textL=r.left-host.left;
-      textR=textL;
+      textR=textL; textT=H;
       var kids=inner.children;
       for(var i=0;i<kids.length;i++){
         try{
           var rg=document.createRange();
           rg.selectNodeContents(kids[i]);
           var rr=rg.getBoundingClientRect();
-          if(rr && rr.width>0) textR=Math.max(textR, rr.right-host.left);
+          if(rr && rr.width>0){ textR=Math.max(textR, rr.right-host.left); textT=Math.min(textT, rr.top-host.top); }
         }catch(e){ textR=Math.max(textR, kids[i].getBoundingClientRect().right-host.left); }
       }
       if(textR<=textL) textR=r.right-host.left;
+      if(textT>=H) textT=H*0.1;
     }
+    artTop=clamp(Math.round(textT/cellH), 4, Math.floor(rows*0.25));
     artL=Math.ceil((textR+20)/cellW);
     var mirror=Math.floor((W-textL)/cellW);
     compact = cols<64 || Math.min(cols-2,Math.max(mirror,artL+NEED_MID))-artL < 40;
@@ -786,7 +788,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity â†
     var m=Math.floor(rows*(compact?0.40:0.42));
     var pw = full?24:(compact?17:19);
     var px = compact? Math.floor(cols*0.05) : artL;
-    var py = Math.floor(rows*0.09);
+    var py = compact? Math.floor(rows*0.09) : artTop;
     var sql = full ? ['SELECT *','  FROM book',' WHERE price > ?',' ORDER BY id'] : ['SELECT *','FROM book','WHERE price > ?'];
     if(compact) sql=['SELECT *','FROM book','WHERE price>?'];
     var dbw=9, dbh=5;
@@ -883,7 +885,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity â†
 
     var pw = full?30:20;
     var px2 = compact? Math.floor(cols*0.04) : artL;
-    var py2 = Math.floor(rows*0.09);
+    var py2 = compact? Math.floor(rows*0.09) : artTop;
     var dbw=9,dbh=5, dbx=px2+1, dby=m-2;
     var ew = full?24:16;
     var ex = compact? Math.floor(cols*0.58) : artR-ew;
@@ -991,7 +993,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity â†
     var full = tier==='full' && !compact;
     var cx = compact? Math.floor(cols*0.5) : zx(0.5);
     var tw = full?30:26, th=5;
-    var tx=cx-((tw/2)|0), ty=Math.floor(rows*(compact?0.10:0.12));
+    var tx=cx-((tw/2)|0), ty=compact? Math.floor(rows*0.10) : artTop;
     var pulse=0.8+0.2*Math.sin(t*1.7);
 
     /* tablet */
