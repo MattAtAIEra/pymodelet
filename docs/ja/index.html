@@ -160,14 +160,20 @@
       linear-gradient(0deg,rgba(11,11,20,.96) 2%,rgba(11,11,20,.28) 30%,rgba(11,11,20,0) 52%),
       radial-gradient(120% 80% at 72% 6%,rgba(129,140,248,.08),transparent 60%);
   }
-  .hero-inner{position:relative;z-index:2;padding-bottom:clamp(64px,9vh,120px);padding-top:110px;max-width:740px;}
+  .hero .wrap{position:relative;z-index:2;}
+  .hero-inner{padding-bottom:clamp(64px,9vh,120px);padding-top:110px;max-width:640px;}
   .hero h1{
-    font-size:clamp(2.5rem,6.6vw,4.9rem);
-    line-height:1.02;letter-spacing:-.028em;
-    margin:.42em 0 .4em;
+    font-size:clamp(2.3rem,4.6vw,3.5rem);
+    line-height:1.06;letter-spacing:-.024em;
+    margin:.42em 0 .45em;
   }
-  .hero .tagline{margin:0 0 .9em;font-size:clamp(1.08rem,2vw,1.42rem);font-weight:700;letter-spacing:-.01em;font-family:var(--font-display);}
-  .hero .lead{font-size:clamp(1rem,1.55vw,1.2rem);color:var(--muted);max-width:34em;margin:0 0 1.9em;line-height:1.58;}
+  .hero .tagline{margin:0 0 .9em;font-size:clamp(1.02rem,1.8vw,1.28rem);font-weight:700;letter-spacing:-.01em;font-family:var(--font-display);}
+  .hero .lead{font-size:clamp(.95rem,1.45vw,1.1rem);color:var(--muted);max-width:36em;margin:0 0 1.9em;line-height:1.58;}
+  /* wide screens: the hero column slides left (header follows so they stay
+     aligned) and the ASCII machine mirrors its margin on the right */
+  @media (min-width:1500px){
+    .site-header .wrap,.hero .wrap{width:min(1400px,100%);}
+  }
   .hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
   .install{margin:1.6em 0 0;font-family:var(--font-mono);font-size:.85rem;color:var(--dim);letter-spacing:.02em;}
   .install b{color:var(--teal);font-weight:600;}
@@ -363,7 +369,8 @@
   <canvas id="ascii" aria-hidden="true"></canvas>
   <div class="hero-scrim"></div>
 
-  <div class="wrap hero-inner">
+  <div class="wrap">
+  <div class="hero-inner">
     <p class="eyebrow" data-i18n="hero.eyebrow">SQL-first マイクロ ORM · Python · 2006 年から</p>
     <h1 data-i18n-html="hero.title">SQL が分かれば、<br>もう <span class="grad">pymodelet</span> が使えます。</h1>
     <p class="tagline" data-i18n-html="hero.tagline"><span class="g-q">クエリ</span>は SQL に、<span class="g-w">書き込み</span>はフレームワークに。</p>
@@ -373,6 +380,7 @@
       <a class="btn btn-ghost" href="#heritage"><span data-i18n="hero.cta2">物語を読む</span></a>
     </div>
     <p class="install" aria-hidden="true">$ <b>pip install</b> pymodelet</p>
+  </div>
   </div>
 
   <div class="scene-tag" aria-hidden="true">
@@ -594,6 +602,9 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
                         the framework writes INSERT/UPDATE/DELETE
      2  the pattern   — 2006 → the AI era; the design pattern
                         is the thing that gets passed down
+   The machine is anchored to the measured hero text column: it
+   starts right of the text and mirrors the text's left margin
+   on its right, at every viewport width and in every language.
    ============================================================ */
 (function(){
   var canvas = document.getElementById('ascii');
@@ -604,6 +615,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
   var W=0,H=0,dpr=1,cols=0,rows=0,cellW=8,cellH=14,fontSize=13;
   var chMain=[],coMain=[], chA=[],coA=[], chB=[],coB=[], thr=[];
   var curCh=null, curCo=null;
+  var artL=0, artR=0, zW=0, tier='full', compact=false;
 
   var SCENES=3;
   var LABELS=['model.find() · SQL → objects','model.save() · object → SQL','the pattern · 2006 → AI era'];
@@ -636,6 +648,45 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     for(var y=0;y<rows;y++)for(var x=0;x<cols;x++){ thr[idx(x,y)]=hash(x*7+1,y*13+3); }
   }
 
+  /* the art zone sits right of the hero text column. The column's true
+     glyph extent is measured with Ranges (block rects lie about text
+     width), so every language gets its own clearance. The zone's right
+     margin mirrors the text's left margin when there is room; on tight
+     viewports it hugs the right edge instead — never the text. */
+  var NEED_FULL=72, NEED_MID=50;
+  function measureZone(){
+    var inner=document.querySelector('.hero-inner');
+    var host=canvas.parentElement.getBoundingClientRect();
+    var textL=Math.floor(W*0.27), textR=Math.floor(W*0.62);
+    if(inner){
+      var r=inner.getBoundingClientRect();
+      textL=r.left-host.left;
+      textR=textL;
+      var kids=inner.children;
+      for(var i=0;i<kids.length;i++){
+        try{
+          var rg=document.createRange();
+          rg.selectNodeContents(kids[i]);
+          var rr=rg.getBoundingClientRect();
+          if(rr && rr.width>0) textR=Math.max(textR, rr.right-host.left);
+        }catch(e){ textR=Math.max(textR, kids[i].getBoundingClientRect().right-host.left); }
+      }
+      if(textR<=textL) textR=r.right-host.left;
+    }
+    artL=Math.ceil((textR+20)/cellW);
+    var mirror=Math.floor((W-textL)/cellW);
+    compact = cols<64 || Math.min(cols-2,Math.max(mirror,artL+NEED_MID))-artL < 40;
+    if(compact){ artL=2; artR=cols-2; zW=artR-artL; tier='mid'; return; }
+    if(mirror-artL>=NEED_FULL){ tier='full'; artR=mirror; }
+    else { tier='mid'; artR=Math.min(cols-2, Math.max(mirror, artL+NEED_MID)); }
+    zW=artR-artL;
+  }
+  function zx(f){ return artL+Math.round(zW*f); }
+  /* gate column: right of the left panel, clear of the right card */
+  function gateX(pw,gw,rightX){
+    return Math.min(rightX-gw-2, Math.max(artL+pw+2+gw, artL+Math.round(zW*0.44)));
+  }
+
   function resize(){
     var rect = canvas.parentElement.getBoundingClientRect();
     W=Math.max(320,rect.width); H=Math.max(480,rect.height);
@@ -650,6 +701,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     ctx.setTransform(dpr,0,0,dpr,0,0);
     ctx.font = fontSize+'px '+'ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace';
     ctx.textBaseline='top';
+    measureZone();
     alloc();
     if(reduced){ curCh=chMain;curCo=coMain;clearBuf(chMain,coMain);renderScene(scene,2.2);paint(chMain,coMain,bgOf(scene)); }
   }
@@ -719,7 +771,6 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       ? ['id     '+book[0], 'title  '+book[1], 'price  '+book[2]]
       : ['id '+book[0], book[1], book[2]];
     var h=lines.length+2;
-    var self={};
     function P(px,py,ch,c){
       if(jit>0 && hash(px*3+tick, py*7+tick*2)<jit){ ch=GLITCH[(px+py+tick)%GLITCH.length]; c=shade(c,1.4); }
       put(px,py,ch,c);
@@ -738,17 +789,20 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
   function findScene(t){
     var P0=8.6; t=t%P0;
     dust(t);
-    var compact = cols<64;
+    var full = tier==='full' && !compact;
     var m=Math.floor(rows*(compact?0.40:0.42));
-    var pw = compact?17:24;
-    var px=Math.floor(cols*(compact?0.05:0.60)), py=Math.floor(rows*0.09);
-    var sql = compact ? ['SELECT *','FROM book','WHERE price>?'] : ['SELECT *','  FROM book',' WHERE price > ?',' ORDER BY id'];
+    var pw = full?24:(compact?17:19);
+    var px = compact? Math.floor(cols*0.05) : artL;
+    var py = Math.floor(rows*0.09);
+    var sql = full ? ['SELECT *','  FROM book',' WHERE price > ?',' ORDER BY id'] : ['SELECT *','FROM book','WHERE price > ?'];
+    if(compact) sql=['SELECT *','FROM book','WHERE price>?'];
     var dbw=9, dbh=5;
     var dbx=px+1, dby=m-((dbh/2)|0);
-    var gx=Math.floor(cols*(compact?0.55:0.78)), gw=compact?5:7, gh=4;
-    var cw = compact?14:20;
-    var cx2=Math.floor(cols*(compact?0.62:0.86));
+    var cw = full?20:(compact?14:16);
+    var cx2 = compact? Math.floor(cols*0.62) : artR-cw;
     if(cx2+cw>cols-1) cx2=cols-1-cw;
+    var gw = full?7:5, gh=4;
+    var gx = compact? Math.floor(cols*0.55) : gateX(pw,gw,cx2);
 
     /* track */
     for(var x=dbx+dbw+1;x<cx2-1;x++){ if(x%2===0) put(x,m,'·',FAINT); }
@@ -782,7 +836,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
 
     /* row trains → objects */
     var xs=dbx+dbw+1, xe=cx2-2;
-    var lbl = compact?'List[Book]':'books = List[Book]';
+    var lbl = full?'books = List[Book]':'List[Book]';
     for(var k=0;k<3;k++){
       var t0=2.0+k*0.55, tt=(t-t0)/1.5;
       if(tt>0&&tt<1){
@@ -828,29 +882,31 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
   function saveScene(t){
     var P1=8.4; t=t%P1;
     dust(t);
-    var compact = cols<64;
+    var full = tier==='full' && !compact;
     var m=Math.floor(rows*(compact?0.40:0.42));
     var A=2.8, act=Math.floor(t/A), u=t-act*A;
     var MODES=['INSERT','UPDATE','DELETE'];
     var MCOL=[GREEN,AMBER,ROSE];
 
-    var pw=compact?20:30;
-    var px2=Math.floor(cols*(compact?0.04:0.60)), py2=Math.floor(rows*0.09);
-    var dbw=9,dbh=5, dbx=px2+2, dby=m-2;
-    var gx=Math.floor(cols*(compact?0.55:0.78)), gw=compact?5:7, gh=4;
-    var ew=compact?16:24;
-    var ex=Math.floor(cols*(compact?0.58:0.84));
+    var pw = full?30:20;
+    var px2 = compact? Math.floor(cols*0.04) : artL;
+    var py2 = Math.floor(rows*0.09);
+    var dbw=9,dbh=5, dbx=px2+1, dby=m-2;
+    var ew = full?24:16;
+    var ex = compact? Math.floor(cols*0.58) : artR-ew;
     if(ex+ew>cols-1) ex=cols-1-ew;
     var ey=m-8;
+    var gw = full?7:5, gh=4;
+    var gx = compact? Math.floor(cols*0.55) : gateX(pw,gw,ex);
 
     /* statements per act */
-    var stmts = compact ? [
-      ['INSERT INTO book','VALUES (?, ?)'],
-      ['UPDATE book SET …',' WHERE id = 1'],
-      ['DELETE FROM book',' WHERE id = 1']
-    ] : [
+    var stmts = full ? [
       ['INSERT INTO book','  (book_name, price)','  VALUES (?, ?)'],
       ['UPDATE book','   SET book_name = ?, price = ?',' WHERE id = 1'],
+      ['DELETE FROM book',' WHERE id = 1']
+    ] : [
+      ['INSERT INTO book','VALUES (?, ?)'],
+      ['UPDATE book SET …',' WHERE id = 1'],
       ['DELETE FROM book',' WHERE id = 1']
     ];
 
@@ -859,15 +915,15 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     var idc = (act===0 && u>=2.35) ? AMBER : MUT;
     var price = act===0? '150' : '120';
     var priceCol = (act===1 && u<0.6 && (u*9|0)%2===0) ? AMBER : MUT;
-    var fields = compact ? [
-      ['id     '+idv, idc],
-      ['price  '+price, priceCol],
-      ['mode   '+MODES[act], MCOL[act]]
-    ] : [
+    var fields = full ? [
       ['id        '+idv, idc],
       ['name      "ANSI SQL"', MUT],
       ['price     '+price, priceCol],
       ['txn_mode  '+MODES[act], MCOL[act]]
+    ] : [
+      ['id     '+idv, idc],
+      ['price  '+price, priceCol],
+      ['mode   '+MODES[act], MCOL[act]]
     ];
     var diss = (act===2) ? clamp((u-2.0)/0.7,0,1)*0.9 : 0;
     entityCard(ex,ey,ew,fields,shade(VIOLET,0.95),diss,(t*14)|0);
@@ -939,9 +995,9 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
   function patternScene(t){
     var P2=9.0; t=t%P2;
     stars(t,0.988);
-    var compact = cols<64;
-    var cx=Math.floor(cols*(compact?0.5:0.76));
-    var tw=compact?24:30, th=5;
+    var full = tier==='full' && !compact;
+    var cx = compact? Math.floor(cols*0.5) : zx(0.5);
+    var tw = full?30:26, th=5;
     var tx=cx-((tw/2)|0), ty=Math.floor(rows*(compact?0.10:0.12));
     var pulse=0.8+0.2*Math.sin(t*1.7);
 
@@ -951,8 +1007,8 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     for(var j=1;j<th-1;j++){ put(tx,ty+j,'║',bcol); put(tx+tw-1,ty+j,'║',bcol); }
     put(tx,ty,'╔',bcol); put(tx+tw-1,ty,'╗',bcol); put(tx,ty+th-1,'╚',bcol); put(tx+tw-1,ty+th-1,'╝',bcol);
     txtC(cx,ty,' THE PATTERN ', shade(AMBER,1.15*pulse));
-    txtC(cx,ty+2, compact?'queries → SQL':'queries → plain SQL', TEAL);
-    txtC(cx,ty+3, compact?'writes → framework':'writes  → the framework', VIOLET);
+    txtC(cx,ty+2, full?'queries → plain SQL':'queries → SQL', TEAL);
+    txtC(cx,ty+3, full?'writes  → the framework':'writes → framework', VIOLET);
     /* rays */
     var rp=0.5+0.5*Math.sin(t*2.1);
     put(tx-2,ty-1,'╲',shade(AMBER,0.5+rp*0.5)); put(tx+tw+1,ty-1,'╱',shade(AMBER,0.5+rp*0.5));
@@ -968,7 +1024,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       boxo(rx-2,by,8,3,shade(INDIGO,0.9)); txt(rx,by+1,'2026',shade(INDIGO,1.3));
       txtC(lx+4,by+4,'HUMAN',shade(AMBER,0.8)); txtC(rx+2,by+4,'AI',shade(INDIGO,0.95));
     } else {
-      lx=Math.floor(cols*0.66); rx=Math.min(cols-16,Math.floor(cols*0.88));
+      lx=artL+2; rx=artR-16;
       bigNum(lx,by,'2006',shade(AMBER,0.95));
       bigNum(rx,by,'2026',shade(INDIGO,1.05));
       txtC(lx+7,by+6,'HUMAN WISDOM',shade(AMBER,0.85));
@@ -992,7 +1048,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     }
 
     /* caption — typed */
-    var cy2=Math.floor(rows*(compact?0.78:0.66));
+    var cy2=Math.floor(rows*(full?0.66:0.78));
     var msg='even AI must follow human wisdom';
     var n1=Math.floor(clamp((t-0.9)/1.9,0,1)*msg.length);
     if(n1>0){
