@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>pymodelet — SQL-first Mikro-ORM für Python</title>
-<meta name="description" content="Abfragen in purem SQL, typisierte Entitäten zurück; direkt speichern, Insert/Update/Delete automatisch. Ein SQL-first Mikro-ORM für Python auf jedem DB-API-2.0-Treiber, null Abhängigkeiten. Portiert von Modelet (Java, 2006).">
+<title>pymodelet — SQL-first Mikro-ORM für das KI-Zeitalter</title>
+<meta name="description" content="Abfragen in purem SQL, typisierte Entitäten zurück; direkt speichern, INSERT/UPDATE/DELETE schreibt sich selbst. Ein Python-Mikro-ORM ohne Abhängigkeiten, ~600 Zeilen — winziger Context, spart Tokens und hält KI-geschriebenen Code sauber und wartbar.">
 <link rel="canonical" href="https://mattataiera.github.io/pymodelet/de/">
 <link rel="alternate" hreflang="en" href="https://mattataiera.github.io/pymodelet/">
 <link rel="alternate" hreflang="zh-Hant" href="https://mattataiera.github.io/pymodelet/zh/">
@@ -373,13 +373,13 @@
 
   <div class="wrap">
   <div class="hero-inner">
-    <p class="eyebrow" data-i18n="hero.eyebrow">SQL-first Mikro-ORM · Python · seit 2006</p>
+    <p class="eyebrow" data-i18n="hero.eyebrow">SQL-first Mikro-ORM · Python · fürs KI-Zeitalter gebaut</p>
     <h1 data-i18n-html="hero.title">Wer SQL kann,<br>kann schon <span class="grad">pymodelet</span>.</h1>
     <p class="tagline" data-i18n-html="hero.tagline"><span class="g-q">Abfragen</span> gehören zu SQL. <span class="g-w">Schreibvorgänge</span> gehören zum Framework.</p>
-    <p class="lead" data-i18n="hero.lede">Schreibe Abfragen in dem ANSI-SQL, das du bereits kennst. Überlasse das mühsame INSERT / UPDATE / DELETE dem Framework. Eine Lernkurve, die kaum existiert — seit zwei Jahrzehnten unverändert.</p>
+    <p class="lead" data-i18n="hero.lede">Schreibe Abfragen in dem ANSI-SQL, das du — und deine KI — bereits kennt, und überlasse das mühsame INSERT / UPDATE / DELETE dem Framework. Rund 600 Zeilen, null Abhängigkeiten: für Menschen kaum eine Lernkurve, für ein Modell ein einziger Context-Read.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="https://github.com/MattAtAIEra/pymodelet"><span data-i18n="hero.cta1">Auf GitHub ansehen</span> <span class="arrow">→</span></a>
-      <a class="btn btn-ghost" href="#heritage"><span data-i18n="hero.cta2">Die Geschichte lesen</span></a>
+      <a class="btn btn-ghost" href="#heritage"><span data-i18n="hero.cta2">Warum KI es liebt</span></a>
     </div>
     <p class="install" aria-hidden="true">$ <b>pip install</b> pymodelet</p>
   </div>
@@ -401,7 +401,7 @@
 <!-- ======================= MANIFESTO ======================= -->
 <section class="manifesto">
   <div class="wrap">
-    <p class="reveal" data-i18n-html="manifesto.text">Auch eine KI muss den Werten menschlicher Weisheit folgen. <span>Ein Entwurfsmuster, das zwanzig Jahre bestanden hat, verdient es, weitergegeben zu werden.</span></p>
+    <p class="reveal" data-i18n-html="manifesto.text">Das Zeitalter KI-geschriebenen Codes verdient Clean Code erst recht. <span>Klassische Entwurfsmuster sparen Tokens, stabilisieren die Qualität, halten den Code wartbar — und geben die Stunden ans Leben zurück.</span></p>
   </div>
 </section>
 
@@ -410,20 +410,20 @@
   <div class="wrap">
     <div class="section-head reveal">
       <p class="eyebrow" data-i18n="phil.eyebrow">Die Philosophie</p>
-      <h2 data-i18n="phil.h2">Der umgekehrte Kompromiss zur ORM-Welle</h2>
-      <p data-i18n="phil.lede">2006 verlangte Hibernate, HQL, Session-Lebenszyklen und Mapping-Rituale zu lernen, bevor man eine einzige produktive Zeile schrieb. Modelet macht es umgekehrt: SQL respektieren und nur den mühsamen Teil übernehmen.</p>
+      <h2 data-i18n="phil.h2">Der umgekehrte Kompromiss zu schwergewichtigen ORMs</h2>
+      <p data-i18n="phil.lede">Schwergewichtige ORMs verlangen erst eine Abfrage-DSL, Session-Lebenszyklen und Mapping-Rituale — für Menschen eine Hürde, für Modelle ein Context-Fresser und eine Brutstätte für Halluzinationen. pymodelet dreht es um: SQL respektieren, nur den mühsamen Teil übernehmen.</p>
     </div>
     <div class="compare reveal">
       <div class="compare-col q">
         <span class="tag">SQL → object</span>
         <h3 data-i18n="phil.c1title">Abfragen → SQL</h3>
-        <p data-i18n="phil.c1body">SELECTs schreibst du in dem ANSI-SQL, das du schon kennst — Subqueries und Joins inklusive. Das Framework trägt jede Zeile nur in ein Objekt zurück. Keine neue Abfragesprache.</p>
+        <p data-i18n="phil.c1body">SELECTs schreibst du in ANSI-SQL — Ingenieure können es längst, und die Trainingsdaten jedes Modells sind voll davon. Keine erfundene Abfragesprache: eine DSL weniger für Menschen, eine Token-Senke und Halluzinationsquelle weniger für die KI.</p>
         <div class="rule"></div>
       </div>
       <div class="compare-col w">
         <span class="tag">object → SQL</span>
         <h3 data-i18n="phil.c2title">Schreiben → Framework</h3>
-        <p data-i18n="phil.c2body">Mechanisch und fehleranfällig ist das Auflisten der Spalten für INSERT / UPDATE / DELETE. Modelet erzeugt sie aus dem TxnMode-Zustand der Entität, schreibt den Schlüssel zurück und setzt Audit-Felder.</p>
+        <p data-i18n="phil.c2body">Spalten für INSERT / UPDATE / DELETE aufzuzählen ist mechanisch und fehleranfällig — Menschen vertippen sich, Modelle halluzinieren Felder. Das Framework erzeugt die Statements aus dem TxnMode, schreibt den Schlüssel zurück und setzt Audit-Felder; diese ganze Fehlerklasse entfällt.</p>
         <div class="rule"></div>
       </div>
     </div>
@@ -538,7 +538,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     <div class="section-head reveal">
       <p class="eyebrow" data-i18n="cmp.eyebrow">Direktvergleich</p>
       <h2 data-i18n="cmp.h2">Wie sich pymodelet schlägt</h2>
-      <p data-i18n="cmp.lede">Ein ehrlicher Vergleich, Dimension für Dimension, mit den SQL-first-Tools, zu denen du sonst greifst — und ein Blick auf das Java-Original, aus dem es portiert wurde.</p>
+      <p data-i18n="cmp.lede">Ein ehrlicher Vergleich, Dimension für Dimension, mit den SQL-first-Tools, zu denen du sonst greifst — samt dem Java-Original.</p>
     </div>
     <div class="cmp-grid reveal">
       <a class="cmp-card py" href="compare-python.html">
@@ -550,7 +550,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       <a class="cmp-card java" href="https://github.com/MattAtAIEra/modelet">
         <span class="tag">Java · 2006</span>
         <h3 data-i18n="cmp.java.t">Das originale Modelet</h3>
-        <p data-i18n="cmp.java.d">pymodelet ist eine getreue Portierung von Modelet, dem SQL-first-Framework, das Matt 2006 in Java schuf. Triff das Original — und seinen eigenen Vergleich mit MyBatis und Hibernate.</p>
+        <p data-i18n="cmp.java.d">pymodelet ist eine getreue Portierung des Java-Modelet — dasselbe SQL-first-Muster, über Jahre in Produktion bewährt. Triff das Original und seinen Vergleich mit MyBatis und Hibernate.</p>
         <span class="go" data-i18n="cmp.cta">Modelet auf GitHub ansehen →</span>
       </a>
     </div>
@@ -561,15 +561,15 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
 <section class="section heritage" id="heritage">
   <div class="wrap">
     <div class="section-head reveal" style="margin-bottom:0;">
-      <p class="eyebrow" data-i18n="heritage.eyebrow">Ursprung · 2006</p>
-      <h2 data-i18n="heritage.h2">Eine präzise Entscheidung</h2>
+      <p class="eyebrow" data-i18n="heritage.eyebrow">Das KI-Zeitalter</p>
+      <h2 data-i18n="heritage.h2">Auch KI verdient Clean Code</h2>
     </div>
-    <p class="quote reveal" data-i18n-html="heritage.quote">„Das ER-Modell und SQL sind das Fundament — <span class="hl">Wandel löscht ihren Wert nicht aus.</span>“ Zwei Jahrzehnte später entdeckt die Python-Community „SQL-first“ neu, als wäre es neu. Matt schrieb es 2006 nieder.</p>
-    <p class="attrib reveal" data-i18n-html="heritage.attrib">Modelet wurde 2006 von <b>Matt</b> geschaffen, um die ORM-Lernkurve zu ebnen und die Auslieferung seines Teams zu beschleunigen. Die ganze Geschichte steht in <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.de.md">TRIBUTE.de.md</a>.</p>
+    <p class="quote reveal" data-i18n-html="heritage.quote">„Je sauberer das Framework, das du einer KI fütterst, desto sauberer der Code, den sie zurückgibt. <span class="hl">Rund 600 Zeilen, null Abhängigkeiten, keine DSL — passt in einen einzigen Context-Read.</span>“ Je weniger und je klassischer die Regeln, desto vorhersagbarer — und prüfbarer — wird jede generierte Zeile.</p>
+    <p class="attrib reveal" data-i18n-html="heritage.attrib">Abfragen gehören zu SQL, Schreibvorgänge zum Framework — diese klassische Arbeitsteilung hält den Kreislauf aus KI-Generieren, Mensch-Review und KI-Wartung schnell und stabil: <b>Gespart werden Tokens, gewonnen werden Qualität und Liefertempo.</b></p>
     <div class="ai-card reveal">
-      <span class="tag" data-i18n="heritage.ai.tag">Portiert im KI-Zeitalter</span>
-      <h3 data-i18n="heritage.ai.h3">Die KI schrieb den Code. Die menschliche Weisheit traf die Entscheidungen.</h3>
-      <p data-i18n-html="heritage.ai.body">Diese Python-Portierung wurde 2026 von einer KI getippt — und keine einzige Designentscheidung neu erfunden. Das Muster von 2006 entschied; die KI folgte. <b>Auch eine KI muss den Werten menschlicher Weisheit folgen: Ein bewährtes Entwurfsmuster ist genau das, was weitergegeben werden soll.</b> Die Geschichte dieser Schuld erzählt die <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.de.md">Widmung</a>.</p>
+      <span class="tag" data-i18n="heritage.ai.tag">Schlank für KI</span>
+      <h3 data-i18n="heritage.ai.h3">Weniger Tokens. Stabilere Ausgabe. Code, den KI warten kann.</h3>
+      <p data-i18n-html="heritage.ai.body">Das ganze Framework passt in einen Lesedurchgang; Abfragen sind das Standard-SQL, das ein Modell am besten kennt — die Trefferquote im ersten Versuch schlägt jede Eigenbau-DSL; den Schreib-Boilerplate erzeugt das Framework — halluzinierte Spalten, vergessene Felder, fehlende Schlüssel-Rückschreibung haben keinen Ort, an dem sie passieren könnten. <b>Kleinerer Context, weniger Regeln: Jeder Token deiner KI fließt in deine Geschäftslogik.</b></p>
     </div>
   </div>
 </section>

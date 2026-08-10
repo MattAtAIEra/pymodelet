@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>pymodelet — SQL-first micro ORM for Python</title>
-<meta name="description" content="Write queries in plain SQL, get typed entities; save them right back and insert/update/delete is automatic. A SQL-first micro ORM for Python on any DB-API 2.0 driver, zero dependencies. Ported from Modelet (Java, 2006).">
+<title>pymodelet — SQL-first micro ORM for the AI era</title>
+<meta name="description" content="Query in plain SQL, get typed entities; save them back and INSERT/UPDATE/DELETE writes itself. A zero-dependency, ~600-line Python micro ORM — a tiny context that saves tokens and keeps AI-written code clean and manageable.">
 <style>
   /* ============================================================
      PYMODELET — design tokens
@@ -366,13 +366,13 @@
 
   <div class="wrap">
   <div class="hero-inner">
-    <p class="eyebrow" data-i18n="hero.eyebrow">SQL-first micro ORM · Python · since 2006</p>
+    <p class="eyebrow" data-i18n="hero.eyebrow">SQL-first micro ORM · Python · built for the AI era</p>
     <h1 data-i18n-html="hero.title">If you know SQL,<br>you already know <span class="grad">pymodelet</span>.</h1>
     <p class="tagline" data-i18n-html="hero.tagline"><span class="g-q">Queries</span> belong to SQL. <span class="g-w">Writes</span> belong to the framework.</p>
-    <p class="lead" data-i18n="hero.lede">Write queries in the ANSI SQL you already know. Hand the tedious INSERT / UPDATE / DELETE to the framework. A learning curve that barely exists — unchanged for two decades.</p>
+    <p class="lead" data-i18n="hero.lede">Write queries in the ANSI SQL you — and your AI — already know, and hand the tedious INSERT / UPDATE / DELETE to the framework. About 600 lines, zero dependencies: barely a learning curve for a human, a single context read for a model.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="https://github.com/MattAtAIEra/pymodelet"><span data-i18n="hero.cta1">View on GitHub</span> <span class="arrow">→</span></a>
-      <a class="btn btn-ghost" href="#heritage"><span data-i18n="hero.cta2">Read the story</span></a>
+      <a class="btn btn-ghost" href="#heritage"><span data-i18n="hero.cta2">Why AI loves it</span></a>
     </div>
     <p class="install" aria-hidden="true">$ <b>pip install</b> pymodelet</p>
   </div>
@@ -394,7 +394,7 @@
 <!-- ======================= MANIFESTO ======================= -->
 <section class="manifesto">
   <div class="wrap">
-    <p class="reveal" data-i18n-html="manifesto.text">Even AI must follow the values of human wisdom. <span>A design pattern that has earned twenty years is what deserves to be passed down.</span></p>
+    <p class="reveal" data-i18n-html="manifesto.text">The era of AI-written code deserves clean code more, not less. <span>Classic design patterns save tokens, steady the output, keep the codebase manageable — and give the hours back to life.</span></p>
   </div>
 </section>
 
@@ -403,20 +403,20 @@
   <div class="wrap">
     <div class="section-head reveal">
       <p class="eyebrow" data-i18n="phil.eyebrow">The Philosophy</p>
-      <h2 data-i18n="phil.h2">The opposite trade-off to the ORM wave</h2>
-      <p data-i18n="phil.lede">In 2006, Hibernate asked engineers to learn HQL, session lifecycles and mapping rituals before writing a single productive line. Modelet does the reverse: respect SQL, and only take over the tedious part.</p>
+      <h2 data-i18n="phil.h2">The opposite trade-off to heavyweight ORMs</h2>
+      <p data-i18n="phil.lede">Heavyweight ORMs ask you to learn a query DSL, session lifecycles and mapping rituals first — a barrier for people, and for models a context sink and a hallucination hazard. pymodelet flips it: respect SQL, take over only the tedious part.</p>
     </div>
     <div class="compare reveal">
       <div class="compare-col q">
         <span class="tag">SQL → object</span>
         <h3 data-i18n="phil.c1title">Queries → SQL</h3>
-        <p data-i18n="phil.c1body">SELECTs are written in the ANSI SQL engineers already know — subqueries and joins included. The framework only carries each row back into an object. No new query language.</p>
+        <p data-i18n="phil.c1body">SELECTs are written in ANSI SQL — engineers already know it, and it saturates every model's training data. No invented query language: one less DSL for people to learn, one less thing for an AI to burn tokens on or hallucinate.</p>
         <div class="rule"></div>
       </div>
       <div class="compare-col w">
         <span class="tag">object → SQL</span>
         <h3 data-i18n="phil.c2title">Writes → framework</h3>
-        <p data-i18n="phil.c2body">What's mechanical and error-prone is enumerating columns for INSERT / UPDATE / DELETE. Modelet generates them from the entity's TxnMode state, writes the key back, and stamps audit fields.</p>
+        <p data-i18n="phil.c2body">Enumerating columns for INSERT / UPDATE / DELETE is mechanical and error-prone — people slip, models hallucinate fields. The framework generates the statements from the entity's TxnMode, writes the key back and stamps audit fields; that whole class of bugs never happens.</p>
         <div class="rule"></div>
       </div>
     </div>
@@ -531,7 +531,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     <div class="section-head reveal">
       <p class="eyebrow" data-i18n="cmp.eyebrow">Head-to-head</p>
       <h2 data-i18n="cmp.h2">How pymodelet stacks up</h2>
-      <p data-i18n="cmp.lede">An honest, dimension-by-dimension comparison with the SQL-first tools you would otherwise reach for — and a nod to the Java original it was ported from.</p>
+      <p data-i18n="cmp.lede">An honest, dimension-by-dimension comparison with the SQL-first tools you would otherwise reach for — plus its Java original.</p>
     </div>
     <div class="cmp-grid reveal">
       <a class="cmp-card py" href="compare-python.html">
@@ -543,7 +543,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       <a class="cmp-card java" href="https://github.com/MattAtAIEra/modelet">
         <span class="tag">Java · 2006</span>
         <h3 data-i18n="cmp.java.t">The original Modelet</h3>
-        <p data-i18n="cmp.java.d">pymodelet is a faithful port of Modelet, the SQL-first framework Matt created in Java in 2006. Meet the original — and its own comparison with MyBatis and Hibernate.</p>
+        <p data-i18n="cmp.java.d">pymodelet is a faithful port of the Java Modelet — the same SQL-first pattern, proven in production for years. Meet the original and its own comparison with MyBatis and Hibernate.</p>
         <span class="go" data-i18n="cmp.cta">View Modelet on GitHub →</span>
       </a>
     </div>
@@ -554,15 +554,15 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
 <section class="section heritage" id="heritage">
   <div class="wrap">
     <div class="section-head reveal" style="margin-bottom:0;">
-      <p class="eyebrow" data-i18n="heritage.eyebrow">Heritage · 2006</p>
-      <h2 data-i18n="heritage.h2">A precise decision</h2>
+      <p class="eyebrow" data-i18n="heritage.eyebrow">The AI era</p>
+      <h2 data-i18n="heritage.h2">AI deserves clean code too</h2>
     </div>
-    <p class="quote reveal" data-i18n-html="heritage.quote">“The ER model and SQL are the fundamentals — <span class="hl">time does not erase their value.</span>” Two decades on, the Python community is rediscovering “SQL-first” as if it were new. Matt wrote it down in 2006.</p>
-    <p class="attrib reveal" data-i18n-html="heritage.attrib">Modelet was created by <b>Matt</b> in 2006 to flatten the ORM learning curve and speed his team's delivery. The full story is in <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md">TRIBUTE.md</a>.</p>
+    <p class="quote reveal" data-i18n-html="heritage.quote">“The cleaner the framework you feed an AI, the cleaner the code it hands back. <span class="hl">About 600 lines, zero dependencies, no DSL — it fits in a single context read.</span>” The fewer and more classic the rules, the more predictable — and reviewable — every generated line becomes.</p>
+    <p class="attrib reveal" data-i18n-html="heritage.attrib">Queries belong to SQL, writes belong to the framework — that classic division of labor keeps the generate-review-maintain loop between you and your AI fast and stable: <b>what you save is tokens; what you gain is quality and speed of delivery.</b></p>
     <div class="ai-card reveal">
-      <span class="tag" data-i18n="heritage.ai.tag">Ported in the AI era</span>
-      <h3 data-i18n="heritage.ai.h3">The AI wrote the code. The human wisdom made the decisions.</h3>
-      <p data-i18n-html="heritage.ai.body">This Python port was typed by an AI in 2026 — and not one design decision was reinvented. The 2006 pattern decided; the AI obeyed. <b>Even AI must follow the values of human wisdom: a proven design pattern is exactly what deserves to be passed down.</b> The story of that debt is told in the <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md">tribute</a>.</p>
+      <span class="tag" data-i18n="heritage.ai.tag">Lean for AI</span>
+      <h3 data-i18n="heritage.ai.h3">Fewer tokens. Steadier output. A codebase AI can manage.</h3>
+      <p data-i18n-html="heritage.ai.body">The whole framework fits in one read; queries are the standard SQL a model knows best, so first-shot correctness beats any homegrown DSL; the write-side boilerplate is generated — hallucinated columns, missed fields, forgotten key write-backs have nowhere to happen. <b>Smaller context, fewer rules: every token your AI spends goes into your business logic.</b></p>
     </div>
   </div>
 </section>
@@ -1446,18 +1446,18 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
 <script>
   var I18N = {
     en:{
-      "meta.title":"pymodelet — SQL-first micro ORM for Python","meta.desc":"Write queries in plain SQL, get typed entities; save them right back and insert/update/delete is automatic. A SQL-first micro ORM for Python on any DB-API 2.0 driver, zero dependencies. Ported from Modelet (Java, 2006).",
+      "meta.title":"pymodelet — SQL-first micro ORM for the AI era","meta.desc":"Query in plain SQL, get typed entities; save them back and INSERT/UPDATE/DELETE writes itself. A zero-dependency, ~600-line Python micro ORM — a tiny context that saves tokens and keeps AI-written code clean and manageable.",
       "nav.philosophy":"Philosophy","nav.scale":"Scale","nav.flow":"Flow","nav.quickstart":"Quick Start","nav.compare":"Compare",
-      "hero.eyebrow":"SQL-first micro ORM · Python · since 2006",
+      "hero.eyebrow":"SQL-first micro ORM · Python · built for the AI era",
       "hero.title":"If you know SQL,<br>you already know <span class=\"grad\">pymodelet</span>.",
       "hero.tagline":"<span class=\"g-q\">Queries</span> belong to SQL. <span class=\"g-w\">Writes</span> belong to the framework.",
-      "hero.lede":"Write queries in the ANSI SQL you already know. Hand the tedious INSERT / UPDATE / DELETE to the framework. A learning curve that barely exists — unchanged for two decades.",
-      "hero.cta1":"View on GitHub","hero.cta2":"Read the story",
-      "manifesto.text":"Even AI must follow the values of human wisdom. <span>A design pattern that has earned twenty years is what deserves to be passed down.</span>",
-      "phil.eyebrow":"The Philosophy","phil.h2":"The opposite trade-off to the ORM wave",
-      "phil.lede":"In 2006, Hibernate asked engineers to learn HQL, session lifecycles and mapping rituals before writing a single productive line. Modelet does the reverse: respect SQL, and only take over the tedious part.",
-      "phil.c1title":"Queries → SQL","phil.c1body":"SELECTs are written in the ANSI SQL engineers already know — subqueries and joins included. The framework only carries each row back into an object. No new query language.",
-      "phil.c2title":"Writes → framework","phil.c2body":"What's mechanical and error-prone is enumerating columns for INSERT / UPDATE / DELETE. Modelet generates them from the entity's TxnMode state, writes the key back, and stamps audit fields.",
+      "hero.lede":"Write queries in the ANSI SQL you — and your AI — already know, and hand the tedious INSERT / UPDATE / DELETE to the framework. About 600 lines, zero dependencies: barely a learning curve for a human, a single context read for a model.",
+      "hero.cta1":"View on GitHub","hero.cta2":"Why AI loves it",
+      "manifesto.text":"The era of AI-written code deserves clean code more, not less. <span>Classic design patterns save tokens, steady the output, keep the codebase manageable — and give the hours back to life.</span>",
+      "phil.eyebrow":"The Philosophy","phil.h2":"The opposite trade-off to heavyweight ORMs",
+      "phil.lede":"Heavyweight ORMs ask you to learn a query DSL, session lifecycles and mapping rituals first — a barrier for people, and for models a context sink and a hallucination hazard. pymodelet flips it: respect SQL, take over only the tedious part.",
+      "phil.c1title":"Queries → SQL","phil.c1body":"SELECTs are written in ANSI SQL — engineers already know it, and it saturates every model's training data. No invented query language: one less DSL for people to learn, one less thing for an AI to burn tokens on or hallucinate.",
+      "phil.c2title":"Writes → framework","phil.c2body":"Enumerating columns for INSERT / UPDATE / DELETE is mechanical and error-prone — people slip, models hallucinate fields. The framework generates the statements from the entity's TxnMode, writes the key back and stamps audit fields; that whole class of bugs never happens.",
       "scale.eyebrow":"Built for scale","scale.h2":"Deep pagination without the memory bill",
       "scale.lede":"Whether the resultset is 100 rows or 500,000, only the rows of the page you asked for become entities. Reaching the very last page never loads the whole set into your application.",
       "scale.stat1":"rows in the resultset","scale.stat2":"rows per page","scale.stat3":"entities ever materialized",
@@ -1473,14 +1473,14 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       "qs.lede":"A classic one-to-many: an Author has many Books. The foreign key is the relationship — no @OneToMany, no lazy loading.",
       "qs.entitiesTitle":"Define entities with JPA-compatible annotations","qs.queryTitle":"Query with the SQL you know","qs.saveTitle":"saveOrUpdate — the framework writes the SQL",
       "cmp.eyebrow":"Head-to-head","cmp.h2":"How pymodelet stacks up",
-      "cmp.lede":"An honest, dimension-by-dimension comparison with the SQL-first tools you would otherwise reach for — and a nod to the Java original it was ported from.",
+      "cmp.lede":"An honest, dimension-by-dimension comparison with the SQL-first tools you would otherwise reach for — plus its Java original.",
       "cmp.py.t":"vs the SQL-first field","cmp.py.d":"psycopg row factories, aiosql, SQLAlchemy Core + Pydantic — they all take care of the read side. pymodelet makes even the writes effortless.","cmp.cta2":"Read the comparison →",
-      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet is a faithful port of Modelet, the SQL-first framework Matt created in Java in 2006. Meet the original — and its own comparison with MyBatis and Hibernate.","cmp.cta":"View Modelet on GitHub →",
-      "heritage.eyebrow":"Heritage · 2006","heritage.h2":"A precise decision",
-      "heritage.quote":"“The ER model and SQL are the fundamentals — <span class=\"hl\">time does not erase their value.</span>” Two decades on, the Python community is rediscovering “SQL-first” as if it were new. Matt wrote it down in 2006.",
-      "heritage.attrib":"Modelet was created by <b>Matt</b> in 2006 to flatten the ORM learning curve and speed his team's delivery. The full story is in <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">TRIBUTE.md</a>.",
-      "heritage.ai.tag":"Ported in the AI era","heritage.ai.h3":"The AI wrote the code. The human wisdom made the decisions.",
-      "heritage.ai.body":"This Python port was typed by an AI in 2026 — and not one design decision was reinvented. The 2006 pattern decided; the AI obeyed. <b>Even AI must follow the values of human wisdom: a proven design pattern is exactly what deserves to be passed down.</b> The story of that debt is told in the <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">tribute</a>.",
+      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet is a faithful port of the Java Modelet — the same SQL-first pattern, proven in production for years. Meet the original and its own comparison with MyBatis and Hibernate.","cmp.cta":"View Modelet on GitHub →",
+      "heritage.eyebrow":"The AI era","heritage.h2":"AI deserves clean code too",
+      "heritage.quote":"“The cleaner the framework you feed an AI, the cleaner the code it hands back. <span class=\"hl\">About 600 lines, zero dependencies, no DSL — it fits in a single context read.</span>” The fewer and more classic the rules, the more predictable — and reviewable — every generated line becomes.",
+      "heritage.attrib":"Queries belong to SQL, writes belong to the framework — that classic division of labor keeps the generate-review-maintain loop between you and your AI fast and stable: <b>what you save is tokens; what you gain is quality and speed of delivery.</b>",
+      "heritage.ai.tag":"Lean for AI","heritage.ai.h3":"Fewer tokens. Steadier output. A codebase AI can manage.",
+      "heritage.ai.body":"The whole framework fits in one read; queries are the standard SQL a model knows best, so first-shot correctness beats any homegrown DSL; the write-side boilerplate is generated — hallucinated columns, missed fields, forgotten key write-backs have nowhere to happen. <b>Smaller context, fewer rules: every token your AI spends goes into your business logic.</b>",
       "footer.tagline":"pymodelet · Queries belong to SQL, writes belong to the framework",
       "footer.cmppy":"Comparison","footer.tribute":"Tribute","footer.java":"Modelet (Java)"
     },
@@ -1524,18 +1524,18 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       "footer.cmppy":"比較","footer.tribute":"致敬文","footer.java":"Modelet(Java)"
     },
     ja:{
-      "meta.title":"pymodelet — Python の SQL-first マイクロ ORM","meta.desc":"素の SQL でクエリし、型付きエンティティを取得;そのまま保存すれば追加/更新/削除は自動。どの DB-API 2.0 ドライバでも動く、依存ゼロの Python 向け SQL-first マイクロ ORM。Modelet(Java, 2006)からの移植。",
+      "meta.title":"pymodelet — AI 時代の SQL-first マイクロ ORM","meta.desc":"素の SQL でクエリし、型付きエンティティを取得。そのまま保存すれば INSERT/UPDATE/DELETE は自動生成。依存ゼロ・約 600 行の Python マイクロ ORM —— context は極小、トークンを節約し、AI が書くコードをクリーンで管理しやすく保つ。",
       "nav.philosophy":"設計思想","nav.scale":"スケール","nav.flow":"フロー","nav.quickstart":"クイックスタート","nav.compare":"比較",
-      "hero.eyebrow":"SQL-first マイクロ ORM · Python · 2006 年から",
+      "hero.eyebrow":"SQL-first マイクロ ORM · Python · AI 時代のために",
       "hero.title":"SQL が分かれば、<br>もう <span class=\"grad\">pymodelet</span> が使えます。",
       "hero.tagline":"<span class=\"g-q\">クエリ</span>は SQL に、<span class=\"g-w\">書き込み</span>はフレームワークに。",
-      "hero.lede":"使い慣れた ANSI SQL でクエリを書き、面倒な INSERT / UPDATE / DELETE はフレームワークに任せる。ほとんど存在しない学習コスト —— 20 年間変わりません。",
-      "hero.cta1":"GitHub で見る","hero.cta2":"物語を読む",
-      "manifesto.text":"AI であっても、人間の知恵が定めた価値には従わなければならない。<span>二十年に耐えたデザインパターンこそ、受け継がれるべきものだ。</span>",
-      "phil.eyebrow":"設計思想","phil.h2":"ORM の潮流とは逆のトレードオフ",
-      "phil.lede":"2006 年、Hibernate は HQL やセッションのライフサイクル、マッピングの作法を学ばなければ、生産的な一行すら書けませんでした。Modelet は逆です。SQL を尊重し、面倒な部分だけを引き受けます。",
-      "phil.c1title":"クエリ → SQL","phil.c1body":"SELECT は、エンジニアがすでに知っている ANSI SQL で書きます —— サブクエリも JOIN も。フレームワークは各行をオブジェクトに戻すだけ。新しいクエリ言語はありません。",
-      "phil.c2title":"書き込み → フレームワーク","phil.c2body":"機械的で間違いやすいのは、INSERT / UPDATE / DELETE のカラム列挙です。Modelet はエンティティの TxnMode 状態から生成し、主キーを書き戻し、監査項目を付与します。",
+      "hero.lede":"あなたも、あなたの AI もすでに知っている ANSI SQL でクエリを書き、面倒な INSERT / UPDATE / DELETE はフレームワークに任せる。約 600 行・依存ゼロ —— 人にはほぼ存在しない学習曲線、モデルには一度で読み切れる context。",
+      "hero.cta1":"GitHub で見る","hero.cta2":"AI 時代の理由",
+      "manifesto.text":"AI がコードを書く時代こそ、クリーンコードに値する。<span>古典的なデザインパターンを当てはめる —— トークンを節約し、品質を安定させ、管理しやすく、産出はより速く。浮いた時間は、生活へ。</span>",
+      "phil.eyebrow":"設計思想","phil.h2":"重量級 ORM とは逆のトレードオフ",
+      "phil.lede":"重量級 ORM は、クエリ DSL・セッションのライフサイクル・マッピングの作法を先に学べと要求します —— 人には壁、モデルには燃え尽きない context と幻覚の温床。pymodelet は逆です。SQL を尊重し、面倒な部分だけを引き受けます。",
+      "phil.c1title":"クエリ → SQL","phil.c1body":"SELECT は ANSI SQL で書きます —— エンジニアはすでに知っていて、モデルの訓練データにも溢れている言語。新しいクエリ言語を発明しない:人は DSL を一つ学ばずに済み、AI はトークンの浪費先も幻覚の種も一つ減る。",
+      "phil.c2title":"書き込み → フレームワーク","phil.c2body":"INSERT / UPDATE / DELETE のカラム列挙は機械的でミスが出やすい —— 人は手が滑り、モデルは存在しないカラムを幻覚する。フレームワークは TxnMode から文を生成し、主キーを書き戻し、監査項目を刻む。このクラスのバグは、そもそも起こりようがない。",
       "scale.eyebrow":"スケール対応","scale.h2":"メモリを食わない深いページング",
       "scale.lede":"結果セットが 100 件でも 50 万件でも、要求したページの行だけがエンティティになります。最後のページに到達しても、全件をアプリに読み込むことはありません。",
       "scale.stat1":"結果セットの行数","scale.stat2":"1 ページあたりの行数","scale.stat3":"生成されるエンティティ数",
@@ -1551,30 +1551,30 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       "qs.lede":"典型的な一対多:Author は複数の Book を持ちます。外部キーがすなわち関連 —— @OneToMany も遅延ロードもありません。",
       "qs.entitiesTitle":"JPA 互換アノテーションでエンティティを定義","qs.queryTitle":"知っている SQL でクエリ","qs.saveTitle":"saveOrUpdate —— フレームワークが SQL を書く",
       "cmp.eyebrow":"直接対決","cmp.h2":"pymodelet は何と、どう比べられるか",
-      "cmp.lede":"本来なら手に取る SQL-first ツールと、観点ごとに率直に比較 —— そして移植元の Java オリジナルへ。",
+      "cmp.lede":"本来なら手に取る SQL-first ツールと観点ごとに率直に比較 —— Java 版オリジナルも添えて。",
       "cmp.py.t":"vs SQL-first 勢","cmp.py.d":"psycopg の row factory、aiosql、SQLAlchemy Core + Pydantic —— どれも読み取り側の面倒は見てくれます。pymodelet は書き込みまで楽にしてくれます。","cmp.cta2":"比較を読む →",
-      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet は、Matt が 2006 年に Java で生んだ SQL-first フレームワーク Modelet の忠実な移植です。オリジナル —— そして MyBatis・Hibernate との比較へ。","cmp.cta":"GitHub で Modelet を見る →",
-      "heritage.eyebrow":"系譜 · 2006","heritage.h2":"的確な決断",
-      "heritage.quote":"「ER モデルと SQL は基本 —— <span class=\"hl\">技術の移り変わりがその価値を消すことはない。</span>」20 年後、Python コミュニティは「SQL-first」をまるで新しいもののように再発見しています —— Matt は 2006 年にそれを書き記していました。",
-      "heritage.attrib":"Modelet は 2006 年に <b>Matt</b> が、ORM の学習コストを平らにし、チームの開発を加速するために作りました。全文は <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">TRIBUTE.md</a> に。",
-      "heritage.ai.tag":"AI の時代に移植","heritage.ai.h3":"コードは AI が書いた。判断は人間の知恵が下した。",
-      "heritage.ai.body":"この Python 移植は 2026 年、AI がタイプしました —— しかし設計判断はひとつも再発明していません。決めたのは 2006 年のパターン、AI はそれに従っただけです。<b>AI であっても、人間の知恵が定めた価値には従わなければならない。実証済みのデザインパターンこそ、受け継ぐに値するものです。</b>その恩義は<a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">献辞</a>に記されています。",
+      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet は Java 版 Modelet の忠実な移植 —— 同じ SQL-first パターンの原型で、長年本番環境で鍛えられてきました。オリジナルと、MyBatis・Hibernate との比較へ。","cmp.cta":"GitHub で Modelet を見る →",
+      "heritage.eyebrow":"AI 時代","heritage.h2":"AI にもクリーンコードを",
+      "heritage.quote":"「AI に食べさせるフレームワークがクリーンなほど、返ってくるコードもクリーンになる。<span class=\"hl\">約 600 行・依存ゼロ・DSL なし —— 一度の context 読み込みに収まる。</span>」ルールが少なく古典的であるほど、生成される一行一行は予測可能で、レビューしやすくなる。",
+      "heritage.attrib":"クエリは SQL に、書き込みはフレームワークに —— この古典的な分業が「AI が生成し、人がレビューし、AI が保守する」ループを速く、安定して回します:<b>節約するのはトークン、得るのは品質と納品速度。</b>",
+      "heritage.ai.tag":"AI のために小さく","heritage.ai.h3":"トークン節約・品質安定・管理可能・高速納品",
+      "heritage.ai.body":"フレームワーク全体をひと息で読み切れる。クエリはモデルが最も得意な標準 SQL だから、一発で正しいコードが出る確率はどんな自家製 DSL よりも高い。書き込みの定型文はフレームワークが代行 —— 幻覚カラム、書き忘れ、主キーの戻し忘れは起こる余地がない。<b>context は小さく、ルールは少なく。AI のトークンはすべてあなたのビジネスロジックに使われる。</b>",
       "footer.tagline":"pymodelet · クエリは SQL に、書き込みはフレームワークに",
       "footer.cmppy":"比較","footer.tribute":"献辞","footer.java":"Modelet(Java)"
     },
     de:{
-      "meta.title":"pymodelet — SQL-first Mikro-ORM für Python","meta.desc":"Abfragen in purem SQL, typisierte Entitäten zurück; direkt speichern, Insert/Update/Delete automatisch. Ein SQL-first Mikro-ORM für Python auf jedem DB-API-2.0-Treiber, null Abhängigkeiten. Portiert von Modelet (Java, 2006).",
+      "meta.title":"pymodelet — SQL-first Mikro-ORM für das KI-Zeitalter","meta.desc":"Abfragen in purem SQL, typisierte Entitäten zurück; direkt speichern, INSERT/UPDATE/DELETE schreibt sich selbst. Ein Python-Mikro-ORM ohne Abhängigkeiten, ~600 Zeilen — winziger Context, spart Tokens und hält KI-geschriebenen Code sauber und wartbar.",
       "nav.philosophy":"Philosophie","nav.scale":"Skalierung","nav.flow":"Ablauf","nav.quickstart":"Schnellstart","nav.compare":"Vergleich",
-      "hero.eyebrow":"SQL-first Mikro-ORM · Python · seit 2006",
+      "hero.eyebrow":"SQL-first Mikro-ORM · Python · fürs KI-Zeitalter gebaut",
       "hero.title":"Wer SQL kann,<br>kann schon <span class=\"grad\">pymodelet</span>.",
       "hero.tagline":"<span class=\"g-q\">Abfragen</span> gehören zu SQL. <span class=\"g-w\">Schreibvorgänge</span> gehören zum Framework.",
-      "hero.lede":"Schreibe Abfragen in dem ANSI-SQL, das du bereits kennst. Überlasse das mühsame INSERT / UPDATE / DELETE dem Framework. Eine Lernkurve, die kaum existiert — seit zwei Jahrzehnten unverändert.",
-      "hero.cta1":"Auf GitHub ansehen","hero.cta2":"Die Geschichte lesen",
-      "manifesto.text":"Auch eine KI muss den Werten menschlicher Weisheit folgen. <span>Ein Entwurfsmuster, das zwanzig Jahre bestanden hat, verdient es, weitergegeben zu werden.</span>",
-      "phil.eyebrow":"Die Philosophie","phil.h2":"Der umgekehrte Kompromiss zur ORM-Welle",
-      "phil.lede":"2006 verlangte Hibernate, HQL, Session-Lebenszyklen und Mapping-Rituale zu lernen, bevor man eine einzige produktive Zeile schrieb. Modelet macht es umgekehrt: SQL respektieren und nur den mühsamen Teil übernehmen.",
-      "phil.c1title":"Abfragen → SQL","phil.c1body":"SELECTs schreibst du in dem ANSI-SQL, das du schon kennst — Subqueries und Joins inklusive. Das Framework trägt jede Zeile nur in ein Objekt zurück. Keine neue Abfragesprache.",
-      "phil.c2title":"Schreiben → Framework","phil.c2body":"Mechanisch und fehleranfällig ist das Auflisten der Spalten für INSERT / UPDATE / DELETE. Modelet erzeugt sie aus dem TxnMode-Zustand der Entität, schreibt den Schlüssel zurück und setzt Audit-Felder.",
+      "hero.lede":"Schreibe Abfragen in dem ANSI-SQL, das du — und deine KI — bereits kennt, und überlasse das mühsame INSERT / UPDATE / DELETE dem Framework. Rund 600 Zeilen, null Abhängigkeiten: für Menschen kaum eine Lernkurve, für ein Modell ein einziger Context-Read.",
+      "hero.cta1":"Auf GitHub ansehen","hero.cta2":"Warum KI es liebt",
+      "manifesto.text":"Das Zeitalter KI-geschriebenen Codes verdient Clean Code erst recht. <span>Klassische Entwurfsmuster sparen Tokens, stabilisieren die Qualität, halten den Code wartbar — und geben die Stunden ans Leben zurück.</span>",
+      "phil.eyebrow":"Die Philosophie","phil.h2":"Der umgekehrte Kompromiss zu schwergewichtigen ORMs",
+      "phil.lede":"Schwergewichtige ORMs verlangen erst eine Abfrage-DSL, Session-Lebenszyklen und Mapping-Rituale — für Menschen eine Hürde, für Modelle ein Context-Fresser und eine Brutstätte für Halluzinationen. pymodelet dreht es um: SQL respektieren, nur den mühsamen Teil übernehmen.",
+      "phil.c1title":"Abfragen → SQL","phil.c1body":"SELECTs schreibst du in ANSI-SQL — Ingenieure können es längst, und die Trainingsdaten jedes Modells sind voll davon. Keine erfundene Abfragesprache: eine DSL weniger für Menschen, eine Token-Senke und Halluzinationsquelle weniger für die KI.",
+      "phil.c2title":"Schreiben → Framework","phil.c2body":"Spalten für INSERT / UPDATE / DELETE aufzuzählen ist mechanisch und fehleranfällig — Menschen vertippen sich, Modelle halluzinieren Felder. Das Framework erzeugt die Statements aus dem TxnMode, schreibt den Schlüssel zurück und setzt Audit-Felder; diese ganze Fehlerklasse entfällt.",
       "scale.eyebrow":"Für Skalierung gebaut","scale.h2":"Tiefe Paginierung ohne Speicherlast",
       "scale.lede":"Ob das Resultset 100 oder 500.000 Zeilen hat — nur die Zeilen der angeforderten Seite werden zu Entitäten. Die allerletzte Seite zu erreichen lädt nie das gesamte Set in deine Anwendung.",
       "scale.stat1":"Zeilen im Resultset","scale.stat2":"Zeilen pro Seite","scale.stat3":"je erzeugte Entitäten",
@@ -1590,30 +1590,30 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       "qs.lede":"Ein klassisches One-to-Many: Ein Author hat viele Books. Der Fremdschlüssel ist die Beziehung — kein @OneToMany, kein Lazy Loading.",
       "qs.entitiesTitle":"Entitäten mit JPA-kompatiblen Annotationen definieren","qs.queryTitle":"Mit dem SQL abfragen, das du kennst","qs.saveTitle":"saveOrUpdate — das Framework schreibt das SQL",
       "cmp.eyebrow":"Direktvergleich","cmp.h2":"Wie sich pymodelet schlägt",
-      "cmp.lede":"Ein ehrlicher Vergleich, Dimension für Dimension, mit den SQL-first-Tools, zu denen du sonst greifst — und ein Blick auf das Java-Original, aus dem es portiert wurde.",
+      "cmp.lede":"Ein ehrlicher Vergleich, Dimension für Dimension, mit den SQL-first-Tools, zu denen du sonst greifst — samt dem Java-Original.",
       "cmp.py.t":"vs. das SQL-first-Feld","cmp.py.d":"psycopg Row-Factories, aiosql, SQLAlchemy Core + Pydantic — sie alle kümmern sich um die Leseseite. Mit pymodelet werden selbst die Schreibvorgänge mühelos.","cmp.cta2":"Zum Vergleich →",
-      "cmp.java.t":"Das originale Modelet","cmp.java.d":"pymodelet ist eine getreue Portierung von Modelet, dem SQL-first-Framework, das Matt 2006 in Java schuf. Triff das Original — und seinen eigenen Vergleich mit MyBatis und Hibernate.","cmp.cta":"Modelet auf GitHub ansehen →",
-      "heritage.eyebrow":"Ursprung · 2006","heritage.h2":"Eine präzise Entscheidung",
-      "heritage.quote":"„Das ER-Modell und SQL sind das Fundament — <span class=\"hl\">Wandel löscht ihren Wert nicht aus.</span>“ Zwei Jahrzehnte später entdeckt die Python-Community „SQL-first“ neu, als wäre es neu. Matt schrieb es 2006 nieder.",
-      "heritage.attrib":"Modelet wurde 2006 von <b>Matt</b> geschaffen, um die ORM-Lernkurve zu ebnen und die Auslieferung seines Teams zu beschleunigen. Die ganze Geschichte steht in <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">TRIBUTE.md</a>.",
-      "heritage.ai.tag":"Portiert im KI-Zeitalter","heritage.ai.h3":"Die KI schrieb den Code. Die menschliche Weisheit traf die Entscheidungen.",
-      "heritage.ai.body":"Diese Python-Portierung wurde 2026 von einer KI getippt — und keine einzige Designentscheidung neu erfunden. Das Muster von 2006 entschied; die KI folgte. <b>Auch eine KI muss den Werten menschlicher Weisheit folgen: Ein bewährtes Entwurfsmuster ist genau das, was weitergegeben werden soll.</b> Die Geschichte dieser Schuld erzählt die <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">Widmung</a>.",
+      "cmp.java.t":"Das originale Modelet","cmp.java.d":"pymodelet ist eine getreue Portierung des Java-Modelet — dasselbe SQL-first-Muster, über Jahre in Produktion bewährt. Triff das Original und seinen Vergleich mit MyBatis und Hibernate.","cmp.cta":"Modelet auf GitHub ansehen →",
+      "heritage.eyebrow":"Das KI-Zeitalter","heritage.h2":"Auch KI verdient Clean Code",
+      "heritage.quote":"„Je sauberer das Framework, das du einer KI fütterst, desto sauberer der Code, den sie zurückgibt. <span class=\"hl\">Rund 600 Zeilen, null Abhängigkeiten, keine DSL — passt in einen einzigen Context-Read.</span>“ Je weniger und je klassischer die Regeln, desto vorhersagbarer — und prüfbarer — wird jede generierte Zeile.",
+      "heritage.attrib":"Abfragen gehören zu SQL, Schreibvorgänge zum Framework — diese klassische Arbeitsteilung hält den Kreislauf aus KI-Generieren, Mensch-Review und KI-Wartung schnell und stabil: <b>Gespart werden Tokens, gewonnen werden Qualität und Liefertempo.</b>",
+      "heritage.ai.tag":"Schlank für KI","heritage.ai.h3":"Weniger Tokens. Stabilere Ausgabe. Code, den KI warten kann.",
+      "heritage.ai.body":"Das ganze Framework passt in einen Lesedurchgang; Abfragen sind das Standard-SQL, das ein Modell am besten kennt — die Trefferquote im ersten Versuch schlägt jede Eigenbau-DSL; den Schreib-Boilerplate erzeugt das Framework — halluzinierte Spalten, vergessene Felder, fehlende Schlüssel-Rückschreibung haben keinen Ort, an dem sie passieren könnten. <b>Kleinerer Context, weniger Regeln: Jeder Token deiner KI fließt in deine Geschäftslogik.</b>",
       "footer.tagline":"pymodelet · Abfragen gehören zu SQL, Schreibvorgänge zum Framework",
       "footer.cmppy":"Vergleich","footer.tribute":"Widmung","footer.java":"Modelet (Java)"
     },
     ko:{
-      "meta.title":"pymodelet — Python용 SQL-first 마이크로 ORM","meta.desc":"순수 SQL로 조회해 타입 있는 엔티티를 얻고, 그대로 저장하면 추가/수정/삭제 자동. 모든 DB-API 2.0 드라이버에서 동작하는, 의존성 없는 Python용 SQL-first 마이크로 ORM. Modelet(Java, 2006)에서 이식.",
+      "meta.title":"pymodelet — AI 시대의 SQL-first 마이크로 ORM","meta.desc":"순수 SQL로 조회해 타입 있는 엔티티를 얻고, 그대로 저장하면 INSERT/UPDATE/DELETE가 자동 생성됩니다. 의존성 없는 약 600줄의 Python 마이크로 ORM —— 아주 작은 컨텍스트로 토큰을 아끼고, AI가 쓴 코드를 더 깨끗하고 관리하기 쉽게.",
       "nav.philosophy":"철학","nav.scale":"확장성","nav.flow":"흐름","nav.quickstart":"빠른 시작","nav.compare":"비교",
-      "hero.eyebrow":"SQL-first 마이크로 ORM · Python · 2006년부터",
+      "hero.eyebrow":"SQL-first 마이크로 ORM · Python · AI 시대를 위해",
       "hero.title":"SQL을 안다면,<br>이미 <span class=\"grad\">pymodelet</span>을 쓸 수 있습니다.",
       "hero.tagline":"<span class=\"g-q\">쿼리</span>는 SQL에게, <span class=\"g-w\">쓰기</span>는 프레임워크에게.",
-      "hero.lede":"이미 아는 ANSI SQL로 쿼리를 작성하고, 번거로운 INSERT / UPDATE / DELETE는 프레임워크에 맡기세요. 거의 존재하지 않는 학습 곡선 —— 20년째 그대로입니다.",
-      "hero.cta1":"GitHub에서 보기","hero.cta2":"이야기 읽기",
-      "manifesto.text":"AI라 할지라도 인간 지혜의 가치를 따라야 합니다. <span>20년을 견뎌낸 디자인 패턴이야말로 물려줄 가치가 있는 것입니다.</span>",
-      "phil.eyebrow":"철학","phil.h2":"ORM 물결과 정반대의 선택",
-      "phil.lede":"2006년, Hibernate는 생산적인 한 줄을 쓰기도 전에 HQL, 세션 생명주기, 매핑 관례부터 익히길 요구했습니다. Modelet은 반대로 합니다. SQL을 존중하고, 번거로운 부분만 대신합니다.",
-      "phil.c1title":"쿼리 → SQL","phil.c1body":"SELECT는 엔지니어가 이미 아는 ANSI SQL로 작성합니다 —— 서브쿼리와 조인 포함. 프레임워크는 각 행을 객체로 되돌릴 뿐, 새로운 쿼리 언어는 없습니다.",
-      "phil.c2title":"쓰기 → 프레임워크","phil.c2body":"기계적이고 실수하기 쉬운 것은 INSERT / UPDATE / DELETE의 컬럼 나열입니다. Modelet은 엔티티의 TxnMode 상태로부터 이를 생성하고, 키를 되써 주고, 감사 필드를 채웁니다.",
+      "hero.lede":"당신도, 당신의 AI도 이미 아는 ANSI SQL로 쿼리를 쓰고, 번거로운 INSERT / UPDATE / DELETE는 프레임워크에 맡기세요. 약 600줄, 의존성 제로 —— 사람에게는 거의 없는 학습 곡선, 모델에게는 한 번에 다 읽히는 컨텍스트.",
+      "hero.cta1":"GitHub에서 보기","hero.cta2":"AI 시대의 이유",
+      "manifesto.text":"AI가 코드를 쓰는 시대일수록 클린 코드가 필요합니다. <span>고전적인 디자인 패턴을 적용하면 —— 토큰은 아끼고, 품질은 안정되고, 관리는 쉬워지고, 산출은 빨라집니다. 아낀 시간은 삶에게.</span>",
+      "phil.eyebrow":"철학","phil.h2":"무거운 ORM과 정반대의 선택",
+      "phil.lede":"무거운 ORM은 쿼리 DSL, 세션 생명주기, 매핑 관례부터 배우라고 요구합니다 —— 사람에게는 문턱, 모델에게는 태워도 끝없는 컨텍스트와 환각의 온상. pymodelet은 반대로 갑니다. SQL을 존중하고, 번거로운 부분만 대신합니다.",
+      "phil.c1title":"쿼리 → SQL","phil.c1body":"SELECT는 ANSI SQL로 씁니다 —— 엔지니어는 이미 알고, 모델의 학습 데이터에도 흘러넘치는 언어. 새 쿼리 언어를 발명하지 않으니 사람은 DSL 하나를 덜 배우고, AI는 토큰 낭비처와 환각의 원천이 하나 줄어듭니다.",
+      "phil.c2title":"쓰기 → 프레임워크","phil.c2body":"INSERT / UPDATE / DELETE의 컬럼 나열은 기계적이고 실수하기 쉽습니다 —— 사람은 손이 미끄러지고, 모델은 없는 컬럼을 환각합니다. 프레임워크가 TxnMode로 문장을 생성하고 키를 되써 주고 감사 필드를 찍으니, 이 부류의 버그는 아예 일어날 자리가 없습니다.",
       "scale.eyebrow":"대규모를 위한 설계","scale.h2":"메모리 부담 없는 깊은 페이징",
       "scale.lede":"결과셋이 100건이든 50만 건이든, 요청한 페이지의 행만 엔티티가 됩니다. 맨 마지막 페이지에 도달해도 전체를 애플리케이션에 적재하지 않습니다.",
       "scale.stat1":"결과셋의 행 수","scale.stat2":"페이지당 행 수","scale.stat3":"생성되는 엔티티 수",
@@ -1629,14 +1629,14 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       "qs.lede":"전형적인 일대다: Author는 여러 Book을 가집니다. 외래 키가 곧 관계입니다 —— @OneToMany도, 지연 로딩도 없습니다.",
       "qs.entitiesTitle":"JPA 호환 애너테이션으로 엔티티 정의","qs.queryTitle":"아는 SQL로 조회","qs.saveTitle":"saveOrUpdate —— 프레임워크가 SQL을 작성",
       "cmp.eyebrow":"정면 비교","cmp.h2":"pymodelet은 어디에 서 있는가",
-      "cmp.lede":"원래라면 손이 갔을 SQL-first 도구들과 차원별로 정직하게 비교하고 —— 이식의 뿌리인 Java 원본도 짚어 봅니다.",
+      "cmp.lede":"원래라면 손이 갔을 SQL-first 도구들과 차원별로 정직하게 비교하고 —— Java 원본도 함께.",
       "cmp.py.t":"vs SQL-first 진영","cmp.py.d":"psycopg row factory, aiosql, SQLAlchemy Core + Pydantic —— 모두 읽기 측은 챙겨 줍니다. pymodelet은 쓰기까지 편안하게 만들어 줍니다.","cmp.cta2":"비교 읽기 →",
-      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet은 Matt가 2006년 Java로 만든 SQL-first 프레임워크 Modelet의 충실한 포팅입니다. 원본 —— 그리고 MyBatis·Hibernate와의 비교를 만나 보세요.","cmp.cta":"GitHub에서 Modelet 보기 →",
-      "heritage.eyebrow":"유산 · 2006","heritage.h2":"정확한 결정",
-      "heritage.quote":"“ER 모델과 SQL은 기본기 —— <span class=\"hl\">기술의 세대교체가 그 가치를 지우지 못한다.</span>” 20년이 지나, Python 커뮤니티는 'SQL-first'를 마치 새로운 것처럼 재발견하고 있습니다 —— Matt는 2006년에 이미 그것을 적어 두었습니다.",
-      "heritage.attrib":"Modelet은 2006년 <b>Matt</b>가 ORM 학습 곡선을 평탄하게 하고 팀의 개발 속도를 높이기 위해 만들었습니다. 전체 이야기는 <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">TRIBUTE.md</a>에 있습니다.",
-      "heritage.ai.tag":"AI 시대에 이식","heritage.ai.h3":"코드는 AI가 썼습니다. 결정은 인간의 지혜가 내렸습니다.",
-      "heritage.ai.body":"이 Python 이식은 2026년 AI가 타이핑했습니다 —— 그러나 설계 결정은 단 하나도 다시 발명하지 않았습니다. 2006년의 패턴이 결정했고, AI는 따랐을 뿐입니다. <b>AI라 할지라도 인간 지혜의 가치를 따라야 합니다. 검증된 디자인 패턴이야말로 물려줄 가치가 있는 것입니다.</b> 그 빚의 이야기는 <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">헌정문</a>에 적혀 있습니다.",
+      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet은 Java판 Modelet의 충실한 포팅입니다 —— 같은 SQL-first 패턴의 원형으로, 수년간 프로덕션에서 단련됐습니다. 원본, 그리고 MyBatis·Hibernate와의 비교를 만나 보세요.","cmp.cta":"GitHub에서 Modelet 보기 →",
+      "heritage.eyebrow":"AI 시대","heritage.h2":"AI에게도 클린 코드를",
+      "heritage.quote":"“AI에게 먹이는 프레임워크가 깨끗할수록, AI가 돌려주는 코드도 깨끗해집니다. <span class=\"hl\">약 600줄, 의존성 제로, DSL 없음 —— 한 번의 컨텍스트 읽기에 다 들어갑니다.</span>” 규칙이 적고 고전적일수록, 생성되는 모든 줄은 더 예측 가능하고 리뷰하기 쉬워집니다.",
+      "heritage.attrib":"쿼리는 SQL에게, 쓰기는 프레임워크에게 —— 이 고전적인 분업이 'AI가 생성하고, 사람이 리뷰하고, AI가 유지보수하는' 순환을 빠르고 안정되게 돌립니다. <b>아끼는 것은 토큰, 얻는 것은 품질과 배송 속도.</b>",
+      "heritage.ai.tag":"AI를 위해 가볍게","heritage.ai.h3":"토큰 절약・품질 안정・관리 가능・빠른 산출",
+      "heritage.ai.body":"프레임워크 전체가 한 번에 읽힙니다. 쿼리는 모델이 가장 잘 아는 표준 SQL이라 한 번에 맞는 코드가 나올 확률이 어떤 자체 DSL보다 높습니다. 쓰기 보일러플레이트는 프레임워크가 대신하니 —— 환각 컬럼, 빠진 필드, 잊힌 키 회수는 일어날 곳이 없습니다. <b>컨텍스트는 작게, 규칙은 적게. AI의 모든 토큰이 당신의 비즈니스 로직에 쓰입니다.</b>",
       "footer.tagline":"pymodelet · 쿼리는 SQL에게, 쓰기는 프레임워크에게",
       "footer.cmppy":"비교","footer.tribute":"헌정","footer.java":"Modelet (Java)"
     }

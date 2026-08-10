@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>pymodelet — Python の SQL-first マイクロ ORM</title>
-<meta name="description" content="素の SQL でクエリし、型付きエンティティを取得;そのまま保存すれば追加/更新/削除は自動。どの DB-API 2.0 ドライバでも動く、依存ゼロの Python 向け SQL-first マイクロ ORM。Modelet(Java, 2006)からの移植。">
+<title>pymodelet — AI 時代の SQL-first マイクロ ORM</title>
+<meta name="description" content="素の SQL でクエリし、型付きエンティティを取得。そのまま保存すれば INSERT/UPDATE/DELETE は自動生成。依存ゼロ・約 600 行の Python マイクロ ORM —— context は極小、トークンを節約し、AI が書くコードをクリーンで管理しやすく保つ。">
 <link rel="canonical" href="https://mattataiera.github.io/pymodelet/ja/">
 <link rel="alternate" hreflang="en" href="https://mattataiera.github.io/pymodelet/">
 <link rel="alternate" hreflang="zh-Hant" href="https://mattataiera.github.io/pymodelet/zh/">
@@ -373,13 +373,13 @@
 
   <div class="wrap">
   <div class="hero-inner">
-    <p class="eyebrow" data-i18n="hero.eyebrow">SQL-first マイクロ ORM · Python · 2006 年から</p>
+    <p class="eyebrow" data-i18n="hero.eyebrow">SQL-first マイクロ ORM · Python · AI 時代のために</p>
     <h1 data-i18n-html="hero.title">SQL が分かれば、<br>もう <span class="grad">pymodelet</span> が使えます。</h1>
     <p class="tagline" data-i18n-html="hero.tagline"><span class="g-q">クエリ</span>は SQL に、<span class="g-w">書き込み</span>はフレームワークに。</p>
-    <p class="lead" data-i18n="hero.lede">使い慣れた ANSI SQL でクエリを書き、面倒な INSERT / UPDATE / DELETE はフレームワークに任せる。ほとんど存在しない学習コスト —— 20 年間変わりません。</p>
+    <p class="lead" data-i18n="hero.lede">あなたも、あなたの AI もすでに知っている ANSI SQL でクエリを書き、面倒な INSERT / UPDATE / DELETE はフレームワークに任せる。約 600 行・依存ゼロ —— 人にはほぼ存在しない学習曲線、モデルには一度で読み切れる context。</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="https://github.com/MattAtAIEra/pymodelet"><span data-i18n="hero.cta1">GitHub で見る</span> <span class="arrow">→</span></a>
-      <a class="btn btn-ghost" href="#heritage"><span data-i18n="hero.cta2">物語を読む</span></a>
+      <a class="btn btn-ghost" href="#heritage"><span data-i18n="hero.cta2">AI 時代の理由</span></a>
     </div>
     <p class="install" aria-hidden="true">$ <b>pip install</b> pymodelet</p>
   </div>
@@ -401,7 +401,7 @@
 <!-- ======================= MANIFESTO ======================= -->
 <section class="manifesto">
   <div class="wrap">
-    <p class="reveal" data-i18n-html="manifesto.text">AI であっても、人間の知恵が定めた価値には従わなければならない。<span>二十年に耐えたデザインパターンこそ、受け継がれるべきものだ。</span></p>
+    <p class="reveal" data-i18n-html="manifesto.text">AI がコードを書く時代こそ、クリーンコードに値する。<span>古典的なデザインパターンを当てはめる —— トークンを節約し、品質を安定させ、管理しやすく、産出はより速く。浮いた時間は、生活へ。</span></p>
   </div>
 </section>
 
@@ -410,20 +410,20 @@
   <div class="wrap">
     <div class="section-head reveal">
       <p class="eyebrow" data-i18n="phil.eyebrow">設計思想</p>
-      <h2 data-i18n="phil.h2">ORM の潮流とは逆のトレードオフ</h2>
-      <p data-i18n="phil.lede">2006 年、Hibernate は HQL やセッションのライフサイクル、マッピングの作法を学ばなければ、生産的な一行すら書けませんでした。Modelet は逆です。SQL を尊重し、面倒な部分だけを引き受けます。</p>
+      <h2 data-i18n="phil.h2">重量級 ORM とは逆のトレードオフ</h2>
+      <p data-i18n="phil.lede">重量級 ORM は、クエリ DSL・セッションのライフサイクル・マッピングの作法を先に学べと要求します —— 人には壁、モデルには燃え尽きない context と幻覚の温床。pymodelet は逆です。SQL を尊重し、面倒な部分だけを引き受けます。</p>
     </div>
     <div class="compare reveal">
       <div class="compare-col q">
         <span class="tag">SQL → object</span>
         <h3 data-i18n="phil.c1title">クエリ → SQL</h3>
-        <p data-i18n="phil.c1body">SELECT は、エンジニアがすでに知っている ANSI SQL で書きます —— サブクエリも JOIN も。フレームワークは各行をオブジェクトに戻すだけ。新しいクエリ言語はありません。</p>
+        <p data-i18n="phil.c1body">SELECT は ANSI SQL で書きます —— エンジニアはすでに知っていて、モデルの訓練データにも溢れている言語。新しいクエリ言語を発明しない:人は DSL を一つ学ばずに済み、AI はトークンの浪費先も幻覚の種も一つ減る。</p>
         <div class="rule"></div>
       </div>
       <div class="compare-col w">
         <span class="tag">object → SQL</span>
         <h3 data-i18n="phil.c2title">書き込み → フレームワーク</h3>
-        <p data-i18n="phil.c2body">機械的で間違いやすいのは、INSERT / UPDATE / DELETE のカラム列挙です。Modelet はエンティティの TxnMode 状態から生成し、主キーを書き戻し、監査項目を付与します。</p>
+        <p data-i18n="phil.c2body">INSERT / UPDATE / DELETE のカラム列挙は機械的でミスが出やすい —— 人は手が滑り、モデルは存在しないカラムを幻覚する。フレームワークは TxnMode から文を生成し、主キーを書き戻し、監査項目を刻む。このクラスのバグは、そもそも起こりようがない。</p>
         <div class="rule"></div>
       </div>
     </div>
@@ -538,7 +538,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     <div class="section-head reveal">
       <p class="eyebrow" data-i18n="cmp.eyebrow">直接対決</p>
       <h2 data-i18n="cmp.h2">pymodelet は何と、どう比べられるか</h2>
-      <p data-i18n="cmp.lede">本来なら手に取る SQL-first ツールと、観点ごとに率直に比較 —— そして移植元の Java オリジナルへ。</p>
+      <p data-i18n="cmp.lede">本来なら手に取る SQL-first ツールと観点ごとに率直に比較 —— Java 版オリジナルも添えて。</p>
     </div>
     <div class="cmp-grid reveal">
       <a class="cmp-card py" href="compare-python.html">
@@ -550,7 +550,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       <a class="cmp-card java" href="https://github.com/MattAtAIEra/modelet">
         <span class="tag">Java · 2006</span>
         <h3 data-i18n="cmp.java.t">The original Modelet</h3>
-        <p data-i18n="cmp.java.d">pymodelet は、Matt が 2006 年に Java で生んだ SQL-first フレームワーク Modelet の忠実な移植です。オリジナル —— そして MyBatis・Hibernate との比較へ。</p>
+        <p data-i18n="cmp.java.d">pymodelet は Java 版 Modelet の忠実な移植 —— 同じ SQL-first パターンの原型で、長年本番環境で鍛えられてきました。オリジナルと、MyBatis・Hibernate との比較へ。</p>
         <span class="go" data-i18n="cmp.cta">GitHub で Modelet を見る →</span>
       </a>
     </div>
@@ -561,15 +561,15 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
 <section class="section heritage" id="heritage">
   <div class="wrap">
     <div class="section-head reveal" style="margin-bottom:0;">
-      <p class="eyebrow" data-i18n="heritage.eyebrow">系譜 · 2006</p>
-      <h2 data-i18n="heritage.h2">的確な決断</h2>
+      <p class="eyebrow" data-i18n="heritage.eyebrow">AI 時代</p>
+      <h2 data-i18n="heritage.h2">AI にもクリーンコードを</h2>
     </div>
-    <p class="quote reveal" data-i18n-html="heritage.quote">「ER モデルと SQL は基本 —— <span class="hl">技術の移り変わりがその価値を消すことはない。</span>」20 年後、Python コミュニティは「SQL-first」をまるで新しいもののように再発見しています —— Matt は 2006 年にそれを書き記していました。</p>
-    <p class="attrib reveal" data-i18n-html="heritage.attrib">Modelet は 2006 年に <b>Matt</b> が、ORM の学習コストを平らにし、チームの開発を加速するために作りました。全文は <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.ja.md">TRIBUTE.ja.md</a> に。</p>
+    <p class="quote reveal" data-i18n-html="heritage.quote">「AI に食べさせるフレームワークがクリーンなほど、返ってくるコードもクリーンになる。<span class="hl">約 600 行・依存ゼロ・DSL なし —— 一度の context 読み込みに収まる。</span>」ルールが少なく古典的であるほど、生成される一行一行は予測可能で、レビューしやすくなる。</p>
+    <p class="attrib reveal" data-i18n-html="heritage.attrib">クエリは SQL に、書き込みはフレームワークに —— この古典的な分業が「AI が生成し、人がレビューし、AI が保守する」ループを速く、安定して回します:<b>節約するのはトークン、得るのは品質と納品速度。</b></p>
     <div class="ai-card reveal">
-      <span class="tag" data-i18n="heritage.ai.tag">AI の時代に移植</span>
-      <h3 data-i18n="heritage.ai.h3">コードは AI が書いた。判断は人間の知恵が下した。</h3>
-      <p data-i18n-html="heritage.ai.body">この Python 移植は 2026 年、AI がタイプしました —— しかし設計判断はひとつも再発明していません。決めたのは 2006 年のパターン、AI はそれに従っただけです。<b>AI であっても、人間の知恵が定めた価値には従わなければならない。実証済みのデザインパターンこそ、受け継ぐに値するものです。</b>その恩義は<a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.ja.md">献辞</a>に記されています。</p>
+      <span class="tag" data-i18n="heritage.ai.tag">AI のために小さく</span>
+      <h3 data-i18n="heritage.ai.h3">トークン節約・品質安定・管理可能・高速納品</h3>
+      <p data-i18n-html="heritage.ai.body">フレームワーク全体をひと息で読み切れる。クエリはモデルが最も得意な標準 SQL だから、一発で正しいコードが出る確率はどんな自家製 DSL よりも高い。書き込みの定型文はフレームワークが代行 —— 幻覚カラム、書き忘れ、主キーの戻し忘れは起こる余地がない。<b>context は小さく、ルールは少なく。AI のトークンはすべてあなたのビジネスロジックに使われる。</b></p>
     </div>
   </div>
 </section>
