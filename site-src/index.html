@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>pymodelet — SQL-first micro ORM for Python</title>
-<meta name="description" content="Write queries in plain SQL, get typed entities; save them right back and insert/update/delete is automatic. A SQL-first micro ORM for Python on any DB-API 2.0 driver, zero dependencies. Ported from Modelet (Java, 2006).">
+<title>pymodelet — SQL-first micro ORM for the AI era</title>
+<meta name="description" content="Query in plain SQL, get typed entities; save them back and INSERT/UPDATE/DELETE writes itself. A zero-dependency, ~600-line Python micro ORM — a tiny context that saves tokens and keeps AI-written code clean and manageable.">
 <style>
   /* ============================================================
      PYMODELET — design tokens
@@ -337,7 +337,7 @@
 <header class="site-header" id="header">
   <div class="wrap header-inner">
     <a class="brand" href="#top" aria-label="pymodelet home">
-      <span class="dot"></span>pymodelet<span class="since">EST. 2006</span>
+      <span class="dot"></span>pymodelet<span class="since">SQL-FIRST</span>
     </a>
     <nav class="nav" aria-label="Primary">
       <a href="#philosophy" data-i18n="nav.philosophy">Philosophy</a>
@@ -366,13 +366,13 @@
 
   <div class="wrap">
   <div class="hero-inner">
-    <p class="eyebrow" data-i18n="hero.eyebrow">SQL-first micro ORM · Python · since 2006</p>
+    <p class="eyebrow" data-i18n="hero.eyebrow">SQL-first micro ORM · Python · built for the AI era</p>
     <h1 data-i18n-html="hero.title">If you know SQL,<br>you already know <span class="grad">pymodelet</span>.</h1>
     <p class="tagline" data-i18n-html="hero.tagline"><span class="g-q">Queries</span> belong to SQL. <span class="g-w">Writes</span> belong to the framework.</p>
-    <p class="lead" data-i18n="hero.lede">Write queries in the ANSI SQL you already know. Hand the tedious INSERT / UPDATE / DELETE to the framework. A learning curve that barely exists — unchanged for two decades.</p>
+    <p class="lead" data-i18n="hero.lede">Write queries in the ANSI SQL you — and your AI — already know, and hand the tedious INSERT / UPDATE / DELETE to the framework. About 600 lines, zero dependencies: barely a learning curve for a human, a single context read for a model.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="https://github.com/MattAtAIEra/pymodelet"><span data-i18n="hero.cta1">View on GitHub</span> <span class="arrow">→</span></a>
-      <a class="btn btn-ghost" href="#heritage"><span data-i18n="hero.cta2">Read the story</span></a>
+      <a class="btn btn-ghost" href="#heritage"><span data-i18n="hero.cta2">Why AI loves it</span></a>
     </div>
     <p class="install" aria-hidden="true">$ <b>pip install</b> pymodelet</p>
   </div>
@@ -383,7 +383,9 @@
     <div class="scene-dots" id="scene-dots" role="tablist" aria-label="ORM scene">
       <button aria-current="true" aria-label="model.find() — SQL to objects"></button>
       <button aria-current="false" aria-label="model.save() — object to SQL"></button>
-      <button aria-current="false" aria-label="The pattern — 2006 to the AI era"></button>
+      <button aria-current="false" aria-label="The pattern — clean code for AI"></button>
+      <button aria-current="false" aria-label="The payoff — elephants and giraffes on the savanna"></button>
+      <button aria-current="false" aria-label="The payoff — aurora over Lapland, Finland"></button>
     </div>
   </div>
   <div class="hero-hint" aria-hidden="true">rendered live · ASCII</div>
@@ -392,7 +394,7 @@
 <!-- ======================= MANIFESTO ======================= -->
 <section class="manifesto">
   <div class="wrap">
-    <p class="reveal" data-i18n-html="manifesto.text">Even AI must follow the values of human wisdom. <span>A design pattern that has earned twenty years is what deserves to be passed down.</span></p>
+    <p class="reveal" data-i18n-html="manifesto.text">The era of AI-written code deserves clean code more, not less. <span>Classic design patterns save tokens, steady the output, keep the codebase manageable — and give the hours back to life.</span></p>
   </div>
 </section>
 
@@ -401,20 +403,20 @@
   <div class="wrap">
     <div class="section-head reveal">
       <p class="eyebrow" data-i18n="phil.eyebrow">The Philosophy</p>
-      <h2 data-i18n="phil.h2">The opposite trade-off to the ORM wave</h2>
-      <p data-i18n="phil.lede">In 2006, Hibernate asked engineers to learn HQL, session lifecycles and mapping rituals before writing a single productive line. Modelet does the reverse: respect SQL, and only take over the tedious part.</p>
+      <h2 data-i18n="phil.h2">The opposite trade-off to heavyweight ORMs</h2>
+      <p data-i18n="phil.lede">Heavyweight ORMs ask you to learn a query DSL, session lifecycles and mapping rituals first — a barrier for people, and for models a context sink and a hallucination hazard. pymodelet flips it: respect SQL, take over only the tedious part.</p>
     </div>
     <div class="compare reveal">
       <div class="compare-col q">
         <span class="tag">SQL → object</span>
         <h3 data-i18n="phil.c1title">Queries → SQL</h3>
-        <p data-i18n="phil.c1body">SELECTs are written in the ANSI SQL engineers already know — subqueries and joins included. The framework only carries each row back into an object. No new query language.</p>
+        <p data-i18n="phil.c1body">SELECTs are written in ANSI SQL — engineers already know it, and it saturates every model's training data. No invented query language: one less DSL for people to learn, one less thing for an AI to burn tokens on or hallucinate.</p>
         <div class="rule"></div>
       </div>
       <div class="compare-col w">
         <span class="tag">object → SQL</span>
         <h3 data-i18n="phil.c2title">Writes → framework</h3>
-        <p data-i18n="phil.c2body">What's mechanical and error-prone is enumerating columns for INSERT / UPDATE / DELETE. Modelet generates them from the entity's TxnMode state, writes the key back, and stamps audit fields.</p>
+        <p data-i18n="phil.c2body">Enumerating columns for INSERT / UPDATE / DELETE is mechanical and error-prone — people slip, models hallucinate fields. The framework generates the statements from the entity's TxnMode, writes the key back and stamps audit fields; that whole class of bugs never happens.</p>
         <div class="rule"></div>
       </div>
     </div>
@@ -529,7 +531,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     <div class="section-head reveal">
       <p class="eyebrow" data-i18n="cmp.eyebrow">Head-to-head</p>
       <h2 data-i18n="cmp.h2">How pymodelet stacks up</h2>
-      <p data-i18n="cmp.lede">An honest, dimension-by-dimension comparison with the SQL-first tools you would otherwise reach for — and a nod to the Java original it was ported from.</p>
+      <p data-i18n="cmp.lede">An honest, dimension-by-dimension comparison with the SQL-first tools you would otherwise reach for — plus its Java original.</p>
     </div>
     <div class="cmp-grid reveal">
       <a class="cmp-card py" href="compare-python.html">
@@ -541,7 +543,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       <a class="cmp-card java" href="https://github.com/MattAtAIEra/modelet">
         <span class="tag">Java · 2006</span>
         <h3 data-i18n="cmp.java.t">The original Modelet</h3>
-        <p data-i18n="cmp.java.d">pymodelet is a faithful port of Modelet, the SQL-first framework Matt created in Java in 2006. Meet the original — and its own comparison with MyBatis and Hibernate.</p>
+        <p data-i18n="cmp.java.d">pymodelet is a faithful port of the Java Modelet — the same SQL-first pattern, proven in production for years. Meet the original and its own comparison with MyBatis and Hibernate.</p>
         <span class="go" data-i18n="cmp.cta">View Modelet on GitHub →</span>
       </a>
     </div>
@@ -552,15 +554,15 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
 <section class="section heritage" id="heritage">
   <div class="wrap">
     <div class="section-head reveal" style="margin-bottom:0;">
-      <p class="eyebrow" data-i18n="heritage.eyebrow">Heritage · 2006</p>
-      <h2 data-i18n="heritage.h2">A precise decision</h2>
+      <p class="eyebrow" data-i18n="heritage.eyebrow">The AI era</p>
+      <h2 data-i18n="heritage.h2">AI deserves clean code too</h2>
     </div>
-    <p class="quote reveal" data-i18n-html="heritage.quote">“The ER model and SQL are the fundamentals — <span class="hl">time does not erase their value.</span>” Two decades on, the Python community is rediscovering “SQL-first” as if it were new. Matt wrote it down in 2006.</p>
-    <p class="attrib reveal" data-i18n-html="heritage.attrib">Modelet was created by <b>Matt</b> in 2006 to flatten the ORM learning curve and speed his team's delivery. The full story is in <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md">TRIBUTE.md</a>.</p>
+    <p class="quote reveal" data-i18n-html="heritage.quote">“The cleaner the framework you feed an AI, the cleaner the code it hands back. <span class="hl">About 600 lines, zero dependencies, no DSL — it fits in a single context read.</span>” The fewer and more classic the rules, the more predictable — and reviewable — every generated line becomes.</p>
+    <p class="attrib reveal" data-i18n-html="heritage.attrib">Queries belong to SQL, writes belong to the framework — that classic division of labor keeps the generate-review-maintain loop between you and your AI fast and stable: <b>what you save is tokens; what you gain is quality and speed of delivery.</b></p>
     <div class="ai-card reveal">
-      <span class="tag" data-i18n="heritage.ai.tag">Ported in the AI era</span>
-      <h3 data-i18n="heritage.ai.h3">The AI wrote the code. The human wisdom made the decisions.</h3>
-      <p data-i18n-html="heritage.ai.body">This Python port was typed by an AI in 2026 — and not one design decision was reinvented. The 2006 pattern decided; the AI obeyed. <b>Even AI must follow the values of human wisdom: a proven design pattern is exactly what deserves to be passed down.</b> The story of that debt is told in the <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md">tribute</a>.</p>
+      <span class="tag" data-i18n="heritage.ai.tag">Lean for AI</span>
+      <h3 data-i18n="heritage.ai.h3">Fewer tokens. Steadier output. A codebase AI can manage.</h3>
+      <p data-i18n-html="heritage.ai.body">The whole framework fits in one read; queries are the standard SQL a model knows best, so first-shot correctness beats any homegrown DSL; the write-side boilerplate is generated — hallucinated columns, missed fields, forgotten key write-backs have nowhere to happen. <b>Smaller context, fewer rules: every token your AI spends goes into your business logic.</b></p>
     </div>
   </div>
 </section>
@@ -580,9 +582,9 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
         <a href="https://mattataiera.github.io/modelet/" data-i18n="footer.java">Modelet (Java)</a>
       </div>
     </div>
-    <div class="foot-horizon" aria-hidden="true">═╪═══╪══ SELECT ══╪═&gt;&gt; ┌─{ Book }─┐ &gt;&gt;═╪══ save() ══╪═&gt;&gt; INSERT · UPDATE · DELETE &gt;&gt;═╪═══╪══ 2006 ⇄ ∞ ══╪═══╪═</div>
+    <div class="foot-horizon" aria-hidden="true">═╪═══╪══ SELECT ══╪═&gt;&gt; ┌─{ Book }─┐ &gt;&gt;═╪══ save() ══╪═&gt;&gt; INSERT · UPDATE · DELETE &gt;&gt;═╪═══╪══ clean ⇄ code ══╪═══╪═</div>
     <div class="foot-bottom">
-      <span>© 2006–2026 Matt · Apache-2.0</span>
+      <span>© 2026 pymodelet · Apache-2.0</span>
       <span>SQL-first micro ORM</span>
     </div>
   </div>
@@ -612,8 +614,9 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
   var curCh=null, curCo=null;
   var artL=0, artR=0, zW=0, artTop=5, tier='full', compact=false;
 
-  var SCENES=3;
-  var LABELS=['model.find() · SQL → objects','model.save() · object → SQL','the pattern · 2006 → AI era'];
+  var SCENES=5;
+  var LABELS=['model.find() · SQL → objects','model.save() · object → SQL','the pattern · clean code for AI',
+              'the payoff · the savanna','the payoff · lapland aurora'];
   var scene=0, next=1, mode='hold', stateT=0;
   var HOLD=8.6, TRANS=1.25;
   var GLITCH='▚▞▓▒░#%*·+=/\\|<>'.split('');
@@ -632,7 +635,10 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
   function shade(cssStr,f){var m=/rgb\((\d+),(\d+),(\d+)\)/.exec(cssStr); if(!m)return cssStr;
     return 'rgb('+Math.min(255,(+m[1])*f|0)+','+Math.min(255,(+m[2])*f|0)+','+Math.min(255,(+m[3])*f|0)+')';}
 
-  function bgOf(s){ return s===0 ? [10,13,20] : s===1 ? [14,11,22] : [8,9,16]; }
+  function bgOf(s){
+    return s===0 ? [10,13,20] : s===1 ? [14,11,22] : s===2 ? [8,9,16] : s===3 ? [24,13,8] : [7,9,22];
+  }
+  function rampAt(ramp,f){ f=clamp(f,0,0.999); var s=f*(ramp.length-1); var i=s|0; return mix(ramp[i],ramp[i+1],s-i); }
 
   function alloc(){
     var n=cols*rows;
@@ -980,15 +986,9 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     }
   }
 
-  /* ---------------- SCENE 2 : the pattern ---------------- */
-  var DIG={'2':['███','  █','███','█  ','███'],'0':['███','█ █','█ █','█ █','███'],'6':['███','█  ','███','█ █','███']};
-  function bigNum(x,y,s,col){
-    x=Math.round(x); y=Math.round(y);
-    for(var i=0;i<s.length;i++){
-      var d=DIG[s.charAt(i)]; if(!d)continue;
-      for(var r=0;r<5;r++)for(var c=0;c<3;c++){ if(d[r].charAt(c)!==' ') put(x+i*4+c,y+r,'█',col); }
-    }
-  }
+  /* ------- SCENE 2 : the pattern — clean code for AI -------
+     Two ways to feed a model: an ad-hoc blob it must churn
+     through forever, or the classic pattern it reads once. */
   function patternScene(t){
     var P2=9.0; t=t%P2;
     stars(t,0.988);
@@ -998,7 +998,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     var tx=cx-((tw/2)|0), ty=compact? Math.floor(rows*0.10) : artTop;
     var pulse=0.8+0.2*Math.sin(t*1.7);
 
-    /* tablet */
+    /* tablet — the pattern itself */
     var bcol=shade(AMBER,0.75*pulse);
     for(var i=1;i<tw-1;i++){ put(tx+i,ty,'═',bcol); put(tx+i,ty+th-1,'═',bcol); }
     for(var j=1;j<th-1;j++){ put(tx,ty+j,'║',bcol); put(tx+tw-1,ty+j,'║',bcol); }
@@ -1006,61 +1006,330 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     txtC(cx,ty,' THE PATTERN ', shade(AMBER,1.15*pulse));
     txtC(cx,ty+2, full?'queries → plain SQL':'queries → SQL', TEAL);
     txtC(cx,ty+3, full?'writes  → the framework':'writes → framework', VIOLET);
-    /* rays */
     var rp=0.5+0.5*Math.sin(t*2.1);
     put(tx-2,ty-1,'╲',shade(AMBER,0.5+rp*0.5)); put(tx+tw+1,ty-1,'╱',shade(AMBER,0.5+rp*0.5));
     put(tx-2,ty+th,'╱',shade(AMBER,0.5+rp*0.5)); put(tx+tw+1,ty+th,'╲',shade(AMBER,0.5+rp*0.5));
     put(cx,ty-2,'│',shade(AMBER,0.4+rp*0.6));
 
-    /* years */
-    var by=compact? Math.floor(rows*0.60) : Math.max(Math.floor(rows*0.40), artTop+9);
-    var lx, rx;
-    if(compact){
-      lx=Math.floor(cols*0.08); rx=cols-lx-6;
-      boxo(lx,by,8,3,shade(AMBER,0.8)); txt(lx+2,by+1,'2006',shade(AMBER,1.2));
-      boxo(rx-2,by,8,3,shade(INDIGO,0.9)); txt(rx,by+1,'2026',shade(INDIGO,1.3));
-      txtC(lx+4,by+4,'HUMAN',shade(AMBER,0.8)); txtC(rx+2,by+4,'AI',shade(INDIGO,0.95));
-    } else {
-      lx=artL+2; rx=artR-16;
-      bigNum(lx,by,'2006',shade(AMBER,0.95));
-      bigNum(rx,by,'2026',shade(INDIGO,1.05));
-      txtC(lx+7,by+6,'HUMAN WISDOM',shade(AMBER,0.85));
-      txtC(rx+7,by+6,'THE AI ERA',shade(INDIGO,0.95));
+    /* two panels the AI could be fed */
+    var pw2 = full?20:(compact?13:16);
+    var ph2 = full?7:6;
+    var by = compact? Math.floor(rows*0.56) : Math.max(Math.floor(rows*0.40), artTop+9);
+    var lxp = compact? Math.floor(cols*0.07) : artL+1;
+    var rxp = compact? cols-pw2-4 : artR-pw2-1;
+
+    /* left: ad-hoc blob — the model churns and rewrites forever */
+    boxo(lxp,by,pw2,ph2,shade(ROSE,0.7));
+    txt(lxp+2,by, compact?' ad-hoc ':' ad-hoc code ',ROSE);
+    for(var yy2=1;yy2<ph2-1;yy2++){
+      for(var xx2=1;xx2<pw2-1;xx2++){
+        var hsh=hash(xx2*7+((t*6)|0)*13, yy2*11+((t*4)|0));
+        if(hsh>0.38){
+          var gch=GLITCH[(xx2*3+yy2*5+((t*8)|0))%GLITCH.length];
+          put(lxp+xx2,by+yy2,gch, shade(ROSE,0.35+0.5*hash(xx2+((t*5)|0),yy2)));
+        }
+      }
+    }
+    put(lxp+1+Math.floor((t*13)%(pw2-2)), by+1+Math.floor((t*1.7)%(ph2-2)), '▌', shade(ROSE,1.5));
+    txtC(lxp+pw2/2, by+ph2, compact?'burns tokens':'tokens: burning', shade(ROSE,0.85));
+    /* waste sparks drifting off the blob */
+    for(var s2=0;s2<6;s2++){
+      var st=(t*0.5+s2/6)%1;
+      var sx2=lxp+2+Math.floor(hash(s2,17)*(pw2-4));
+      var sy2=by-1-Math.floor(st*4);
+      if(sy2>ty+th+1) put(sx2,sy2, st<0.45?'✕':'·', shade(ROSE,0.9*(1-st)));
     }
 
-    /* river of inheritance: 2006 → pattern → 2026 */
-    var ax=compact?lx+9:lx+8, ay=compact?by+1:by-1;
-    var bx2=compact?rx-3:rx+7, by2=compact?by+1:by-1;
-    var mx=cx, my=ty+th+1;
-    var NP=16;
+    /* right: the pattern applied — typed once, then it just runs */
+    boxo(rxp,by,pw2,ph2,shade(TEAL,0.8));
+    txt(rxp+2,by,' clean code ',TEAL);
+    var lines2 = full
+      ? ['find(sql, Book)','save(book)','600 lines, 0 deps','tiny context']
+      : ['find(sql)','save(book)','tiny context'];
+    var lcol2 = [CYAN, VIOLET, MUT, MUT];
+    var totalc=0; for(var i3=0;i3<lines2.length;i3++) totalc+=lines2[i3].length;
+    var progc=Math.floor(clamp((t-0.5)/2.0,0,1)*totalc);
+    var remc=progc;
+    for(i3=0;i3<lines2.length && i3<ph2-2;i3++){
+      var takec=clamp(remc,0,lines2[i3].length);
+      typed(rxp+2,by+1+i3,lines2[i3],lcol2[i3],takec, remc>=0&&remc<=lines2[i3].length&&t<2.6);
+      remc-=lines2[i3].length;
+    }
+    var settled=progc>=totalc;
+    txtC(rxp+pw2/2, by+ph2, compact?'saves tokens':'tokens: saved',
+      shade(TEAL,0.85+(settled?0.2*(0.5+0.5*Math.sin(t*2.4)):0)));
+
+    /* the pattern feeds the clean side */
+    var mxr=cx, myr=ty+th+1;
+    var bx3=rxp+((pw2/2)|0), by3=by-1;
+    var NP=10;
     for(var p2=0;p2<NP;p2++){
-      var uu=(t*0.115 + p2/NP)%1;
-      var xx,yy;
-      if(uu<0.5){ var w1=uu*2; xx=ax+(mx-ax)*w1; yy=ay+(my-ay)*(w1*w1*(3-2*w1)); }
-      else { var w2=(uu-0.5)*2; xx=mx+(bx2-mx)*w2; yy=my+(by2-my)*(w2*w2*(3-2*w2)); }
-      var glyphs=['·','∙','•','⇄','·','∙'];
-      var col=css(mix([251,191,36],[129,140,248],uu));
-      var br=0.6+0.7*Math.exp(-Math.pow((uu-0.5)*4,2));
-      put(Math.round(xx),Math.round(yy),glyphs[p2%glyphs.length],shade(col,br));
+      var uu=(t*0.13 + p2/NP)%1;
+      var xx=mxr+(bx3-mxr)*uu;
+      var yy=myr+(by3-myr)*(uu*uu*(3-2*uu)) - Math.sin(uu*3.14159)*1.5;
+      var col=css(mix([251,191,36],[45,212,191],uu));
+      put(Math.round(xx),Math.round(yy),['·','∙','•'][p2%3],shade(col,0.6+0.5*uu));
     }
 
     /* caption — typed */
     var cy2=Math.floor(rows*(full?0.66:0.78));
-    var msg='even AI must follow human wisdom';
+    var msg='clean code is cheaper for AI';
     var n1=Math.floor(clamp((t-0.9)/1.9,0,1)*msg.length);
     if(n1>0){
       var sx=cx-((msg.length/2)|0);
       typed(sx,cy2,msg,TXT,n1, t<3.0);
     }
     if(t>3.4){
-      var msg2='— the pattern endures —';
+      var msg2='— fewer tokens · better output —';
       var n2=Math.floor(clamp((t-3.4)/1.4,0,1)*msg2.length);
       if(n2>0) typed(cx-((msg2.length/2)|0),cy2+2,msg2,DIMC,n2,false);
     }
   }
 
+  /* ---------------- SCENE 3 : the savanna, full canvas ----------------
+     The payoff, painted edge to edge: silhouettes on a molten
+     horizon. The focal animals keep to the art zone, clear of
+     the hero text; the sky and land run under everything. */
+  function savannaScene(t){
+    var ts=t, P3=9.0; t=t%P3;
+    var setP=clamp(ts/16,0,1);            /* the sun eases down while you watch */
+    var x,y;
+    var hy=Math.floor(rows*0.66);
+    /* layout — herd never blocks the sun, at any viewport width:
+       [acacia + giraffes] · sun · [elephants, ambling toward them].
+       On narrow zones the sun shrinks until everything fits. */
+    var sr0=Math.max(5,rows*0.095);
+    var sunW=Math.round(clamp(zW-49,12,2*sr0/0.55));
+    var sr=sunW*0.275;
+    var sx=artL+Math.round(zW*0.55);
+    var sunL=sx-Math.ceil(sunW/2), sunR=sx+Math.ceil(sunW/2);
+    var sy=hy-Math.floor(rows*0.13)+Math.round(setP*rows*0.115);
+    var dusk=1-0.16*setP;
+    /* sky — molten dusk, full width */
+    for(y=0;y<hy;y++){
+      var v=y/hy; var base=mix([214,88,46],[255,212,110],v);
+      for(x=0;x<cols;x++){
+        var dx=(x-sx)*0.55, dy=y-sy, dd=Math.sqrt(dx*dx+dy*dy);
+        if(dd<sr){ var inr=1-dd/sr; var pulse=0.94+0.06*Math.sin(t*1.2);
+          put(x,y, inr>0.5?'█':inr>0.22?'▓':'▒', css(mix(mix([255,176,80],[255,248,204],inr*pulse),[255,142,58],setP*0.35))); continue; }
+        var glow=clamp(1-(dd-sr)/(sr*2.8),0,1);
+        var c=mix(base,[255,230,152],glow*0.6);
+        var band=clamp(1-(hy-y)/3,0,1);
+        if(band>0) c=mix(c,[255,238,168],band*0.35);
+        var h2=hash(x*3,y*7);
+        var sh=(0.97+0.03*h2)*(compact?0.72:1)*dusk;
+        if(h2>0.972&&v>0.2&&v<0.6) put(x,y,'─',css([c[0]*0.88*sh,c[1]*0.68*sh,c[2]*0.55*sh]));
+        else put(x,y, v>0.78?'▓':'▒', css([c[0]*sh,c[1]*sh,c[2]*sh]));
+      }
+    }
+    var g1=((t*2.0)%(cols+30))-15;
+    put(Math.round(g1),Math.floor(rows*0.10),'⌄',css([74,36,26]));
+    put(Math.round(g1)-7,Math.floor(rows*0.13),'⌄',css([74,36,26]));
+    put(Math.round(g1)-13,Math.floor(rows*0.115),'⌄',css([74,36,26]));
+    /* land — near-black, warm; the sun spills onto it */
+    for(y=hy;y<rows;y++)for(x=0;x<cols;x++){
+      var h3=hash(x*5,y*3);
+      var gl2=clamp(1-Math.abs(x-sx)/(cols*0.2),0,1)*clamp(1-(y-hy)/6,0,1)*(1-0.3*setP);
+      var c2=22+6*h3+gl2*26;
+      put(x,y, h3>0.94?',':'▓', css([c2,c2*0.58+gl2*8,c2*0.38]));
+    }
+    for(x=0;x<cols;x++) if(hash(x,77)>0.8) put(x,hy-1,',',css([32,19,11]));
+    var SIL=css([13,8,6]);
+    /* acacia — only when the zone is wide enough that it will not
+       melt into the giraffes */
+    if(zW>=72){
+      var ax=artL+11, ag=hy, crH=10;
+      for(y=0;y<8;y++) put(ax,ag-y,'█',SIL);
+      put(ax-1,ag-7,'▟',SIL); put(ax+1,ag-7,'▙',SIL);
+      put(ax-2,ag-8,'▗',SIL); put(ax+2,ag-8,'▖',SIL);
+      put(ax-3,ag-8,'▗',SIL); put(ax+3,ag-8,'▖',SIL);
+      for(var cw=-4;cw<=4;cw++) put(ax+cw,ag-11,'▄',SIL);
+      for(cw=-crH+2;cw<=crH-2;cw++) if(hash(cw+9,3)>0.06) put(ax+cw,ag-10,'█',SIL);
+      for(cw=-crH;cw<=crH;cw++) if(hash(cw+9,2)>0.04) put(ax+cw,ag-9,'█',SIL);
+      for(cw=-crH+1;cw<=crH-1;cw++) if(hash(cw+3,7)>0.3) put(ax+cw,ag-8,'▀',SIL);
+    }
+    /* giraffe cow + calf — held clear of the sun's left edge */
+    var gx=Math.max(artL+2, sunL-18);
+    var gb=hy;
+    var bob=Math.round(Math.sin(t*1.1));
+    put(gx,gb,'█',SIL); put(gx,gb-1,'█',SIL); put(gx,gb-2,'█',SIL);
+    put(gx+6,gb,'█',SIL); put(gx+6,gb-1,'█',SIL); put(gx+6,gb-2,'█',SIL);
+    put(gx+2,gb,'▌',SIL); put(gx+2,gb-1,'▌',SIL);
+    put(gx+4,gb,'▐',SIL); put(gx+4,gb-1,'▐',SIL);
+    for(x=0;x<8;x++){ put(gx+x,gb-3,'█',SIL); put(gx+x,gb-4,'█',SIL); }
+    put(gx-1,gb-4,'▙',SIL);
+    put(gx-2,gb-3,'╲',SIL);
+    for(y=1;y<=8;y++){
+      put(gx+7+Math.floor(y*0.6),gb-4-y,'█',SIL);
+      if(y<7) put(gx+8+Math.floor(y*0.6),gb-4-y,'▌',SIL);
+    }
+    var hx=gx+12, hyh=gb-13+bob;
+    put(hx,hyh,'█',SIL); put(hx+1,hyh,'█',SIL); put(hx+2,hyh,'▘',SIL);
+    put(hx,hyh-1,"'",SIL); put(hx+1,hyh-1,"'",SIL);
+    /* the calf, tucked under her neck */
+    var bob2=Math.round(Math.sin(t*1.4+1));
+    var cgx=gx+9;
+    put(cgx,gb,'█',SIL); put(cgx,gb-1,'█',SIL);
+    put(cgx+4,gb,'█',SIL); put(cgx+4,gb-1,'█',SIL);
+    for(x=0;x<5;x++) put(cgx+x,gb-2,'█',SIL);
+    for(y=1;y<=3;y++) put(cgx+4+Math.floor(y*0.4),gb-2-y,'█',SIL);
+    put(cgx+6,gb-6+bob2,'▄',SIL); put(cgx+7,gb-6+bob2,'▖',SIL);
+    /* elephant cow + calf — start clear of the sun, then amble
+       toward the giraffes; the trunk may only graze the disc's edge */
+    var exStart=Math.min(cols-28, sunR+8);
+    if(exStart<sunR+8) exStart=sunR+8;                 /* never start on the sun */
+    var walkMax=Math.max(3,(sunR+2)-(sx+Math.round(sunW*0.38)));
+    var walk=Math.min(walkMax, ts*0.45);
+    var ex=Math.round(exStart-walk);
+    var eb=hy;
+    var gait=((t*2.0)|0)%2;
+    for(y=-6;y<=-2;y++)for(x=0;x<12;x++) put(ex+x,eb+y,'█',SIL);
+    for(y=-7;y<=-3;y++)for(x=-4;x<0;x++) put(ex+x,eb+y,'█',SIL);
+    put(ex-2,eb-8,'▄',SIL); put(ex-1,eb-8,'▄',SIL);
+    var tr=Math.round(Math.sin(t*1.6));
+    put(ex-5,eb-4,'▐',SIL); put(ex-5,eb-3,'▐',SIL);
+    put(ex-5+tr,eb-2,'▌',SIL); put(ex-5+tr,eb-1,'╷',SIL);
+    put(ex-4,eb-3,'▔',css([240,232,216]));
+    put(ex+1,eb-1,'█',SIL); put(ex+1,eb,gait?'▌':'█',SIL);
+    put(ex+4,eb-1,'█',SIL); put(ex+4,eb,gait?'█':'▐',SIL);
+    put(ex+7,eb-1,'█',SIL); put(ex+7,eb,gait?'▐':'█',SIL);
+    put(ex+10,eb-1,'█',SIL); put(ex+10,eb,'▌',SIL);
+    put(ex+12,eb-5,'╲',SIL);
+    /* the calf, trailing close behind */
+    if(exStart+26<=cols-2){
+      var cex=ex+17;
+      var gait2=((t*2.0+0.6)|0)%2;
+      var tr2=Math.round(Math.sin(t*1.9+1));
+      for(y=-4;y<=-2;y++)for(x=0;x<7;x++) put(cex+x,eb+y,'█',SIL);
+      for(y=-4;y<=-2;y++)for(x=-2;x<0;x++) put(cex+x,eb+y,'█',SIL);
+      put(cex-1,eb-5,'▄',SIL);
+      put(cex-3,eb-3,'▌',SIL); put(cex-3+tr2,eb-2,'╷',SIL);
+      put(cex+1,eb-1,'█',SIL); put(cex+1,eb,gait2?'▌':'█',SIL);
+      put(cex+5,eb-1,'█',SIL); put(cex+5,eb,gait2?'█':'▐',SIL);
+      put(cex+7,eb-4,'╲',SIL);
+    }
+    /* caption on the darkened land */
+    if(!compact){
+      var cy=Math.floor(rows*0.86);
+      var msg='the pager stays quiet on safari';
+      var n1=Math.floor(clamp((t-0.8)/1.8,0,1)*msg.length);
+      if(n1>0) typed(zx(0.5)-((msg.length/2)|0), cy, msg, css([206,158,116]), n1, t<2.8);
+    }
+  }
+
+  /* ---------------- SCENE 4 : aurora over Lapland ----------------
+     Finland pays off in green: curtains breathing over a spruce
+     stand, snow, and a mökki with the fire lit. */
+  var CURT=[
+    {b:0.62,a:0.15,f:0.05,p:0,s:0.5},
+    {b:0.50,a:0.19,f:0.036,p:2.2,s:-0.38},
+    {b:0.74,a:0.11,f:0.068,p:4.1,s:0.85}
+  ];
+  var RAMP=[[70,240,150],[38,212,202],[122,132,255],[236,120,214]];
+  function auroraScene(t){
+    var x,y;
+    var hy2=Math.floor(rows*0.80);
+    /* deep night + stars */
+    for(y=0;y<hy2;y++){
+      var v=y/hy2; var base=mix([7,8,24],[14,14,36],v);
+      for(x=0;x<cols;x++){
+        var h=hash(x*3+11,y*5+7);
+        if(h>0.986){ var tw=0.45+0.55*Math.sin(t*2.4+h*40); put(x,y, h>0.997?'✦':'·', css([170*tw+50,175*tw+50,210*tw+45])); }
+        else if(h>0.5) put(x,y,'░',css(base));
+      }
+    }
+    /* the aurora — three breathing curtains */
+    for(var c4=0;c4<3;c4++){
+      var cu=CURT[c4];
+      var baseY=cu.b*hy2, amp=cu.a*hy2;
+      for(x=0;x<cols;x++){
+        var yc=baseY + Math.sin(x*cu.f + t*cu.s + cu.p)*amp;
+        var hgt=Math.floor(hy2*0.46*(0.6+0.4*Math.sin(x*0.045+t*0.6+cu.p)));
+        for(var dyy=0;dyy<hgt;dyy++){
+          var yy=Math.round(yc)-dyy; if(yy<0||yy>=hy2)continue;
+          var inten=1-dyy/hgt;
+          var flick=0.72+0.28*Math.sin(t*3.5 + x*0.25 + c4);
+          var col=rampAt(RAMP, clamp(dyy/hgt + 0.08*Math.sin(x*0.04+t),0,1));
+          var bright=(0.42+0.58*inten)*flick;
+          var ch = inten>0.7?'║': inten>0.45?'│': inten>0.22?'▒':'░';
+          put(x,yy, ch, css([col[0]*bright,col[1]*bright,col[2]*bright]));
+        }
+      }
+    }
+    /* a slow shooting star */
+    var sp=(t%9);
+    if(sp<0.7){
+      var pp=sp/0.7;
+      var sx4=Math.floor((compact?cols*0.4:zx(0.12))+pp*cols*0.22), sy4=Math.floor(rows*0.09+pp*rows*0.06);
+      put(sx4,sy4,'✦',css([230,235,255]));
+      put(sx4-1,sy4,'─',css([150,160,200])); put(sx4-2,sy4,'─',css([90,100,140]));
+    }
+    /* snow, lit softly by the sky */
+    for(x=0;x<cols;x++){
+      var edge=hy2+Math.round(Math.sin(x*0.13+1)*1.4);
+      for(y=edge;y<rows;y++){
+        var v2=(y-edge)/Math.max(1,rows-edge);
+        var c5=mix([206,220,248],[124,140,180],v2);
+        var h5=hash(x*5,y*3);
+        var glint=h5>0.99;
+        var sp2=glint? (0.9+0.3*Math.sin(t*3+x)) : (0.95+0.05*h5);
+        put(x,y, glint?'✦': h5>0.4?'▓':'▒', css([c5[0]*sp2,c5[1]*sp2,c5[2]*sp2]));
+      }
+      if(hash(x,41)>0.985) put(x,edge-1,'▲',css([16,26,24]));
+    }
+    var DARKI=css([20,36,28]), DARKE=css([40,66,50]);
+    var SNOWC=css([214,226,244]);
+    /* spruce stand — moonlit green, snow on the boughs */
+    var TS=[[0.05,11],[0.12,8],[0.19,12],[0.29,7],[0.76,6],[0.86,10],[0.94,7]];
+    for(var t5=0;t5<TS.length;t5++){
+      var cx5=compact? Math.floor(cols*TS[t5][0]) : zx(TS[t5][0]);
+      var th5=TS[t5][1];
+      var gbase=hy2+Math.round(Math.sin(cx5*0.13+1)*1.4);
+      for(var i5=0;i5<th5;i5++){
+        var w5=Math.floor(i5*0.42);
+        var yy5=gbase-th5+i5;
+        for(var d5=-w5;d5<=w5;d5++)
+          put(cx5+d5,yy5,'█', (d5===-w5||d5===w5)?DARKE:DARKI);
+        if(w5>0&&hash(i5,t5)>0.55) put(cx5+(hash(i5*3,t5)>0.5?w5:-w5),yy5,'▄',SNOWC);
+      }
+      put(cx5,gbase-th5,'▲',DARKE);
+      put(cx5,gbase-th5+1,'▄',SNOWC);
+      put(cx5,gbase,'█',DARKI);
+    }
+    /* the mökki — snow on the roof, fire in the window */
+    var mx=compact? Math.floor(cols*0.55) : zx(0.55);
+    var mb=hy2+1;
+    for(y=0;y<4;y++)for(x=-5;x<=5;x++) put(mx+x,mb-y,'█',css([34,25,19]));
+    for(x=-6;x<=6;x++) put(mx+x,mb-4,'▄',css([54,41,31]));
+    for(x=-6;x<=6;x++) put(mx+x,mb-5,'▄',SNOWC);
+    var wp=0.75+0.25*Math.sin(t*2.2);
+    put(mx-3,mb-2,'█',css([255*wp,196*wp,96*wp])); put(mx-2,mb-2,'█',css([255*wp,196*wp,96*wp]));
+    put(mx+2,mb-2,'█',css([255*wp,196*wp,96*wp])); put(mx+3,mb-2,'█',css([255*wp,196*wp,96*wp]));
+    put(mx+4,mb-6,'█',css([48,36,28]));
+    /* smoke — warm grey puffs, swelling as they rise */
+    for(var k5=0;k5<5;k5++){
+      var age=((t*0.35)+k5*0.2)%1;
+      var smy=mb-7-age*8;
+      var smx=mx+4+Math.round(age*2.4+Math.sin(t*0.8+k5*2.1)*1.3);
+      var br=1-age*0.72;
+      var ch5s = age<0.25?'∙': age<0.6?'○':'∘';
+      put(Math.round(smx),Math.round(smy),ch5s,css([150*br+40,138*br+38,124*br+36]));
+    }
+    /* caption */
+    if(!compact){
+      var cy=Math.floor(rows*0.90);
+      var msg='off-call under the northern lights';
+      var n1=Math.floor(clamp((t-0.8)/1.8,0,1)*msg.length);
+      if(n1>0) typed(zx(0.5)-((msg.length/2)|0), cy, msg, css([190,240,220]), n1, t<2.8);
+    }
+  }
+
   function renderScene(s,t){
-    if(s===0) findScene(t); else if(s===1) saveScene(t); else patternScene(t);
+    if(s===0) findScene(t);
+    else if(s===1) saveScene(t);
+    else if(s===2) patternScene(t);
+    else if(s===3) savannaScene(t);
+    else auroraScene(t);
   }
 
   /* ---------------- paint ---------------- */
@@ -1177,18 +1446,18 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
 <script>
   var I18N = {
     en:{
-      "meta.title":"pymodelet — SQL-first micro ORM for Python","meta.desc":"Write queries in plain SQL, get typed entities; save them right back and insert/update/delete is automatic. A SQL-first micro ORM for Python on any DB-API 2.0 driver, zero dependencies. Ported from Modelet (Java, 2006).",
+      "meta.title":"pymodelet — SQL-first micro ORM for the AI era","meta.desc":"Query in plain SQL, get typed entities; save them back and INSERT/UPDATE/DELETE writes itself. A zero-dependency, ~600-line Python micro ORM — a tiny context that saves tokens and keeps AI-written code clean and manageable.",
       "nav.philosophy":"Philosophy","nav.scale":"Scale","nav.flow":"Flow","nav.quickstart":"Quick Start","nav.compare":"Compare",
-      "hero.eyebrow":"SQL-first micro ORM · Python · since 2006",
+      "hero.eyebrow":"SQL-first micro ORM · Python · built for the AI era",
       "hero.title":"If you know SQL,<br>you already know <span class=\"grad\">pymodelet</span>.",
       "hero.tagline":"<span class=\"g-q\">Queries</span> belong to SQL. <span class=\"g-w\">Writes</span> belong to the framework.",
-      "hero.lede":"Write queries in the ANSI SQL you already know. Hand the tedious INSERT / UPDATE / DELETE to the framework. A learning curve that barely exists — unchanged for two decades.",
-      "hero.cta1":"View on GitHub","hero.cta2":"Read the story",
-      "manifesto.text":"Even AI must follow the values of human wisdom. <span>A design pattern that has earned twenty years is what deserves to be passed down.</span>",
-      "phil.eyebrow":"The Philosophy","phil.h2":"The opposite trade-off to the ORM wave",
-      "phil.lede":"In 2006, Hibernate asked engineers to learn HQL, session lifecycles and mapping rituals before writing a single productive line. Modelet does the reverse: respect SQL, and only take over the tedious part.",
-      "phil.c1title":"Queries → SQL","phil.c1body":"SELECTs are written in the ANSI SQL engineers already know — subqueries and joins included. The framework only carries each row back into an object. No new query language.",
-      "phil.c2title":"Writes → framework","phil.c2body":"What's mechanical and error-prone is enumerating columns for INSERT / UPDATE / DELETE. Modelet generates them from the entity's TxnMode state, writes the key back, and stamps audit fields.",
+      "hero.lede":"Write queries in the ANSI SQL you — and your AI — already know, and hand the tedious INSERT / UPDATE / DELETE to the framework. About 600 lines, zero dependencies: barely a learning curve for a human, a single context read for a model.",
+      "hero.cta1":"View on GitHub","hero.cta2":"Why AI loves it",
+      "manifesto.text":"The era of AI-written code deserves clean code more, not less. <span>Classic design patterns save tokens, steady the output, keep the codebase manageable — and give the hours back to life.</span>",
+      "phil.eyebrow":"The Philosophy","phil.h2":"The opposite trade-off to heavyweight ORMs",
+      "phil.lede":"Heavyweight ORMs ask you to learn a query DSL, session lifecycles and mapping rituals first — a barrier for people, and for models a context sink and a hallucination hazard. pymodelet flips it: respect SQL, take over only the tedious part.",
+      "phil.c1title":"Queries → SQL","phil.c1body":"SELECTs are written in ANSI SQL — engineers already know it, and it saturates every model's training data. No invented query language: one less DSL for people to learn, one less thing for an AI to burn tokens on or hallucinate.",
+      "phil.c2title":"Writes → framework","phil.c2body":"Enumerating columns for INSERT / UPDATE / DELETE is mechanical and error-prone — people slip, models hallucinate fields. The framework generates the statements from the entity's TxnMode, writes the key back and stamps audit fields; that whole class of bugs never happens.",
       "scale.eyebrow":"Built for scale","scale.h2":"Deep pagination without the memory bill",
       "scale.lede":"Whether the resultset is 100 rows or 500,000, only the rows of the page you asked for become entities. Reaching the very last page never loads the whole set into your application.",
       "scale.stat1":"rows in the resultset","scale.stat2":"rows per page","scale.stat3":"entities ever materialized",
@@ -1204,30 +1473,30 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       "qs.lede":"A classic one-to-many: an Author has many Books. The foreign key is the relationship — no @OneToMany, no lazy loading.",
       "qs.entitiesTitle":"Define entities with JPA-compatible annotations","qs.queryTitle":"Query with the SQL you know","qs.saveTitle":"saveOrUpdate — the framework writes the SQL",
       "cmp.eyebrow":"Head-to-head","cmp.h2":"How pymodelet stacks up",
-      "cmp.lede":"An honest, dimension-by-dimension comparison with the SQL-first tools you would otherwise reach for — and a nod to the Java original it was ported from.",
+      "cmp.lede":"An honest, dimension-by-dimension comparison with the SQL-first tools you would otherwise reach for — plus its Java original.",
       "cmp.py.t":"vs the SQL-first field","cmp.py.d":"psycopg row factories, aiosql, SQLAlchemy Core + Pydantic — they all take care of the read side. pymodelet makes even the writes effortless.","cmp.cta2":"Read the comparison →",
-      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet is a faithful port of Modelet, the SQL-first framework Matt created in Java in 2006. Meet the original — and its own comparison with MyBatis and Hibernate.","cmp.cta":"View Modelet on GitHub →",
-      "heritage.eyebrow":"Heritage · 2006","heritage.h2":"A precise decision",
-      "heritage.quote":"“The ER model and SQL are the fundamentals — <span class=\"hl\">time does not erase their value.</span>” Two decades on, the Python community is rediscovering “SQL-first” as if it were new. Matt wrote it down in 2006.",
-      "heritage.attrib":"Modelet was created by <b>Matt</b> in 2006 to flatten the ORM learning curve and speed his team's delivery. The full story is in <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">TRIBUTE.md</a>.",
-      "heritage.ai.tag":"Ported in the AI era","heritage.ai.h3":"The AI wrote the code. The human wisdom made the decisions.",
-      "heritage.ai.body":"This Python port was typed by an AI in 2026 — and not one design decision was reinvented. The 2006 pattern decided; the AI obeyed. <b>Even AI must follow the values of human wisdom: a proven design pattern is exactly what deserves to be passed down.</b> The story of that debt is told in the <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">tribute</a>.",
+      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet is a faithful port of the Java Modelet — the same SQL-first pattern, proven in production for years. Meet the original and its own comparison with MyBatis and Hibernate.","cmp.cta":"View Modelet on GitHub →",
+      "heritage.eyebrow":"The AI era","heritage.h2":"AI deserves clean code too",
+      "heritage.quote":"“The cleaner the framework you feed an AI, the cleaner the code it hands back. <span class=\"hl\">About 600 lines, zero dependencies, no DSL — it fits in a single context read.</span>” The fewer and more classic the rules, the more predictable — and reviewable — every generated line becomes.",
+      "heritage.attrib":"Queries belong to SQL, writes belong to the framework — that classic division of labor keeps the generate-review-maintain loop between you and your AI fast and stable: <b>what you save is tokens; what you gain is quality and speed of delivery.</b>",
+      "heritage.ai.tag":"Lean for AI","heritage.ai.h3":"Fewer tokens. Steadier output. A codebase AI can manage.",
+      "heritage.ai.body":"The whole framework fits in one read; queries are the standard SQL a model knows best, so first-shot correctness beats any homegrown DSL; the write-side boilerplate is generated — hallucinated columns, missed fields, forgotten key write-backs have nowhere to happen. <b>Smaller context, fewer rules: every token your AI spends goes into your business logic.</b>",
       "footer.tagline":"pymodelet · Queries belong to SQL, writes belong to the framework",
       "footer.cmppy":"Comparison","footer.tribute":"Tribute","footer.java":"Modelet (Java)"
     },
     zh:{
-      "meta.title":"pymodelet — Python 的 SQL-first 微型 ORM","meta.desc":"用純 SQL 查詢、取得型別化 entity;直接存回,新增/修改/刪除自動判斷。站在任何 DB-API 2.0 驅動上的 Python SQL-first 微型 ORM,零依賴。移植自 Modelet(Java,2006)。",
+      "meta.title":"pymodelet — AI 時代的 SQL-first 微型 ORM","meta.desc":"用純 SQL 查詢、取得型別化 entity;直接存回,INSERT/UPDATE/DELETE 自動生成。零依賴、約 600 行的 Python 微型 ORM —— context 極小、省 token,AI 產出的程式碼更乾淨、更好管理。",
       "nav.philosophy":"哲學","nav.scale":"規模","nav.flow":"流程","nav.quickstart":"快速開始","nav.compare":"比較",
-      "hero.eyebrow":"SQL-first 微型 ORM · Python · 始於 2006",
+      "hero.eyebrow":"SQL-first 微型 ORM · Python · 為 AI 時代而生",
       "hero.title":"會 SQL,<br>就會用 <span class=\"grad\">pymodelet</span>。",
       "hero.tagline":"<span class=\"g-q\">查詢</span>交給 SQL,<span class=\"g-w\">寫入</span>交給框架。",
-      "hero.lede":"用你已經會的 ANSI SQL 寫查詢,把繁瑣的 INSERT / UPDATE / DELETE 交給框架。幾乎不存在的學習曲線 —— 二十年來如一日。",
-      "hero.cta1":"在 GitHub 上查看","hero.cta2":"讀這個故事",
-      "manifesto.text":"即使是 AI,也必須遵循人類智慧的價值。<span>經得起二十年考驗的 design pattern,才值得被傳承。</span>",
-      "phil.eyebrow":"設計哲學","phil.h2":"和 ORM 浪潮相反的取捨",
-      "phil.lede":"2006 年,Hibernate 要求工程師先學會 HQL、Session 生命週期、mapping 儀式,才能寫出第一行有生產力的程式。Modelet 反過來:尊重 SQL,只代勞真正繁瑣的部分。",
-      "phil.c1title":"查詢 → SQL","phil.c1body":"SELECT 用工程師已經會的 ANSI SQL 直接寫 —— 含 subquery 與 join。框架只把每一行資料搬回一個物件,不發明新的查詢語言。",
-      "phil.c2title":"寫入 → 框架","phil.c2body":"真正機械、容易出錯的是 INSERT / UPDATE / DELETE 的欄位羅列。Modelet 靠 entity 的 TxnMode 狀態自動產生語句、回填主鍵、蓋上稽核欄位。",
+      "hero.lede":"用你和你的 AI 都已經會的 ANSI SQL 寫查詢,把繁瑣的 INSERT / UPDATE / DELETE 交給框架。約 600 行、零依賴 —— 對人是幾乎不存在的學習曲線,對 AI 是一次讀得完的 context。",
+      "hero.cta1":"在 GitHub 上查看","hero.cta2":"AI 時代的理由",
+      "manifesto.text":"AI 寫程式的時代,更值得 clean code。<span>套用經典 design pattern —— 省 token、穩品質、易管理,產出更快;省下來的時間,還給生活。</span>",
+      "phil.eyebrow":"設計哲學","phil.h2":"和重量級 ORM 相反的取捨",
+      "phil.lede":"重量級 ORM 要求先學會查詢 DSL、session 生命週期與 mapping 儀式 —— 對人是門檻,對 AI 是燒不完的 context 與幻覺的溫床。pymodelet 反過來:尊重 SQL,只接手真正繁瑣的部分。",
+      "phil.c1title":"查詢 → SQL","phil.c1body":"SELECT 用 ANSI SQL 直接寫 —— 工程師本來就會,模型的訓練語料更是滾瓜爛熟。不發明新的查詢語言:人少學一套 DSL,AI 少燒一份 token、少一個幻覺來源。",
+      "phil.c2title":"寫入 → 框架","phil.c2body":"INSERT / UPDATE / DELETE 的欄位羅列機械又易錯 —— 人會手滑,AI 會幻覺出不存在的欄位。框架靠 entity 的 TxnMode 自動產生語句、回填主鍵、蓋上稽核欄位,這一整類錯誤直接歸零。",
       "scale.eyebrow":"為規模而生","scale.h2":"深頁分頁,不付記憶體代價",
       "scale.lede":"不論 resultset 是 100 筆還是 50 萬筆,只有你要的那一頁的資料會變成 entity。翻到最後一頁,也絕不把整個 resultset 載進你的應用程式。",
       "scale.stat1":"resultset 的筆數","scale.stat2":"每頁筆數","scale.stat3":"實際實體化的 entity 數",
@@ -1243,30 +1512,30 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       "qs.lede":"經典的一對多:一位 Author 有多本 Book。外鍵就是關聯 —— 沒有 @OneToMany,沒有 lazy loading。",
       "qs.entitiesTitle":"用相容 JPA 的註解定義 entity","qs.queryTitle":"用你會的 SQL 查詢","qs.saveTitle":"saveOrUpdate —— 框架幫你寫 SQL",
       "cmp.eyebrow":"正面對決","cmp.h2":"pymodelet 和誰比、比什麼",
-      "cmp.lede":"和你原本會選的 SQL-first 工具,一個維度一個維度誠實地比 —— 並向它移植自的 Java 原版致意。",
+      "cmp.lede":"和你原本會選的 SQL-first 工具,一個維度一個維度誠實地比 —— 也附上它的 Java 原版。",
       "cmp.py.t":"vs SQL-first 陣營","cmp.py.d":"psycopg row factory、aiosql、SQLAlchemy Core + Pydantic —— 它們都照顧到了讀取面。pymodelet 連寫入都讓你輕鬆自在。","cmp.cta2":"閱讀完整比較 →",
-      "cmp.java.t":"Modelet 原版(Java)","cmp.java.d":"pymodelet 是 Modelet 的忠實移植 —— Matt 於 2006 年用 Java 打造的 SQL-first 框架。認識原版,以及它與 MyBatis、Hibernate 的比較。","cmp.cta":"在 GitHub 看 Modelet →",
-      "heritage.eyebrow":"傳承 · 2006","heritage.h2":"一個精準的決定",
-      "heritage.quote":"「ER model + SQL 是基本功,<span class=\"hl\">技術迭代不會消滅它的價值。</span>」二十年過去,Python 社群重新發現了「SQL-first」,彷彿它是新的 —— 而 Matt 在 2006 年就已經寫下了它。",
-      "heritage.attrib":"Modelet 由 <b>Matt</b> 在 2006 年開創,只為了替團隊踏平 ORM 的學習曲線、加速交付。完整故事見 <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">TRIBUTE.md</a>。",
-      "heritage.ai.tag":"在 AI 時代移植","heritage.ai.h3":"程式碼由 AI 敲下,決策仍出自人類智慧。",
-      "heritage.ai.body":"這份 Python 移植在 2026 年由 AI 敲下 —— 但沒有重新發明任何一個設計決策:2006 年的 pattern 做決定,AI 只是遵循。<b>即使是 AI,也必須遵循人類智慧的價值:被驗證過的 design pattern,正是值得傳承的東西。</b>這份恩義,寫在<a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">致敬文</a>裡。",
+      "cmp.java.t":"Modelet 原版(Java)","cmp.java.d":"pymodelet 忠實移植自 Java 版 Modelet —— 同一套 SQL-first pattern 的原型,久經正式環境考驗。認識原版,以及它與 MyBatis、Hibernate 的比較。","cmp.cta":"在 GitHub 看 Modelet →",
+      "heritage.eyebrow":"AI 時代","heritage.h2":"AI 也值得 clean code",
+      "heritage.quote":"「餵給 AI 的框架越乾淨,AI 吐回來的程式就越乾淨。<span class=\"hl\">約 600 行、零依賴、沒有 DSL —— 一次就能讀進 context。</span>」規則越少越經典,生成的每一行就越可預測、越好審查。",
+      "heritage.attrib":"查詢歸 SQL、寫入歸框架 —— 這條經典的分工,讓「AI 生成、人審查、AI 維護」的循環跑得又快又穩:<b>省下的是 token,換來的是品質與交付速度。</b>",
+      "heritage.ai.tag":"為 AI 精簡","heritage.ai.h3":"省 token・穩品質・管得動・出得快",
+      "heritage.ai.body":"整個框架小到 AI 一口氣讀完;查詢用它最熟的標準 SQL,生成即正確的機率遠高於任何自家 DSL;寫入的樣板由框架代勞 —— 幻覺欄位、漏欄位、忘了回填主鍵,這些 AI 最常犯的錯根本沒有發生的空間。<b>context 變小、規則變少,AI 的每一個 token 都花在你的業務邏輯上。</b>",
       "footer.tagline":"pymodelet · 查詢交給 SQL,寫入交給框架",
       "footer.cmppy":"比較","footer.tribute":"致敬文","footer.java":"Modelet(Java)"
     },
     ja:{
-      "meta.title":"pymodelet — Python の SQL-first マイクロ ORM","meta.desc":"素の SQL でクエリし、型付きエンティティを取得;そのまま保存すれば追加/更新/削除は自動。どの DB-API 2.0 ドライバでも動く、依存ゼロの Python 向け SQL-first マイクロ ORM。Modelet(Java, 2006)からの移植。",
+      "meta.title":"pymodelet — AI 時代の SQL-first マイクロ ORM","meta.desc":"素の SQL でクエリし、型付きエンティティを取得。そのまま保存すれば INSERT/UPDATE/DELETE は自動生成。依存ゼロ・約 600 行の Python マイクロ ORM —— context は極小、トークンを節約し、AI が書くコードをクリーンで管理しやすく保つ。",
       "nav.philosophy":"設計思想","nav.scale":"スケール","nav.flow":"フロー","nav.quickstart":"クイックスタート","nav.compare":"比較",
-      "hero.eyebrow":"SQL-first マイクロ ORM · Python · 2006 年から",
+      "hero.eyebrow":"SQL-first マイクロ ORM · Python · AI 時代のために",
       "hero.title":"SQL が分かれば、<br>もう <span class=\"grad\">pymodelet</span> が使えます。",
       "hero.tagline":"<span class=\"g-q\">クエリ</span>は SQL に、<span class=\"g-w\">書き込み</span>はフレームワークに。",
-      "hero.lede":"使い慣れた ANSI SQL でクエリを書き、面倒な INSERT / UPDATE / DELETE はフレームワークに任せる。ほとんど存在しない学習コスト —— 20 年間変わりません。",
-      "hero.cta1":"GitHub で見る","hero.cta2":"物語を読む",
-      "manifesto.text":"AI であっても、人間の知恵が定めた価値には従わなければならない。<span>二十年に耐えたデザインパターンこそ、受け継がれるべきものだ。</span>",
-      "phil.eyebrow":"設計思想","phil.h2":"ORM の潮流とは逆のトレードオフ",
-      "phil.lede":"2006 年、Hibernate は HQL やセッションのライフサイクル、マッピングの作法を学ばなければ、生産的な一行すら書けませんでした。Modelet は逆です。SQL を尊重し、面倒な部分だけを引き受けます。",
-      "phil.c1title":"クエリ → SQL","phil.c1body":"SELECT は、エンジニアがすでに知っている ANSI SQL で書きます —— サブクエリも JOIN も。フレームワークは各行をオブジェクトに戻すだけ。新しいクエリ言語はありません。",
-      "phil.c2title":"書き込み → フレームワーク","phil.c2body":"機械的で間違いやすいのは、INSERT / UPDATE / DELETE のカラム列挙です。Modelet はエンティティの TxnMode 状態から生成し、主キーを書き戻し、監査項目を付与します。",
+      "hero.lede":"あなたも、あなたの AI もすでに知っている ANSI SQL でクエリを書き、面倒な INSERT / UPDATE / DELETE はフレームワークに任せる。約 600 行・依存ゼロ —— 人にはほぼ存在しない学習曲線、モデルには一度で読み切れる context。",
+      "hero.cta1":"GitHub で見る","hero.cta2":"AI 時代の理由",
+      "manifesto.text":"AI がコードを書く時代こそ、クリーンコードに値する。<span>古典的なデザインパターンを当てはめる —— トークンを節約し、品質を安定させ、管理しやすく、産出はより速く。浮いた時間は、生活へ。</span>",
+      "phil.eyebrow":"設計思想","phil.h2":"重量級 ORM とは逆のトレードオフ",
+      "phil.lede":"重量級 ORM は、クエリ DSL・セッションのライフサイクル・マッピングの作法を先に学べと要求します —— 人には壁、モデルには燃え尽きない context と幻覚の温床。pymodelet は逆です。SQL を尊重し、面倒な部分だけを引き受けます。",
+      "phil.c1title":"クエリ → SQL","phil.c1body":"SELECT は ANSI SQL で書きます —— エンジニアはすでに知っていて、モデルの訓練データにも溢れている言語。新しいクエリ言語を発明しない:人は DSL を一つ学ばずに済み、AI はトークンの浪費先も幻覚の種も一つ減る。",
+      "phil.c2title":"書き込み → フレームワーク","phil.c2body":"INSERT / UPDATE / DELETE のカラム列挙は機械的でミスが出やすい —— 人は手が滑り、モデルは存在しないカラムを幻覚する。フレームワークは TxnMode から文を生成し、主キーを書き戻し、監査項目を刻む。このクラスのバグは、そもそも起こりようがない。",
       "scale.eyebrow":"スケール対応","scale.h2":"メモリを食わない深いページング",
       "scale.lede":"結果セットが 100 件でも 50 万件でも、要求したページの行だけがエンティティになります。最後のページに到達しても、全件をアプリに読み込むことはありません。",
       "scale.stat1":"結果セットの行数","scale.stat2":"1 ページあたりの行数","scale.stat3":"生成されるエンティティ数",
@@ -1282,30 +1551,30 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       "qs.lede":"典型的な一対多:Author は複数の Book を持ちます。外部キーがすなわち関連 —— @OneToMany も遅延ロードもありません。",
       "qs.entitiesTitle":"JPA 互換アノテーションでエンティティを定義","qs.queryTitle":"知っている SQL でクエリ","qs.saveTitle":"saveOrUpdate —— フレームワークが SQL を書く",
       "cmp.eyebrow":"直接対決","cmp.h2":"pymodelet は何と、どう比べられるか",
-      "cmp.lede":"本来なら手に取る SQL-first ツールと、観点ごとに率直に比較 —— そして移植元の Java オリジナルへ。",
+      "cmp.lede":"本来なら手に取る SQL-first ツールと観点ごとに率直に比較 —— Java 版オリジナルも添えて。",
       "cmp.py.t":"vs SQL-first 勢","cmp.py.d":"psycopg の row factory、aiosql、SQLAlchemy Core + Pydantic —— どれも読み取り側の面倒は見てくれます。pymodelet は書き込みまで楽にしてくれます。","cmp.cta2":"比較を読む →",
-      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet は、Matt が 2006 年に Java で生んだ SQL-first フレームワーク Modelet の忠実な移植です。オリジナル —— そして MyBatis・Hibernate との比較へ。","cmp.cta":"GitHub で Modelet を見る →",
-      "heritage.eyebrow":"系譜 · 2006","heritage.h2":"的確な決断",
-      "heritage.quote":"「ER モデルと SQL は基本 —— <span class=\"hl\">技術の移り変わりがその価値を消すことはない。</span>」20 年後、Python コミュニティは「SQL-first」をまるで新しいもののように再発見しています —— Matt は 2006 年にそれを書き記していました。",
-      "heritage.attrib":"Modelet は 2006 年に <b>Matt</b> が、ORM の学習コストを平らにし、チームの開発を加速するために作りました。全文は <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">TRIBUTE.md</a> に。",
-      "heritage.ai.tag":"AI の時代に移植","heritage.ai.h3":"コードは AI が書いた。判断は人間の知恵が下した。",
-      "heritage.ai.body":"この Python 移植は 2026 年、AI がタイプしました —— しかし設計判断はひとつも再発明していません。決めたのは 2006 年のパターン、AI はそれに従っただけです。<b>AI であっても、人間の知恵が定めた価値には従わなければならない。実証済みのデザインパターンこそ、受け継ぐに値するものです。</b>その恩義は<a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">献辞</a>に記されています。",
+      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet は Java 版 Modelet の忠実な移植 —— 同じ SQL-first パターンの原型で、長年本番環境で鍛えられてきました。オリジナルと、MyBatis・Hibernate との比較へ。","cmp.cta":"GitHub で Modelet を見る →",
+      "heritage.eyebrow":"AI 時代","heritage.h2":"AI にもクリーンコードを",
+      "heritage.quote":"「AI に食べさせるフレームワークがクリーンなほど、返ってくるコードもクリーンになる。<span class=\"hl\">約 600 行・依存ゼロ・DSL なし —— 一度の context 読み込みに収まる。</span>」ルールが少なく古典的であるほど、生成される一行一行は予測可能で、レビューしやすくなる。",
+      "heritage.attrib":"クエリは SQL に、書き込みはフレームワークに —— この古典的な分業が「AI が生成し、人がレビューし、AI が保守する」ループを速く、安定して回します:<b>節約するのはトークン、得るのは品質と納品速度。</b>",
+      "heritage.ai.tag":"AI のために小さく","heritage.ai.h3":"トークン節約・品質安定・管理可能・高速納品",
+      "heritage.ai.body":"フレームワーク全体をひと息で読み切れる。クエリはモデルが最も得意な標準 SQL だから、一発で正しいコードが出る確率はどんな自家製 DSL よりも高い。書き込みの定型文はフレームワークが代行 —— 幻覚カラム、書き忘れ、主キーの戻し忘れは起こる余地がない。<b>context は小さく、ルールは少なく。AI のトークンはすべてあなたのビジネスロジックに使われる。</b>",
       "footer.tagline":"pymodelet · クエリは SQL に、書き込みはフレームワークに",
       "footer.cmppy":"比較","footer.tribute":"献辞","footer.java":"Modelet(Java)"
     },
     de:{
-      "meta.title":"pymodelet — SQL-first Mikro-ORM für Python","meta.desc":"Abfragen in purem SQL, typisierte Entitäten zurück; direkt speichern, Insert/Update/Delete automatisch. Ein SQL-first Mikro-ORM für Python auf jedem DB-API-2.0-Treiber, null Abhängigkeiten. Portiert von Modelet (Java, 2006).",
+      "meta.title":"pymodelet — SQL-first Mikro-ORM für das KI-Zeitalter","meta.desc":"Abfragen in purem SQL, typisierte Entitäten zurück; direkt speichern, INSERT/UPDATE/DELETE schreibt sich selbst. Ein Python-Mikro-ORM ohne Abhängigkeiten, ~600 Zeilen — winziger Context, spart Tokens und hält KI-geschriebenen Code sauber und wartbar.",
       "nav.philosophy":"Philosophie","nav.scale":"Skalierung","nav.flow":"Ablauf","nav.quickstart":"Schnellstart","nav.compare":"Vergleich",
-      "hero.eyebrow":"SQL-first Mikro-ORM · Python · seit 2006",
+      "hero.eyebrow":"SQL-first Mikro-ORM · Python · fürs KI-Zeitalter gebaut",
       "hero.title":"Wer SQL kann,<br>kann schon <span class=\"grad\">pymodelet</span>.",
       "hero.tagline":"<span class=\"g-q\">Abfragen</span> gehören zu SQL. <span class=\"g-w\">Schreibvorgänge</span> gehören zum Framework.",
-      "hero.lede":"Schreibe Abfragen in dem ANSI-SQL, das du bereits kennst. Überlasse das mühsame INSERT / UPDATE / DELETE dem Framework. Eine Lernkurve, die kaum existiert — seit zwei Jahrzehnten unverändert.",
-      "hero.cta1":"Auf GitHub ansehen","hero.cta2":"Die Geschichte lesen",
-      "manifesto.text":"Auch eine KI muss den Werten menschlicher Weisheit folgen. <span>Ein Entwurfsmuster, das zwanzig Jahre bestanden hat, verdient es, weitergegeben zu werden.</span>",
-      "phil.eyebrow":"Die Philosophie","phil.h2":"Der umgekehrte Kompromiss zur ORM-Welle",
-      "phil.lede":"2006 verlangte Hibernate, HQL, Session-Lebenszyklen und Mapping-Rituale zu lernen, bevor man eine einzige produktive Zeile schrieb. Modelet macht es umgekehrt: SQL respektieren und nur den mühsamen Teil übernehmen.",
-      "phil.c1title":"Abfragen → SQL","phil.c1body":"SELECTs schreibst du in dem ANSI-SQL, das du schon kennst — Subqueries und Joins inklusive. Das Framework trägt jede Zeile nur in ein Objekt zurück. Keine neue Abfragesprache.",
-      "phil.c2title":"Schreiben → Framework","phil.c2body":"Mechanisch und fehleranfällig ist das Auflisten der Spalten für INSERT / UPDATE / DELETE. Modelet erzeugt sie aus dem TxnMode-Zustand der Entität, schreibt den Schlüssel zurück und setzt Audit-Felder.",
+      "hero.lede":"Schreibe Abfragen in dem ANSI-SQL, das du — und deine KI — bereits kennt, und überlasse das mühsame INSERT / UPDATE / DELETE dem Framework. Rund 600 Zeilen, null Abhängigkeiten: für Menschen kaum eine Lernkurve, für ein Modell ein einziger Context-Read.",
+      "hero.cta1":"Auf GitHub ansehen","hero.cta2":"Warum KI es liebt",
+      "manifesto.text":"Das Zeitalter KI-geschriebenen Codes verdient Clean Code erst recht. <span>Klassische Entwurfsmuster sparen Tokens, stabilisieren die Qualität, halten den Code wartbar — und geben die Stunden ans Leben zurück.</span>",
+      "phil.eyebrow":"Die Philosophie","phil.h2":"Der umgekehrte Kompromiss zu schwergewichtigen ORMs",
+      "phil.lede":"Schwergewichtige ORMs verlangen erst eine Abfrage-DSL, Session-Lebenszyklen und Mapping-Rituale — für Menschen eine Hürde, für Modelle ein Context-Fresser und eine Brutstätte für Halluzinationen. pymodelet dreht es um: SQL respektieren, nur den mühsamen Teil übernehmen.",
+      "phil.c1title":"Abfragen → SQL","phil.c1body":"SELECTs schreibst du in ANSI-SQL — Ingenieure können es längst, und die Trainingsdaten jedes Modells sind voll davon. Keine erfundene Abfragesprache: eine DSL weniger für Menschen, eine Token-Senke und Halluzinationsquelle weniger für die KI.",
+      "phil.c2title":"Schreiben → Framework","phil.c2body":"Spalten für INSERT / UPDATE / DELETE aufzuzählen ist mechanisch und fehleranfällig — Menschen vertippen sich, Modelle halluzinieren Felder. Das Framework erzeugt die Statements aus dem TxnMode, schreibt den Schlüssel zurück und setzt Audit-Felder; diese ganze Fehlerklasse entfällt.",
       "scale.eyebrow":"Für Skalierung gebaut","scale.h2":"Tiefe Paginierung ohne Speicherlast",
       "scale.lede":"Ob das Resultset 100 oder 500.000 Zeilen hat — nur die Zeilen der angeforderten Seite werden zu Entitäten. Die allerletzte Seite zu erreichen lädt nie das gesamte Set in deine Anwendung.",
       "scale.stat1":"Zeilen im Resultset","scale.stat2":"Zeilen pro Seite","scale.stat3":"je erzeugte Entitäten",
@@ -1321,30 +1590,30 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       "qs.lede":"Ein klassisches One-to-Many: Ein Author hat viele Books. Der Fremdschlüssel ist die Beziehung — kein @OneToMany, kein Lazy Loading.",
       "qs.entitiesTitle":"Entitäten mit JPA-kompatiblen Annotationen definieren","qs.queryTitle":"Mit dem SQL abfragen, das du kennst","qs.saveTitle":"saveOrUpdate — das Framework schreibt das SQL",
       "cmp.eyebrow":"Direktvergleich","cmp.h2":"Wie sich pymodelet schlägt",
-      "cmp.lede":"Ein ehrlicher Vergleich, Dimension für Dimension, mit den SQL-first-Tools, zu denen du sonst greifst — und ein Blick auf das Java-Original, aus dem es portiert wurde.",
+      "cmp.lede":"Ein ehrlicher Vergleich, Dimension für Dimension, mit den SQL-first-Tools, zu denen du sonst greifst — samt dem Java-Original.",
       "cmp.py.t":"vs. das SQL-first-Feld","cmp.py.d":"psycopg Row-Factories, aiosql, SQLAlchemy Core + Pydantic — sie alle kümmern sich um die Leseseite. Mit pymodelet werden selbst die Schreibvorgänge mühelos.","cmp.cta2":"Zum Vergleich →",
-      "cmp.java.t":"Das originale Modelet","cmp.java.d":"pymodelet ist eine getreue Portierung von Modelet, dem SQL-first-Framework, das Matt 2006 in Java schuf. Triff das Original — und seinen eigenen Vergleich mit MyBatis und Hibernate.","cmp.cta":"Modelet auf GitHub ansehen →",
-      "heritage.eyebrow":"Ursprung · 2006","heritage.h2":"Eine präzise Entscheidung",
-      "heritage.quote":"„Das ER-Modell und SQL sind das Fundament — <span class=\"hl\">Wandel löscht ihren Wert nicht aus.</span>“ Zwei Jahrzehnte später entdeckt die Python-Community „SQL-first“ neu, als wäre es neu. Matt schrieb es 2006 nieder.",
-      "heritage.attrib":"Modelet wurde 2006 von <b>Matt</b> geschaffen, um die ORM-Lernkurve zu ebnen und die Auslieferung seines Teams zu beschleunigen. Die ganze Geschichte steht in <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">TRIBUTE.md</a>.",
-      "heritage.ai.tag":"Portiert im KI-Zeitalter","heritage.ai.h3":"Die KI schrieb den Code. Die menschliche Weisheit traf die Entscheidungen.",
-      "heritage.ai.body":"Diese Python-Portierung wurde 2026 von einer KI getippt — und keine einzige Designentscheidung neu erfunden. Das Muster von 2006 entschied; die KI folgte. <b>Auch eine KI muss den Werten menschlicher Weisheit folgen: Ein bewährtes Entwurfsmuster ist genau das, was weitergegeben werden soll.</b> Die Geschichte dieser Schuld erzählt die <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">Widmung</a>.",
+      "cmp.java.t":"Das originale Modelet","cmp.java.d":"pymodelet ist eine getreue Portierung des Java-Modelet — dasselbe SQL-first-Muster, über Jahre in Produktion bewährt. Triff das Original und seinen Vergleich mit MyBatis und Hibernate.","cmp.cta":"Modelet auf GitHub ansehen →",
+      "heritage.eyebrow":"Das KI-Zeitalter","heritage.h2":"Auch KI verdient Clean Code",
+      "heritage.quote":"„Je sauberer das Framework, das du einer KI fütterst, desto sauberer der Code, den sie zurückgibt. <span class=\"hl\">Rund 600 Zeilen, null Abhängigkeiten, keine DSL — passt in einen einzigen Context-Read.</span>“ Je weniger und je klassischer die Regeln, desto vorhersagbarer — und prüfbarer — wird jede generierte Zeile.",
+      "heritage.attrib":"Abfragen gehören zu SQL, Schreibvorgänge zum Framework — diese klassische Arbeitsteilung hält den Kreislauf aus KI-Generieren, Mensch-Review und KI-Wartung schnell und stabil: <b>Gespart werden Tokens, gewonnen werden Qualität und Liefertempo.</b>",
+      "heritage.ai.tag":"Schlank für KI","heritage.ai.h3":"Weniger Tokens. Stabilere Ausgabe. Code, den KI warten kann.",
+      "heritage.ai.body":"Das ganze Framework passt in einen Lesedurchgang; Abfragen sind das Standard-SQL, das ein Modell am besten kennt — die Trefferquote im ersten Versuch schlägt jede Eigenbau-DSL; den Schreib-Boilerplate erzeugt das Framework — halluzinierte Spalten, vergessene Felder, fehlende Schlüssel-Rückschreibung haben keinen Ort, an dem sie passieren könnten. <b>Kleinerer Context, weniger Regeln: Jeder Token deiner KI fließt in deine Geschäftslogik.</b>",
       "footer.tagline":"pymodelet · Abfragen gehören zu SQL, Schreibvorgänge zum Framework",
       "footer.cmppy":"Vergleich","footer.tribute":"Widmung","footer.java":"Modelet (Java)"
     },
     ko:{
-      "meta.title":"pymodelet — Python용 SQL-first 마이크로 ORM","meta.desc":"순수 SQL로 조회해 타입 있는 엔티티를 얻고, 그대로 저장하면 추가/수정/삭제 자동. 모든 DB-API 2.0 드라이버에서 동작하는, 의존성 없는 Python용 SQL-first 마이크로 ORM. Modelet(Java, 2006)에서 이식.",
+      "meta.title":"pymodelet — AI 시대의 SQL-first 마이크로 ORM","meta.desc":"순수 SQL로 조회해 타입 있는 엔티티를 얻고, 그대로 저장하면 INSERT/UPDATE/DELETE가 자동 생성됩니다. 의존성 없는 약 600줄의 Python 마이크로 ORM —— 아주 작은 컨텍스트로 토큰을 아끼고, AI가 쓴 코드를 더 깨끗하고 관리하기 쉽게.",
       "nav.philosophy":"철학","nav.scale":"확장성","nav.flow":"흐름","nav.quickstart":"빠른 시작","nav.compare":"비교",
-      "hero.eyebrow":"SQL-first 마이크로 ORM · Python · 2006년부터",
+      "hero.eyebrow":"SQL-first 마이크로 ORM · Python · AI 시대를 위해",
       "hero.title":"SQL을 안다면,<br>이미 <span class=\"grad\">pymodelet</span>을 쓸 수 있습니다.",
       "hero.tagline":"<span class=\"g-q\">쿼리</span>는 SQL에게, <span class=\"g-w\">쓰기</span>는 프레임워크에게.",
-      "hero.lede":"이미 아는 ANSI SQL로 쿼리를 작성하고, 번거로운 INSERT / UPDATE / DELETE는 프레임워크에 맡기세요. 거의 존재하지 않는 학습 곡선 —— 20년째 그대로입니다.",
-      "hero.cta1":"GitHub에서 보기","hero.cta2":"이야기 읽기",
-      "manifesto.text":"AI라 할지라도 인간 지혜의 가치를 따라야 합니다. <span>20년을 견뎌낸 디자인 패턴이야말로 물려줄 가치가 있는 것입니다.</span>",
-      "phil.eyebrow":"철학","phil.h2":"ORM 물결과 정반대의 선택",
-      "phil.lede":"2006년, Hibernate는 생산적인 한 줄을 쓰기도 전에 HQL, 세션 생명주기, 매핑 관례부터 익히길 요구했습니다. Modelet은 반대로 합니다. SQL을 존중하고, 번거로운 부분만 대신합니다.",
-      "phil.c1title":"쿼리 → SQL","phil.c1body":"SELECT는 엔지니어가 이미 아는 ANSI SQL로 작성합니다 —— 서브쿼리와 조인 포함. 프레임워크는 각 행을 객체로 되돌릴 뿐, 새로운 쿼리 언어는 없습니다.",
-      "phil.c2title":"쓰기 → 프레임워크","phil.c2body":"기계적이고 실수하기 쉬운 것은 INSERT / UPDATE / DELETE의 컬럼 나열입니다. Modelet은 엔티티의 TxnMode 상태로부터 이를 생성하고, 키를 되써 주고, 감사 필드를 채웁니다.",
+      "hero.lede":"당신도, 당신의 AI도 이미 아는 ANSI SQL로 쿼리를 쓰고, 번거로운 INSERT / UPDATE / DELETE는 프레임워크에 맡기세요. 약 600줄, 의존성 제로 —— 사람에게는 거의 없는 학습 곡선, 모델에게는 한 번에 다 읽히는 컨텍스트.",
+      "hero.cta1":"GitHub에서 보기","hero.cta2":"AI 시대의 이유",
+      "manifesto.text":"AI가 코드를 쓰는 시대일수록 클린 코드가 필요합니다. <span>고전적인 디자인 패턴을 적용하면 —— 토큰은 아끼고, 품질은 안정되고, 관리는 쉬워지고, 산출은 빨라집니다. 아낀 시간은 삶에게.</span>",
+      "phil.eyebrow":"철학","phil.h2":"무거운 ORM과 정반대의 선택",
+      "phil.lede":"무거운 ORM은 쿼리 DSL, 세션 생명주기, 매핑 관례부터 배우라고 요구합니다 —— 사람에게는 문턱, 모델에게는 태워도 끝없는 컨텍스트와 환각의 온상. pymodelet은 반대로 갑니다. SQL을 존중하고, 번거로운 부분만 대신합니다.",
+      "phil.c1title":"쿼리 → SQL","phil.c1body":"SELECT는 ANSI SQL로 씁니다 —— 엔지니어는 이미 알고, 모델의 학습 데이터에도 흘러넘치는 언어. 새 쿼리 언어를 발명하지 않으니 사람은 DSL 하나를 덜 배우고, AI는 토큰 낭비처와 환각의 원천이 하나 줄어듭니다.",
+      "phil.c2title":"쓰기 → 프레임워크","phil.c2body":"INSERT / UPDATE / DELETE의 컬럼 나열은 기계적이고 실수하기 쉽습니다 —— 사람은 손이 미끄러지고, 모델은 없는 컬럼을 환각합니다. 프레임워크가 TxnMode로 문장을 생성하고 키를 되써 주고 감사 필드를 찍으니, 이 부류의 버그는 아예 일어날 자리가 없습니다.",
       "scale.eyebrow":"대규모를 위한 설계","scale.h2":"메모리 부담 없는 깊은 페이징",
       "scale.lede":"결과셋이 100건이든 50만 건이든, 요청한 페이지의 행만 엔티티가 됩니다. 맨 마지막 페이지에 도달해도 전체를 애플리케이션에 적재하지 않습니다.",
       "scale.stat1":"결과셋의 행 수","scale.stat2":"페이지당 행 수","scale.stat3":"생성되는 엔티티 수",
@@ -1360,14 +1629,14 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       "qs.lede":"전형적인 일대다: Author는 여러 Book을 가집니다. 외래 키가 곧 관계입니다 —— @OneToMany도, 지연 로딩도 없습니다.",
       "qs.entitiesTitle":"JPA 호환 애너테이션으로 엔티티 정의","qs.queryTitle":"아는 SQL로 조회","qs.saveTitle":"saveOrUpdate —— 프레임워크가 SQL을 작성",
       "cmp.eyebrow":"정면 비교","cmp.h2":"pymodelet은 어디에 서 있는가",
-      "cmp.lede":"원래라면 손이 갔을 SQL-first 도구들과 차원별로 정직하게 비교하고 —— 이식의 뿌리인 Java 원본도 짚어 봅니다.",
+      "cmp.lede":"원래라면 손이 갔을 SQL-first 도구들과 차원별로 정직하게 비교하고 —— Java 원본도 함께.",
       "cmp.py.t":"vs SQL-first 진영","cmp.py.d":"psycopg row factory, aiosql, SQLAlchemy Core + Pydantic —— 모두 읽기 측은 챙겨 줍니다. pymodelet은 쓰기까지 편안하게 만들어 줍니다.","cmp.cta2":"비교 읽기 →",
-      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet은 Matt가 2006년 Java로 만든 SQL-first 프레임워크 Modelet의 충실한 포팅입니다. 원본 —— 그리고 MyBatis·Hibernate와의 비교를 만나 보세요.","cmp.cta":"GitHub에서 Modelet 보기 →",
-      "heritage.eyebrow":"유산 · 2006","heritage.h2":"정확한 결정",
-      "heritage.quote":"“ER 모델과 SQL은 기본기 —— <span class=\"hl\">기술의 세대교체가 그 가치를 지우지 못한다.</span>” 20년이 지나, Python 커뮤니티는 'SQL-first'를 마치 새로운 것처럼 재발견하고 있습니다 —— Matt는 2006년에 이미 그것을 적어 두었습니다.",
-      "heritage.attrib":"Modelet은 2006년 <b>Matt</b>가 ORM 학습 곡선을 평탄하게 하고 팀의 개발 속도를 높이기 위해 만들었습니다. 전체 이야기는 <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">TRIBUTE.md</a>에 있습니다.",
-      "heritage.ai.tag":"AI 시대에 이식","heritage.ai.h3":"코드는 AI가 썼습니다. 결정은 인간의 지혜가 내렸습니다.",
-      "heritage.ai.body":"이 Python 이식은 2026년 AI가 타이핑했습니다 —— 그러나 설계 결정은 단 하나도 다시 발명하지 않았습니다. 2006년의 패턴이 결정했고, AI는 따랐을 뿐입니다. <b>AI라 할지라도 인간 지혜의 가치를 따라야 합니다. 검증된 디자인 패턴이야말로 물려줄 가치가 있는 것입니다.</b> 그 빚의 이야기는 <a href=\"https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.md\">헌정문</a>에 적혀 있습니다.",
+      "cmp.java.t":"The original Modelet","cmp.java.d":"pymodelet은 Java판 Modelet의 충실한 포팅입니다 —— 같은 SQL-first 패턴의 원형으로, 수년간 프로덕션에서 단련됐습니다. 원본, 그리고 MyBatis·Hibernate와의 비교를 만나 보세요.","cmp.cta":"GitHub에서 Modelet 보기 →",
+      "heritage.eyebrow":"AI 시대","heritage.h2":"AI에게도 클린 코드를",
+      "heritage.quote":"“AI에게 먹이는 프레임워크가 깨끗할수록, AI가 돌려주는 코드도 깨끗해집니다. <span class=\"hl\">약 600줄, 의존성 제로, DSL 없음 —— 한 번의 컨텍스트 읽기에 다 들어갑니다.</span>” 규칙이 적고 고전적일수록, 생성되는 모든 줄은 더 예측 가능하고 리뷰하기 쉬워집니다.",
+      "heritage.attrib":"쿼리는 SQL에게, 쓰기는 프레임워크에게 —— 이 고전적인 분업이 'AI가 생성하고, 사람이 리뷰하고, AI가 유지보수하는' 순환을 빠르고 안정되게 돌립니다. <b>아끼는 것은 토큰, 얻는 것은 품질과 배송 속도.</b>",
+      "heritage.ai.tag":"AI를 위해 가볍게","heritage.ai.h3":"토큰 절약・품질 안정・관리 가능・빠른 산출",
+      "heritage.ai.body":"프레임워크 전체가 한 번에 읽힙니다. 쿼리는 모델이 가장 잘 아는 표준 SQL이라 한 번에 맞는 코드가 나올 확률이 어떤 자체 DSL보다 높습니다. 쓰기 보일러플레이트는 프레임워크가 대신하니 —— 환각 컬럼, 빠진 필드, 잊힌 키 회수는 일어날 곳이 없습니다. <b>컨텍스트는 작게, 규칙은 적게. AI의 모든 토큰이 당신의 비즈니스 로직에 쓰입니다.</b>",
       "footer.tagline":"pymodelet · 쿼리는 SQL에게, 쓰기는 프레임워크에게",
       "footer.cmppy":"비교","footer.tribute":"헌정","footer.java":"Modelet (Java)"
     }

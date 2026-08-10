@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>pymodelet — Python 的 SQL-first 微型 ORM</title>
-<meta name="description" content="用純 SQL 查詢、取得型別化 entity;直接存回,新增/修改/刪除自動判斷。站在任何 DB-API 2.0 驅動上的 Python SQL-first 微型 ORM,零依賴。移植自 Modelet(Java,2006)。">
+<title>pymodelet — AI 時代的 SQL-first 微型 ORM</title>
+<meta name="description" content="用純 SQL 查詢、取得型別化 entity;直接存回,INSERT/UPDATE/DELETE 自動生成。零依賴、約 600 行的 Python 微型 ORM —— context 極小、省 token,AI 產出的程式碼更乾淨、更好管理。">
 <link rel="canonical" href="https://mattataiera.github.io/pymodelet/zh/">
 <link rel="alternate" hreflang="en" href="https://mattataiera.github.io/pymodelet/">
 <link rel="alternate" hreflang="zh-Hant" href="https://mattataiera.github.io/pymodelet/zh/">
@@ -344,7 +344,7 @@
 <header class="site-header" id="header">
   <div class="wrap header-inner">
     <a class="brand" href="#top" aria-label="pymodelet home">
-      <span class="dot"></span>pymodelet<span class="since">EST. 2006</span>
+      <span class="dot"></span>pymodelet<span class="since">SQL-FIRST</span>
     </a>
     <nav class="nav" aria-label="Primary">
       <a href="#philosophy" data-i18n="nav.philosophy">哲學</a>
@@ -373,13 +373,13 @@
 
   <div class="wrap">
   <div class="hero-inner">
-    <p class="eyebrow" data-i18n="hero.eyebrow">SQL-first 微型 ORM · Python · 始於 2006</p>
+    <p class="eyebrow" data-i18n="hero.eyebrow">SQL-first 微型 ORM · Python · 為 AI 時代而生</p>
     <h1 data-i18n-html="hero.title">會 SQL,<br>就會用 <span class="grad">pymodelet</span>。</h1>
     <p class="tagline" data-i18n-html="hero.tagline"><span class="g-q">查詢</span>交給 SQL,<span class="g-w">寫入</span>交給框架。</p>
-    <p class="lead" data-i18n="hero.lede">用你已經會的 ANSI SQL 寫查詢,把繁瑣的 INSERT / UPDATE / DELETE 交給框架。幾乎不存在的學習曲線 —— 二十年來如一日。</p>
+    <p class="lead" data-i18n="hero.lede">用你和你的 AI 都已經會的 ANSI SQL 寫查詢,把繁瑣的 INSERT / UPDATE / DELETE 交給框架。約 600 行、零依賴 —— 對人是幾乎不存在的學習曲線,對 AI 是一次讀得完的 context。</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="https://github.com/MattAtAIEra/pymodelet"><span data-i18n="hero.cta1">在 GitHub 上查看</span> <span class="arrow">→</span></a>
-      <a class="btn btn-ghost" href="#heritage"><span data-i18n="hero.cta2">讀這個故事</span></a>
+      <a class="btn btn-ghost" href="#heritage"><span data-i18n="hero.cta2">AI 時代的理由</span></a>
     </div>
     <p class="install" aria-hidden="true">$ <b>pip install</b> pymodelet</p>
   </div>
@@ -390,7 +390,9 @@
     <div class="scene-dots" id="scene-dots" role="tablist" aria-label="ORM scene">
       <button aria-current="true" aria-label="model.find() — SQL to objects"></button>
       <button aria-current="false" aria-label="model.save() — object to SQL"></button>
-      <button aria-current="false" aria-label="The pattern — 2006 to the AI era"></button>
+      <button aria-current="false" aria-label="The pattern — clean code for AI"></button>
+      <button aria-current="false" aria-label="The payoff — elephants and giraffes on the savanna"></button>
+      <button aria-current="false" aria-label="The payoff — aurora over Lapland, Finland"></button>
     </div>
   </div>
   <div class="hero-hint" aria-hidden="true">rendered live · ASCII</div>
@@ -399,7 +401,7 @@
 <!-- ======================= MANIFESTO ======================= -->
 <section class="manifesto">
   <div class="wrap">
-    <p class="reveal" data-i18n-html="manifesto.text">即使是 AI,也必須遵循人類智慧的價值。<span>經得起二十年考驗的 design pattern,才值得被傳承。</span></p>
+    <p class="reveal" data-i18n-html="manifesto.text">AI 寫程式的時代,更值得 clean code。<span>套用經典 design pattern —— 省 token、穩品質、易管理,產出更快;省下來的時間,還給生活。</span></p>
   </div>
 </section>
 
@@ -408,20 +410,20 @@
   <div class="wrap">
     <div class="section-head reveal">
       <p class="eyebrow" data-i18n="phil.eyebrow">設計哲學</p>
-      <h2 data-i18n="phil.h2">和 ORM 浪潮相反的取捨</h2>
-      <p data-i18n="phil.lede">2006 年,Hibernate 要求工程師先學會 HQL、Session 生命週期、mapping 儀式,才能寫出第一行有生產力的程式。Modelet 反過來:尊重 SQL,只代勞真正繁瑣的部分。</p>
+      <h2 data-i18n="phil.h2">和重量級 ORM 相反的取捨</h2>
+      <p data-i18n="phil.lede">重量級 ORM 要求先學會查詢 DSL、session 生命週期與 mapping 儀式 —— 對人是門檻,對 AI 是燒不完的 context 與幻覺的溫床。pymodelet 反過來:尊重 SQL,只接手真正繁瑣的部分。</p>
     </div>
     <div class="compare reveal">
       <div class="compare-col q">
         <span class="tag">SQL → object</span>
         <h3 data-i18n="phil.c1title">查詢 → SQL</h3>
-        <p data-i18n="phil.c1body">SELECT 用工程師已經會的 ANSI SQL 直接寫 —— 含 subquery 與 join。框架只把每一行資料搬回一個物件,不發明新的查詢語言。</p>
+        <p data-i18n="phil.c1body">SELECT 用 ANSI SQL 直接寫 —— 工程師本來就會,模型的訓練語料更是滾瓜爛熟。不發明新的查詢語言:人少學一套 DSL,AI 少燒一份 token、少一個幻覺來源。</p>
         <div class="rule"></div>
       </div>
       <div class="compare-col w">
         <span class="tag">object → SQL</span>
         <h3 data-i18n="phil.c2title">寫入 → 框架</h3>
-        <p data-i18n="phil.c2body">真正機械、容易出錯的是 INSERT / UPDATE / DELETE 的欄位羅列。Modelet 靠 entity 的 TxnMode 狀態自動產生語句、回填主鍵、蓋上稽核欄位。</p>
+        <p data-i18n="phil.c2body">INSERT / UPDATE / DELETE 的欄位羅列機械又易錯 —— 人會手滑,AI 會幻覺出不存在的欄位。框架靠 entity 的 TxnMode 自動產生語句、回填主鍵、蓋上稽核欄位,這一整類錯誤直接歸零。</p>
         <div class="rule"></div>
       </div>
     </div>
@@ -536,7 +538,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     <div class="section-head reveal">
       <p class="eyebrow" data-i18n="cmp.eyebrow">正面對決</p>
       <h2 data-i18n="cmp.h2">pymodelet 和誰比、比什麼</h2>
-      <p data-i18n="cmp.lede">和你原本會選的 SQL-first 工具,一個維度一個維度誠實地比 —— 並向它移植自的 Java 原版致意。</p>
+      <p data-i18n="cmp.lede">和你原本會選的 SQL-first 工具,一個維度一個維度誠實地比 —— 也附上它的 Java 原版。</p>
     </div>
     <div class="cmp-grid reveal">
       <a class="cmp-card py" href="compare-python.html">
@@ -548,7 +550,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       <a class="cmp-card java" href="https://github.com/MattAtAIEra/modelet">
         <span class="tag">Java · 2006</span>
         <h3 data-i18n="cmp.java.t">Modelet 原版(Java)</h3>
-        <p data-i18n="cmp.java.d">pymodelet 是 Modelet 的忠實移植 —— Matt 於 2006 年用 Java 打造的 SQL-first 框架。認識原版,以及它與 MyBatis、Hibernate 的比較。</p>
+        <p data-i18n="cmp.java.d">pymodelet 忠實移植自 Java 版 Modelet —— 同一套 SQL-first pattern 的原型,久經正式環境考驗。認識原版,以及它與 MyBatis、Hibernate 的比較。</p>
         <span class="go" data-i18n="cmp.cta">在 GitHub 看 Modelet →</span>
       </a>
     </div>
@@ -559,15 +561,15 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
 <section class="section heritage" id="heritage">
   <div class="wrap">
     <div class="section-head reveal" style="margin-bottom:0;">
-      <p class="eyebrow" data-i18n="heritage.eyebrow">傳承 · 2006</p>
-      <h2 data-i18n="heritage.h2">一個精準的決定</h2>
+      <p class="eyebrow" data-i18n="heritage.eyebrow">AI 時代</p>
+      <h2 data-i18n="heritage.h2">AI 也值得 clean code</h2>
     </div>
-    <p class="quote reveal" data-i18n-html="heritage.quote">「ER model + SQL 是基本功,<span class="hl">技術迭代不會消滅它的價值。</span>」二十年過去,Python 社群重新發現了「SQL-first」,彷彿它是新的 —— 而 Matt 在 2006 年就已經寫下了它。</p>
-    <p class="attrib reveal" data-i18n-html="heritage.attrib">Modelet 由 <b>Matt</b> 在 2006 年開創,只為了替團隊踏平 ORM 的學習曲線、加速交付。完整故事見 <a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.zh.md">TRIBUTE.zh.md</a>。</p>
+    <p class="quote reveal" data-i18n-html="heritage.quote">「餵給 AI 的框架越乾淨,AI 吐回來的程式就越乾淨。<span class="hl">約 600 行、零依賴、沒有 DSL —— 一次就能讀進 context。</span>」規則越少越經典,生成的每一行就越可預測、越好審查。</p>
+    <p class="attrib reveal" data-i18n-html="heritage.attrib">查詢歸 SQL、寫入歸框架 —— 這條經典的分工,讓「AI 生成、人審查、AI 維護」的循環跑得又快又穩:<b>省下的是 token,換來的是品質與交付速度。</b></p>
     <div class="ai-card reveal">
-      <span class="tag" data-i18n="heritage.ai.tag">在 AI 時代移植</span>
-      <h3 data-i18n="heritage.ai.h3">程式碼由 AI 敲下,決策仍出自人類智慧。</h3>
-      <p data-i18n-html="heritage.ai.body">這份 Python 移植在 2026 年由 AI 敲下 —— 但沒有重新發明任何一個設計決策:2006 年的 pattern 做決定,AI 只是遵循。<b>即使是 AI,也必須遵循人類智慧的價值:被驗證過的 design pattern,正是值得傳承的東西。</b>這份恩義,寫在<a href="https://github.com/MattAtAIEra/pymodelet/blob/main/TRIBUTE.zh.md">致敬文</a>裡。</p>
+      <span class="tag" data-i18n="heritage.ai.tag">為 AI 精簡</span>
+      <h3 data-i18n="heritage.ai.h3">省 token・穩品質・管得動・出得快</h3>
+      <p data-i18n-html="heritage.ai.body">整個框架小到 AI 一口氣讀完;查詢用它最熟的標準 SQL,生成即正確的機率遠高於任何自家 DSL;寫入的樣板由框架代勞 —— 幻覺欄位、漏欄位、忘了回填主鍵,這些 AI 最常犯的錯根本沒有發生的空間。<b>context 變小、規則變少,AI 的每一個 token 都花在你的業務邏輯上。</b></p>
     </div>
   </div>
 </section>
@@ -587,9 +589,9 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
         <a href="https://mattataiera.github.io/modelet/" data-i18n="footer.java">Modelet(Java)</a>
       </div>
     </div>
-    <div class="foot-horizon" aria-hidden="true">═╪═══╪══ SELECT ══╪═&gt;&gt; ┌─{ Book }─┐ &gt;&gt;═╪══ save() ══╪═&gt;&gt; INSERT · UPDATE · DELETE &gt;&gt;═╪═══╪══ 2006 ⇄ ∞ ══╪═══╪═</div>
+    <div class="foot-horizon" aria-hidden="true">═╪═══╪══ SELECT ══╪═&gt;&gt; ┌─{ Book }─┐ &gt;&gt;═╪══ save() ══╪═&gt;&gt; INSERT · UPDATE · DELETE &gt;&gt;═╪═══╪══ clean ⇄ code ══╪═══╪═</div>
     <div class="foot-bottom">
-      <span>© 2006–2026 Matt · Apache-2.0</span>
+      <span>© 2026 pymodelet · Apache-2.0</span>
       <span>SQL-first micro ORM</span>
     </div>
   </div>
@@ -619,8 +621,9 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
   var curCh=null, curCo=null;
   var artL=0, artR=0, zW=0, artTop=5, tier='full', compact=false;
 
-  var SCENES=3;
-  var LABELS=['model.find() · SQL → objects','model.save() · object → SQL','the pattern · 2006 → AI era'];
+  var SCENES=5;
+  var LABELS=['model.find() · SQL → objects','model.save() · object → SQL','the pattern · clean code for AI',
+              'the payoff · the savanna','the payoff · lapland aurora'];
   var scene=0, next=1, mode='hold', stateT=0;
   var HOLD=8.6, TRANS=1.25;
   var GLITCH='▚▞▓▒░#%*·+=/\\|<>'.split('');
@@ -639,7 +642,10 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
   function shade(cssStr,f){var m=/rgb\((\d+),(\d+),(\d+)\)/.exec(cssStr); if(!m)return cssStr;
     return 'rgb('+Math.min(255,(+m[1])*f|0)+','+Math.min(255,(+m[2])*f|0)+','+Math.min(255,(+m[3])*f|0)+')';}
 
-  function bgOf(s){ return s===0 ? [10,13,20] : s===1 ? [14,11,22] : [8,9,16]; }
+  function bgOf(s){
+    return s===0 ? [10,13,20] : s===1 ? [14,11,22] : s===2 ? [8,9,16] : s===3 ? [24,13,8] : [7,9,22];
+  }
+  function rampAt(ramp,f){ f=clamp(f,0,0.999); var s=f*(ramp.length-1); var i=s|0; return mix(ramp[i],ramp[i+1],s-i); }
 
   function alloc(){
     var n=cols*rows;
@@ -987,15 +993,9 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     }
   }
 
-  /* ---------------- SCENE 2 : the pattern ---------------- */
-  var DIG={'2':['███','  █','███','█  ','███'],'0':['███','█ █','█ █','█ █','███'],'6':['███','█  ','███','█ █','███']};
-  function bigNum(x,y,s,col){
-    x=Math.round(x); y=Math.round(y);
-    for(var i=0;i<s.length;i++){
-      var d=DIG[s.charAt(i)]; if(!d)continue;
-      for(var r=0;r<5;r++)for(var c=0;c<3;c++){ if(d[r].charAt(c)!==' ') put(x+i*4+c,y+r,'█',col); }
-    }
-  }
+  /* ------- SCENE 2 : the pattern — clean code for AI -------
+     Two ways to feed a model: an ad-hoc blob it must churn
+     through forever, or the classic pattern it reads once. */
   function patternScene(t){
     var P2=9.0; t=t%P2;
     stars(t,0.988);
@@ -1005,7 +1005,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     var tx=cx-((tw/2)|0), ty=compact? Math.floor(rows*0.10) : artTop;
     var pulse=0.8+0.2*Math.sin(t*1.7);
 
-    /* tablet */
+    /* tablet — the pattern itself */
     var bcol=shade(AMBER,0.75*pulse);
     for(var i=1;i<tw-1;i++){ put(tx+i,ty,'═',bcol); put(tx+i,ty+th-1,'═',bcol); }
     for(var j=1;j<th-1;j++){ put(tx,ty+j,'║',bcol); put(tx+tw-1,ty+j,'║',bcol); }
@@ -1013,61 +1013,330 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     txtC(cx,ty,' THE PATTERN ', shade(AMBER,1.15*pulse));
     txtC(cx,ty+2, full?'queries → plain SQL':'queries → SQL', TEAL);
     txtC(cx,ty+3, full?'writes  → the framework':'writes → framework', VIOLET);
-    /* rays */
     var rp=0.5+0.5*Math.sin(t*2.1);
     put(tx-2,ty-1,'╲',shade(AMBER,0.5+rp*0.5)); put(tx+tw+1,ty-1,'╱',shade(AMBER,0.5+rp*0.5));
     put(tx-2,ty+th,'╱',shade(AMBER,0.5+rp*0.5)); put(tx+tw+1,ty+th,'╲',shade(AMBER,0.5+rp*0.5));
     put(cx,ty-2,'│',shade(AMBER,0.4+rp*0.6));
 
-    /* years */
-    var by=compact? Math.floor(rows*0.60) : Math.max(Math.floor(rows*0.40), artTop+9);
-    var lx, rx;
-    if(compact){
-      lx=Math.floor(cols*0.08); rx=cols-lx-6;
-      boxo(lx,by,8,3,shade(AMBER,0.8)); txt(lx+2,by+1,'2006',shade(AMBER,1.2));
-      boxo(rx-2,by,8,3,shade(INDIGO,0.9)); txt(rx,by+1,'2026',shade(INDIGO,1.3));
-      txtC(lx+4,by+4,'HUMAN',shade(AMBER,0.8)); txtC(rx+2,by+4,'AI',shade(INDIGO,0.95));
-    } else {
-      lx=artL+2; rx=artR-16;
-      bigNum(lx,by,'2006',shade(AMBER,0.95));
-      bigNum(rx,by,'2026',shade(INDIGO,1.05));
-      txtC(lx+7,by+6,'HUMAN WISDOM',shade(AMBER,0.85));
-      txtC(rx+7,by+6,'THE AI ERA',shade(INDIGO,0.95));
+    /* two panels the AI could be fed */
+    var pw2 = full?20:(compact?13:16);
+    var ph2 = full?7:6;
+    var by = compact? Math.floor(rows*0.56) : Math.max(Math.floor(rows*0.40), artTop+9);
+    var lxp = compact? Math.floor(cols*0.07) : artL+1;
+    var rxp = compact? cols-pw2-4 : artR-pw2-1;
+
+    /* left: ad-hoc blob — the model churns and rewrites forever */
+    boxo(lxp,by,pw2,ph2,shade(ROSE,0.7));
+    txt(lxp+2,by, compact?' ad-hoc ':' ad-hoc code ',ROSE);
+    for(var yy2=1;yy2<ph2-1;yy2++){
+      for(var xx2=1;xx2<pw2-1;xx2++){
+        var hsh=hash(xx2*7+((t*6)|0)*13, yy2*11+((t*4)|0));
+        if(hsh>0.38){
+          var gch=GLITCH[(xx2*3+yy2*5+((t*8)|0))%GLITCH.length];
+          put(lxp+xx2,by+yy2,gch, shade(ROSE,0.35+0.5*hash(xx2+((t*5)|0),yy2)));
+        }
+      }
+    }
+    put(lxp+1+Math.floor((t*13)%(pw2-2)), by+1+Math.floor((t*1.7)%(ph2-2)), '▌', shade(ROSE,1.5));
+    txtC(lxp+pw2/2, by+ph2, compact?'burns tokens':'tokens: burning', shade(ROSE,0.85));
+    /* waste sparks drifting off the blob */
+    for(var s2=0;s2<6;s2++){
+      var st=(t*0.5+s2/6)%1;
+      var sx2=lxp+2+Math.floor(hash(s2,17)*(pw2-4));
+      var sy2=by-1-Math.floor(st*4);
+      if(sy2>ty+th+1) put(sx2,sy2, st<0.45?'✕':'·', shade(ROSE,0.9*(1-st)));
     }
 
-    /* river of inheritance: 2006 → pattern → 2026 */
-    var ax=compact?lx+9:lx+8, ay=compact?by+1:by-1;
-    var bx2=compact?rx-3:rx+7, by2=compact?by+1:by-1;
-    var mx=cx, my=ty+th+1;
-    var NP=16;
+    /* right: the pattern applied — typed once, then it just runs */
+    boxo(rxp,by,pw2,ph2,shade(TEAL,0.8));
+    txt(rxp+2,by,' clean code ',TEAL);
+    var lines2 = full
+      ? ['find(sql, Book)','save(book)','600 lines, 0 deps','tiny context']
+      : ['find(sql)','save(book)','tiny context'];
+    var lcol2 = [CYAN, VIOLET, MUT, MUT];
+    var totalc=0; for(var i3=0;i3<lines2.length;i3++) totalc+=lines2[i3].length;
+    var progc=Math.floor(clamp((t-0.5)/2.0,0,1)*totalc);
+    var remc=progc;
+    for(i3=0;i3<lines2.length && i3<ph2-2;i3++){
+      var takec=clamp(remc,0,lines2[i3].length);
+      typed(rxp+2,by+1+i3,lines2[i3],lcol2[i3],takec, remc>=0&&remc<=lines2[i3].length&&t<2.6);
+      remc-=lines2[i3].length;
+    }
+    var settled=progc>=totalc;
+    txtC(rxp+pw2/2, by+ph2, compact?'saves tokens':'tokens: saved',
+      shade(TEAL,0.85+(settled?0.2*(0.5+0.5*Math.sin(t*2.4)):0)));
+
+    /* the pattern feeds the clean side */
+    var mxr=cx, myr=ty+th+1;
+    var bx3=rxp+((pw2/2)|0), by3=by-1;
+    var NP=10;
     for(var p2=0;p2<NP;p2++){
-      var uu=(t*0.115 + p2/NP)%1;
-      var xx,yy;
-      if(uu<0.5){ var w1=uu*2; xx=ax+(mx-ax)*w1; yy=ay+(my-ay)*(w1*w1*(3-2*w1)); }
-      else { var w2=(uu-0.5)*2; xx=mx+(bx2-mx)*w2; yy=my+(by2-my)*(w2*w2*(3-2*w2)); }
-      var glyphs=['·','∙','•','⇄','·','∙'];
-      var col=css(mix([251,191,36],[129,140,248],uu));
-      var br=0.6+0.7*Math.exp(-Math.pow((uu-0.5)*4,2));
-      put(Math.round(xx),Math.round(yy),glyphs[p2%glyphs.length],shade(col,br));
+      var uu=(t*0.13 + p2/NP)%1;
+      var xx=mxr+(bx3-mxr)*uu;
+      var yy=myr+(by3-myr)*(uu*uu*(3-2*uu)) - Math.sin(uu*3.14159)*1.5;
+      var col=css(mix([251,191,36],[45,212,191],uu));
+      put(Math.round(xx),Math.round(yy),['·','∙','•'][p2%3],shade(col,0.6+0.5*uu));
     }
 
     /* caption — typed */
     var cy2=Math.floor(rows*(full?0.66:0.78));
-    var msg='even AI must follow human wisdom';
+    var msg='clean code is cheaper for AI';
     var n1=Math.floor(clamp((t-0.9)/1.9,0,1)*msg.length);
     if(n1>0){
       var sx=cx-((msg.length/2)|0);
       typed(sx,cy2,msg,TXT,n1, t<3.0);
     }
     if(t>3.4){
-      var msg2='— the pattern endures —';
+      var msg2='— fewer tokens · better output —';
       var n2=Math.floor(clamp((t-3.4)/1.4,0,1)*msg2.length);
       if(n2>0) typed(cx-((msg2.length/2)|0),cy2+2,msg2,DIMC,n2,false);
     }
   }
 
+  /* ---------------- SCENE 3 : the savanna, full canvas ----------------
+     The payoff, painted edge to edge: silhouettes on a molten
+     horizon. The focal animals keep to the art zone, clear of
+     the hero text; the sky and land run under everything. */
+  function savannaScene(t){
+    var ts=t, P3=9.0; t=t%P3;
+    var setP=clamp(ts/16,0,1);            /* the sun eases down while you watch */
+    var x,y;
+    var hy=Math.floor(rows*0.66);
+    /* layout — herd never blocks the sun, at any viewport width:
+       [acacia + giraffes] · sun · [elephants, ambling toward them].
+       On narrow zones the sun shrinks until everything fits. */
+    var sr0=Math.max(5,rows*0.095);
+    var sunW=Math.round(clamp(zW-49,12,2*sr0/0.55));
+    var sr=sunW*0.275;
+    var sx=artL+Math.round(zW*0.55);
+    var sunL=sx-Math.ceil(sunW/2), sunR=sx+Math.ceil(sunW/2);
+    var sy=hy-Math.floor(rows*0.13)+Math.round(setP*rows*0.115);
+    var dusk=1-0.16*setP;
+    /* sky — molten dusk, full width */
+    for(y=0;y<hy;y++){
+      var v=y/hy; var base=mix([214,88,46],[255,212,110],v);
+      for(x=0;x<cols;x++){
+        var dx=(x-sx)*0.55, dy=y-sy, dd=Math.sqrt(dx*dx+dy*dy);
+        if(dd<sr){ var inr=1-dd/sr; var pulse=0.94+0.06*Math.sin(t*1.2);
+          put(x,y, inr>0.5?'█':inr>0.22?'▓':'▒', css(mix(mix([255,176,80],[255,248,204],inr*pulse),[255,142,58],setP*0.35))); continue; }
+        var glow=clamp(1-(dd-sr)/(sr*2.8),0,1);
+        var c=mix(base,[255,230,152],glow*0.6);
+        var band=clamp(1-(hy-y)/3,0,1);
+        if(band>0) c=mix(c,[255,238,168],band*0.35);
+        var h2=hash(x*3,y*7);
+        var sh=(0.97+0.03*h2)*(compact?0.72:1)*dusk;
+        if(h2>0.972&&v>0.2&&v<0.6) put(x,y,'─',css([c[0]*0.88*sh,c[1]*0.68*sh,c[2]*0.55*sh]));
+        else put(x,y, v>0.78?'▓':'▒', css([c[0]*sh,c[1]*sh,c[2]*sh]));
+      }
+    }
+    var g1=((t*2.0)%(cols+30))-15;
+    put(Math.round(g1),Math.floor(rows*0.10),'⌄',css([74,36,26]));
+    put(Math.round(g1)-7,Math.floor(rows*0.13),'⌄',css([74,36,26]));
+    put(Math.round(g1)-13,Math.floor(rows*0.115),'⌄',css([74,36,26]));
+    /* land — near-black, warm; the sun spills onto it */
+    for(y=hy;y<rows;y++)for(x=0;x<cols;x++){
+      var h3=hash(x*5,y*3);
+      var gl2=clamp(1-Math.abs(x-sx)/(cols*0.2),0,1)*clamp(1-(y-hy)/6,0,1)*(1-0.3*setP);
+      var c2=22+6*h3+gl2*26;
+      put(x,y, h3>0.94?',':'▓', css([c2,c2*0.58+gl2*8,c2*0.38]));
+    }
+    for(x=0;x<cols;x++) if(hash(x,77)>0.8) put(x,hy-1,',',css([32,19,11]));
+    var SIL=css([13,8,6]);
+    /* acacia — only when the zone is wide enough that it will not
+       melt into the giraffes */
+    if(zW>=72){
+      var ax=artL+11, ag=hy, crH=10;
+      for(y=0;y<8;y++) put(ax,ag-y,'█',SIL);
+      put(ax-1,ag-7,'▟',SIL); put(ax+1,ag-7,'▙',SIL);
+      put(ax-2,ag-8,'▗',SIL); put(ax+2,ag-8,'▖',SIL);
+      put(ax-3,ag-8,'▗',SIL); put(ax+3,ag-8,'▖',SIL);
+      for(var cw=-4;cw<=4;cw++) put(ax+cw,ag-11,'▄',SIL);
+      for(cw=-crH+2;cw<=crH-2;cw++) if(hash(cw+9,3)>0.06) put(ax+cw,ag-10,'█',SIL);
+      for(cw=-crH;cw<=crH;cw++) if(hash(cw+9,2)>0.04) put(ax+cw,ag-9,'█',SIL);
+      for(cw=-crH+1;cw<=crH-1;cw++) if(hash(cw+3,7)>0.3) put(ax+cw,ag-8,'▀',SIL);
+    }
+    /* giraffe cow + calf — held clear of the sun's left edge */
+    var gx=Math.max(artL+2, sunL-18);
+    var gb=hy;
+    var bob=Math.round(Math.sin(t*1.1));
+    put(gx,gb,'█',SIL); put(gx,gb-1,'█',SIL); put(gx,gb-2,'█',SIL);
+    put(gx+6,gb,'█',SIL); put(gx+6,gb-1,'█',SIL); put(gx+6,gb-2,'█',SIL);
+    put(gx+2,gb,'▌',SIL); put(gx+2,gb-1,'▌',SIL);
+    put(gx+4,gb,'▐',SIL); put(gx+4,gb-1,'▐',SIL);
+    for(x=0;x<8;x++){ put(gx+x,gb-3,'█',SIL); put(gx+x,gb-4,'█',SIL); }
+    put(gx-1,gb-4,'▙',SIL);
+    put(gx-2,gb-3,'╲',SIL);
+    for(y=1;y<=8;y++){
+      put(gx+7+Math.floor(y*0.6),gb-4-y,'█',SIL);
+      if(y<7) put(gx+8+Math.floor(y*0.6),gb-4-y,'▌',SIL);
+    }
+    var hx=gx+12, hyh=gb-13+bob;
+    put(hx,hyh,'█',SIL); put(hx+1,hyh,'█',SIL); put(hx+2,hyh,'▘',SIL);
+    put(hx,hyh-1,"'",SIL); put(hx+1,hyh-1,"'",SIL);
+    /* the calf, tucked under her neck */
+    var bob2=Math.round(Math.sin(t*1.4+1));
+    var cgx=gx+9;
+    put(cgx,gb,'█',SIL); put(cgx,gb-1,'█',SIL);
+    put(cgx+4,gb,'█',SIL); put(cgx+4,gb-1,'█',SIL);
+    for(x=0;x<5;x++) put(cgx+x,gb-2,'█',SIL);
+    for(y=1;y<=3;y++) put(cgx+4+Math.floor(y*0.4),gb-2-y,'█',SIL);
+    put(cgx+6,gb-6+bob2,'▄',SIL); put(cgx+7,gb-6+bob2,'▖',SIL);
+    /* elephant cow + calf — start clear of the sun, then amble
+       toward the giraffes; the trunk may only graze the disc's edge */
+    var exStart=Math.min(cols-28, sunR+8);
+    if(exStart<sunR+8) exStart=sunR+8;                 /* never start on the sun */
+    var walkMax=Math.max(3,(sunR+2)-(sx+Math.round(sunW*0.38)));
+    var walk=Math.min(walkMax, ts*0.45);
+    var ex=Math.round(exStart-walk);
+    var eb=hy;
+    var gait=((t*2.0)|0)%2;
+    for(y=-6;y<=-2;y++)for(x=0;x<12;x++) put(ex+x,eb+y,'█',SIL);
+    for(y=-7;y<=-3;y++)for(x=-4;x<0;x++) put(ex+x,eb+y,'█',SIL);
+    put(ex-2,eb-8,'▄',SIL); put(ex-1,eb-8,'▄',SIL);
+    var tr=Math.round(Math.sin(t*1.6));
+    put(ex-5,eb-4,'▐',SIL); put(ex-5,eb-3,'▐',SIL);
+    put(ex-5+tr,eb-2,'▌',SIL); put(ex-5+tr,eb-1,'╷',SIL);
+    put(ex-4,eb-3,'▔',css([240,232,216]));
+    put(ex+1,eb-1,'█',SIL); put(ex+1,eb,gait?'▌':'█',SIL);
+    put(ex+4,eb-1,'█',SIL); put(ex+4,eb,gait?'█':'▐',SIL);
+    put(ex+7,eb-1,'█',SIL); put(ex+7,eb,gait?'▐':'█',SIL);
+    put(ex+10,eb-1,'█',SIL); put(ex+10,eb,'▌',SIL);
+    put(ex+12,eb-5,'╲',SIL);
+    /* the calf, trailing close behind */
+    if(exStart+26<=cols-2){
+      var cex=ex+17;
+      var gait2=((t*2.0+0.6)|0)%2;
+      var tr2=Math.round(Math.sin(t*1.9+1));
+      for(y=-4;y<=-2;y++)for(x=0;x<7;x++) put(cex+x,eb+y,'█',SIL);
+      for(y=-4;y<=-2;y++)for(x=-2;x<0;x++) put(cex+x,eb+y,'█',SIL);
+      put(cex-1,eb-5,'▄',SIL);
+      put(cex-3,eb-3,'▌',SIL); put(cex-3+tr2,eb-2,'╷',SIL);
+      put(cex+1,eb-1,'█',SIL); put(cex+1,eb,gait2?'▌':'█',SIL);
+      put(cex+5,eb-1,'█',SIL); put(cex+5,eb,gait2?'█':'▐',SIL);
+      put(cex+7,eb-4,'╲',SIL);
+    }
+    /* caption on the darkened land */
+    if(!compact){
+      var cy=Math.floor(rows*0.86);
+      var msg='the pager stays quiet on safari';
+      var n1=Math.floor(clamp((t-0.8)/1.8,0,1)*msg.length);
+      if(n1>0) typed(zx(0.5)-((msg.length/2)|0), cy, msg, css([206,158,116]), n1, t<2.8);
+    }
+  }
+
+  /* ---------------- SCENE 4 : aurora over Lapland ----------------
+     Finland pays off in green: curtains breathing over a spruce
+     stand, snow, and a mökki with the fire lit. */
+  var CURT=[
+    {b:0.62,a:0.15,f:0.05,p:0,s:0.5},
+    {b:0.50,a:0.19,f:0.036,p:2.2,s:-0.38},
+    {b:0.74,a:0.11,f:0.068,p:4.1,s:0.85}
+  ];
+  var RAMP=[[70,240,150],[38,212,202],[122,132,255],[236,120,214]];
+  function auroraScene(t){
+    var x,y;
+    var hy2=Math.floor(rows*0.80);
+    /* deep night + stars */
+    for(y=0;y<hy2;y++){
+      var v=y/hy2; var base=mix([7,8,24],[14,14,36],v);
+      for(x=0;x<cols;x++){
+        var h=hash(x*3+11,y*5+7);
+        if(h>0.986){ var tw=0.45+0.55*Math.sin(t*2.4+h*40); put(x,y, h>0.997?'✦':'·', css([170*tw+50,175*tw+50,210*tw+45])); }
+        else if(h>0.5) put(x,y,'░',css(base));
+      }
+    }
+    /* the aurora — three breathing curtains */
+    for(var c4=0;c4<3;c4++){
+      var cu=CURT[c4];
+      var baseY=cu.b*hy2, amp=cu.a*hy2;
+      for(x=0;x<cols;x++){
+        var yc=baseY + Math.sin(x*cu.f + t*cu.s + cu.p)*amp;
+        var hgt=Math.floor(hy2*0.46*(0.6+0.4*Math.sin(x*0.045+t*0.6+cu.p)));
+        for(var dyy=0;dyy<hgt;dyy++){
+          var yy=Math.round(yc)-dyy; if(yy<0||yy>=hy2)continue;
+          var inten=1-dyy/hgt;
+          var flick=0.72+0.28*Math.sin(t*3.5 + x*0.25 + c4);
+          var col=rampAt(RAMP, clamp(dyy/hgt + 0.08*Math.sin(x*0.04+t),0,1));
+          var bright=(0.42+0.58*inten)*flick;
+          var ch = inten>0.7?'║': inten>0.45?'│': inten>0.22?'▒':'░';
+          put(x,yy, ch, css([col[0]*bright,col[1]*bright,col[2]*bright]));
+        }
+      }
+    }
+    /* a slow shooting star */
+    var sp=(t%9);
+    if(sp<0.7){
+      var pp=sp/0.7;
+      var sx4=Math.floor((compact?cols*0.4:zx(0.12))+pp*cols*0.22), sy4=Math.floor(rows*0.09+pp*rows*0.06);
+      put(sx4,sy4,'✦',css([230,235,255]));
+      put(sx4-1,sy4,'─',css([150,160,200])); put(sx4-2,sy4,'─',css([90,100,140]));
+    }
+    /* snow, lit softly by the sky */
+    for(x=0;x<cols;x++){
+      var edge=hy2+Math.round(Math.sin(x*0.13+1)*1.4);
+      for(y=edge;y<rows;y++){
+        var v2=(y-edge)/Math.max(1,rows-edge);
+        var c5=mix([206,220,248],[124,140,180],v2);
+        var h5=hash(x*5,y*3);
+        var glint=h5>0.99;
+        var sp2=glint? (0.9+0.3*Math.sin(t*3+x)) : (0.95+0.05*h5);
+        put(x,y, glint?'✦': h5>0.4?'▓':'▒', css([c5[0]*sp2,c5[1]*sp2,c5[2]*sp2]));
+      }
+      if(hash(x,41)>0.985) put(x,edge-1,'▲',css([16,26,24]));
+    }
+    var DARKI=css([20,36,28]), DARKE=css([40,66,50]);
+    var SNOWC=css([214,226,244]);
+    /* spruce stand — moonlit green, snow on the boughs */
+    var TS=[[0.05,11],[0.12,8],[0.19,12],[0.29,7],[0.76,6],[0.86,10],[0.94,7]];
+    for(var t5=0;t5<TS.length;t5++){
+      var cx5=compact? Math.floor(cols*TS[t5][0]) : zx(TS[t5][0]);
+      var th5=TS[t5][1];
+      var gbase=hy2+Math.round(Math.sin(cx5*0.13+1)*1.4);
+      for(var i5=0;i5<th5;i5++){
+        var w5=Math.floor(i5*0.42);
+        var yy5=gbase-th5+i5;
+        for(var d5=-w5;d5<=w5;d5++)
+          put(cx5+d5,yy5,'█', (d5===-w5||d5===w5)?DARKE:DARKI);
+        if(w5>0&&hash(i5,t5)>0.55) put(cx5+(hash(i5*3,t5)>0.5?w5:-w5),yy5,'▄',SNOWC);
+      }
+      put(cx5,gbase-th5,'▲',DARKE);
+      put(cx5,gbase-th5+1,'▄',SNOWC);
+      put(cx5,gbase,'█',DARKI);
+    }
+    /* the mökki — snow on the roof, fire in the window */
+    var mx=compact? Math.floor(cols*0.55) : zx(0.55);
+    var mb=hy2+1;
+    for(y=0;y<4;y++)for(x=-5;x<=5;x++) put(mx+x,mb-y,'█',css([34,25,19]));
+    for(x=-6;x<=6;x++) put(mx+x,mb-4,'▄',css([54,41,31]));
+    for(x=-6;x<=6;x++) put(mx+x,mb-5,'▄',SNOWC);
+    var wp=0.75+0.25*Math.sin(t*2.2);
+    put(mx-3,mb-2,'█',css([255*wp,196*wp,96*wp])); put(mx-2,mb-2,'█',css([255*wp,196*wp,96*wp]));
+    put(mx+2,mb-2,'█',css([255*wp,196*wp,96*wp])); put(mx+3,mb-2,'█',css([255*wp,196*wp,96*wp]));
+    put(mx+4,mb-6,'█',css([48,36,28]));
+    /* smoke — warm grey puffs, swelling as they rise */
+    for(var k5=0;k5<5;k5++){
+      var age=((t*0.35)+k5*0.2)%1;
+      var smy=mb-7-age*8;
+      var smx=mx+4+Math.round(age*2.4+Math.sin(t*0.8+k5*2.1)*1.3);
+      var br=1-age*0.72;
+      var ch5s = age<0.25?'∙': age<0.6?'○':'∘';
+      put(Math.round(smx),Math.round(smy),ch5s,css([150*br+40,138*br+38,124*br+36]));
+    }
+    /* caption */
+    if(!compact){
+      var cy=Math.floor(rows*0.90);
+      var msg='off-call under the northern lights';
+      var n1=Math.floor(clamp((t-0.8)/1.8,0,1)*msg.length);
+      if(n1>0) typed(zx(0.5)-((msg.length/2)|0), cy, msg, css([190,240,220]), n1, t<2.8);
+    }
+  }
+
   function renderScene(s,t){
-    if(s===0) findScene(t); else if(s===1) saveScene(t); else patternScene(t);
+    if(s===0) findScene(t);
+    else if(s===1) saveScene(t);
+    else if(s===2) patternScene(t);
+    else if(s===3) savannaScene(t);
+    else auroraScene(t);
   }
 
   /* ---------------- paint ---------------- */
