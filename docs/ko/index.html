@@ -344,7 +344,7 @@
 <header class="site-header" id="header">
   <div class="wrap header-inner">
     <a class="brand" href="#top" aria-label="pymodelet home">
-      <span class="dot"></span>pymodelet<span class="since">EST. 2006</span>
+      <span class="dot"></span>pymodelet<span class="since">SQL-FIRST</span>
     </a>
     <nav class="nav" aria-label="Primary">
       <a href="#philosophy" data-i18n="nav.philosophy">철학</a>
@@ -390,7 +390,7 @@
     <div class="scene-dots" id="scene-dots" role="tablist" aria-label="ORM scene">
       <button aria-current="true" aria-label="model.find() — SQL to objects"></button>
       <button aria-current="false" aria-label="model.save() — object to SQL"></button>
-      <button aria-current="false" aria-label="The pattern — 2006 to the AI era"></button>
+      <button aria-current="false" aria-label="The pattern — clean code for AI"></button>
     </div>
   </div>
   <div class="hero-hint" aria-hidden="true">rendered live · ASCII</div>
@@ -587,9 +587,9 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
         <a href="https://mattataiera.github.io/modelet/" data-i18n="footer.java">Modelet (Java)</a>
       </div>
     </div>
-    <div class="foot-horizon" aria-hidden="true">═╪═══╪══ SELECT ══╪═&gt;&gt; ┌─{ Book }─┐ &gt;&gt;═╪══ save() ══╪═&gt;&gt; INSERT · UPDATE · DELETE &gt;&gt;═╪═══╪══ 2006 ⇄ ∞ ══╪═══╪═</div>
+    <div class="foot-horizon" aria-hidden="true">═╪═══╪══ SELECT ══╪═&gt;&gt; ┌─{ Book }─┐ &gt;&gt;═╪══ save() ══╪═&gt;&gt; INSERT · UPDATE · DELETE &gt;&gt;═╪═══╪══ clean ⇄ code ══╪═══╪═</div>
     <div class="foot-bottom">
-      <span>© 2006–2026 Matt · Apache-2.0</span>
+      <span>© 2026 pymodelet · Apache-2.0</span>
       <span>SQL-first micro ORM</span>
     </div>
   </div>
@@ -620,7 +620,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
   var artL=0, artR=0, zW=0, artTop=5, tier='full', compact=false;
 
   var SCENES=3;
-  var LABELS=['model.find() · SQL → objects','model.save() · object → SQL','the pattern · 2006 → AI era'];
+  var LABELS=['model.find() · SQL → objects','model.save() · object → SQL','the pattern · clean code for AI'];
   var scene=0, next=1, mode='hold', stateT=0;
   var HOLD=8.6, TRANS=1.25;
   var GLITCH='▚▞▓▒░#%*·+=/\\|<>'.split('');
@@ -987,15 +987,9 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     }
   }
 
-  /* ---------------- SCENE 2 : the pattern ---------------- */
-  var DIG={'2':['███','  █','███','█  ','███'],'0':['███','█ █','█ █','█ █','███'],'6':['███','█  ','███','█ █','███']};
-  function bigNum(x,y,s,col){
-    x=Math.round(x); y=Math.round(y);
-    for(var i=0;i<s.length;i++){
-      var d=DIG[s.charAt(i)]; if(!d)continue;
-      for(var r=0;r<5;r++)for(var c=0;c<3;c++){ if(d[r].charAt(c)!==' ') put(x+i*4+c,y+r,'█',col); }
-    }
-  }
+  /* ------- SCENE 2 : the pattern — clean code for AI -------
+     Two ways to feed a model: an ad-hoc blob it must churn
+     through forever, or the classic pattern it reads once. */
   function patternScene(t){
     var P2=9.0; t=t%P2;
     stars(t,0.988);
@@ -1005,7 +999,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     var tx=cx-((tw/2)|0), ty=compact? Math.floor(rows*0.10) : artTop;
     var pulse=0.8+0.2*Math.sin(t*1.7);
 
-    /* tablet */
+    /* tablet — the pattern itself */
     var bcol=shade(AMBER,0.75*pulse);
     for(var i=1;i<tw-1;i++){ put(tx+i,ty,'═',bcol); put(tx+i,ty+th-1,'═',bcol); }
     for(var j=1;j<th-1;j++){ put(tx,ty+j,'║',bcol); put(tx+tw-1,ty+j,'║',bcol); }
@@ -1013,54 +1007,81 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     txtC(cx,ty,' THE PATTERN ', shade(AMBER,1.15*pulse));
     txtC(cx,ty+2, full?'queries → plain SQL':'queries → SQL', TEAL);
     txtC(cx,ty+3, full?'writes  → the framework':'writes → framework', VIOLET);
-    /* rays */
     var rp=0.5+0.5*Math.sin(t*2.1);
     put(tx-2,ty-1,'╲',shade(AMBER,0.5+rp*0.5)); put(tx+tw+1,ty-1,'╱',shade(AMBER,0.5+rp*0.5));
     put(tx-2,ty+th,'╱',shade(AMBER,0.5+rp*0.5)); put(tx+tw+1,ty+th,'╲',shade(AMBER,0.5+rp*0.5));
     put(cx,ty-2,'│',shade(AMBER,0.4+rp*0.6));
 
-    /* years */
-    var by=compact? Math.floor(rows*0.60) : Math.max(Math.floor(rows*0.40), artTop+9);
-    var lx, rx;
-    if(compact){
-      lx=Math.floor(cols*0.08); rx=cols-lx-6;
-      boxo(lx,by,8,3,shade(AMBER,0.8)); txt(lx+2,by+1,'2006',shade(AMBER,1.2));
-      boxo(rx-2,by,8,3,shade(INDIGO,0.9)); txt(rx,by+1,'2026',shade(INDIGO,1.3));
-      txtC(lx+4,by+4,'HUMAN',shade(AMBER,0.8)); txtC(rx+2,by+4,'AI',shade(INDIGO,0.95));
-    } else {
-      lx=artL+2; rx=artR-16;
-      bigNum(lx,by,'2006',shade(AMBER,0.95));
-      bigNum(rx,by,'2026',shade(INDIGO,1.05));
-      txtC(lx+7,by+6,'HUMAN WISDOM',shade(AMBER,0.85));
-      txtC(rx+7,by+6,'THE AI ERA',shade(INDIGO,0.95));
+    /* two panels the AI could be fed */
+    var pw2 = full?20:(compact?13:16);
+    var ph2 = full?7:6;
+    var by = compact? Math.floor(rows*0.56) : Math.max(Math.floor(rows*0.40), artTop+9);
+    var lxp = compact? Math.floor(cols*0.07) : artL+1;
+    var rxp = compact? cols-pw2-4 : artR-pw2-1;
+
+    /* left: ad-hoc blob — the model churns and rewrites forever */
+    boxo(lxp,by,pw2,ph2,shade(ROSE,0.7));
+    txt(lxp+2,by, compact?' ad-hoc ':' ad-hoc code ',ROSE);
+    for(var yy2=1;yy2<ph2-1;yy2++){
+      for(var xx2=1;xx2<pw2-1;xx2++){
+        var hsh=hash(xx2*7+((t*6)|0)*13, yy2*11+((t*4)|0));
+        if(hsh>0.38){
+          var gch=GLITCH[(xx2*3+yy2*5+((t*8)|0))%GLITCH.length];
+          put(lxp+xx2,by+yy2,gch, shade(ROSE,0.35+0.5*hash(xx2+((t*5)|0),yy2)));
+        }
+      }
+    }
+    put(lxp+1+Math.floor((t*13)%(pw2-2)), by+1+Math.floor((t*1.7)%(ph2-2)), '▌', shade(ROSE,1.5));
+    txtC(lxp+pw2/2, by+ph2, compact?'burns tokens':'tokens: burning', shade(ROSE,0.85));
+    /* waste sparks drifting off the blob */
+    for(var s2=0;s2<6;s2++){
+      var st=(t*0.5+s2/6)%1;
+      var sx2=lxp+2+Math.floor(hash(s2,17)*(pw2-4));
+      var sy2=by-1-Math.floor(st*4);
+      if(sy2>ty+th+1) put(sx2,sy2, st<0.45?'✕':'·', shade(ROSE,0.9*(1-st)));
     }
 
-    /* river of inheritance: 2006 → pattern → 2026 */
-    var ax=compact?lx+9:lx+8, ay=compact?by+1:by-1;
-    var bx2=compact?rx-3:rx+7, by2=compact?by+1:by-1;
-    var mx=cx, my=ty+th+1;
-    var NP=16;
+    /* right: the pattern applied — typed once, then it just runs */
+    boxo(rxp,by,pw2,ph2,shade(TEAL,0.8));
+    txt(rxp+2,by,' clean code ',TEAL);
+    var lines2 = full
+      ? ['find(sql, Book)','save(book)','600 lines, 0 deps','tiny context']
+      : ['find(sql)','save(book)','tiny context'];
+    var lcol2 = [CYAN, VIOLET, MUT, MUT];
+    var totalc=0; for(var i3=0;i3<lines2.length;i3++) totalc+=lines2[i3].length;
+    var progc=Math.floor(clamp((t-0.5)/2.0,0,1)*totalc);
+    var remc=progc;
+    for(i3=0;i3<lines2.length && i3<ph2-2;i3++){
+      var takec=clamp(remc,0,lines2[i3].length);
+      typed(rxp+2,by+1+i3,lines2[i3],lcol2[i3],takec, remc>=0&&remc<=lines2[i3].length&&t<2.6);
+      remc-=lines2[i3].length;
+    }
+    var settled=progc>=totalc;
+    txtC(rxp+pw2/2, by+ph2, compact?'saves tokens':'tokens: saved',
+      shade(TEAL,0.85+(settled?0.2*(0.5+0.5*Math.sin(t*2.4)):0)));
+
+    /* the pattern feeds the clean side */
+    var mxr=cx, myr=ty+th+1;
+    var bx3=rxp+((pw2/2)|0), by3=by-1;
+    var NP=10;
     for(var p2=0;p2<NP;p2++){
-      var uu=(t*0.115 + p2/NP)%1;
-      var xx,yy;
-      if(uu<0.5){ var w1=uu*2; xx=ax+(mx-ax)*w1; yy=ay+(my-ay)*(w1*w1*(3-2*w1)); }
-      else { var w2=(uu-0.5)*2; xx=mx+(bx2-mx)*w2; yy=my+(by2-my)*(w2*w2*(3-2*w2)); }
-      var glyphs=['·','∙','•','⇄','·','∙'];
-      var col=css(mix([251,191,36],[129,140,248],uu));
-      var br=0.6+0.7*Math.exp(-Math.pow((uu-0.5)*4,2));
-      put(Math.round(xx),Math.round(yy),glyphs[p2%glyphs.length],shade(col,br));
+      var uu=(t*0.13 + p2/NP)%1;
+      var xx=mxr+(bx3-mxr)*uu;
+      var yy=myr+(by3-myr)*(uu*uu*(3-2*uu)) - Math.sin(uu*3.14159)*1.5;
+      var col=css(mix([251,191,36],[45,212,191],uu));
+      put(Math.round(xx),Math.round(yy),['·','∙','•'][p2%3],shade(col,0.6+0.5*uu));
     }
 
     /* caption — typed */
     var cy2=Math.floor(rows*(full?0.66:0.78));
-    var msg='even AI must follow human wisdom';
+    var msg='clean code is cheaper for AI';
     var n1=Math.floor(clamp((t-0.9)/1.9,0,1)*msg.length);
     if(n1>0){
       var sx=cx-((msg.length/2)|0);
       typed(sx,cy2,msg,TXT,n1, t<3.0);
     }
     if(t>3.4){
-      var msg2='— the pattern endures —';
+      var msg2='— fewer tokens · better output —';
       var n2=Math.floor(clamp((t-3.4)/1.4,0,1)*msg2.length);
       if(n2>0) typed(cx-((msg2.length/2)|0),cy2+2,msg2,DIMC,n2,false);
     }
