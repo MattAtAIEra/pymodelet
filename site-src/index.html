@@ -384,6 +384,11 @@
       <button aria-current="true" aria-label="model.find() — SQL to objects"></button>
       <button aria-current="false" aria-label="model.save() — object to SQL"></button>
       <button aria-current="false" aria-label="The pattern — clean code for AI"></button>
+      <button aria-current="false" aria-label="The payoff — an evening with Beethoven"></button>
+      <button aria-current="false" aria-label="The payoff — a starry night after van Gogh"></button>
+      <button aria-current="false" aria-label="The payoff — elephants and giraffes on the savanna"></button>
+      <button aria-current="false" aria-label="The payoff — the Grand Canyon"></button>
+      <button aria-current="false" aria-label="The payoff — the Eiffel Tower at dusk"></button>
     </div>
   </div>
   <div class="hero-hint" aria-hidden="true">rendered live · ASCII</div>
@@ -612,8 +617,10 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
   var curCh=null, curCo=null;
   var artL=0, artR=0, zW=0, artTop=5, tier='full', compact=false;
 
-  var SCENES=3;
-  var LABELS=['model.find() · SQL → objects','model.save() · object → SQL','the pattern · clean code for AI'];
+  var SCENES=8;
+  var LABELS=['model.find() · SQL → objects','model.save() · object → SQL','the pattern · clean code for AI',
+              'the payoff · music','the payoff · starry night','the payoff · the savanna',
+              'the payoff · grand canyon','the payoff · paris'];
   var scene=0, next=1, mode='hold', stateT=0;
   var HOLD=8.6, TRANS=1.25;
   var GLITCH='▚▞▓▒░#%*·+=/\\|<>'.split('');
@@ -632,7 +639,11 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
   function shade(cssStr,f){var m=/rgb\((\d+),(\d+),(\d+)\)/.exec(cssStr); if(!m)return cssStr;
     return 'rgb('+Math.min(255,(+m[1])*f|0)+','+Math.min(255,(+m[2])*f|0)+','+Math.min(255,(+m[3])*f|0)+')';}
 
-  function bgOf(s){ return s===0 ? [10,13,20] : s===1 ? [14,11,22] : [8,9,16]; }
+  function bgOf(s){
+    return s===0 ? [10,13,20] : s===1 ? [14,11,22] : s===2 ? [8,9,16] :
+           s===3 ? [15,10,11] : s===4 ? [8,10,22] : s===5 ? [22,12,9] :
+           s===6 ? [19,10,10] : [11,9,20];
+  }
 
   function alloc(){
     var n=cols*rows;
@@ -1080,8 +1091,310 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
     }
   }
 
+  /* ============================================================
+     SCENES 3–7 : the payoff — a small gallery
+     What clean code buys back: evenings, art, wild places.
+     Each piece hangs in a gilded frame with a plaque.
+     ============================================================ */
+  function frameArt(t, innerFn, plaque, caption){
+    var fx,fy,fw;
+    if(compact){ fx=2; fw=cols-4; fy=Math.floor(rows*0.10); }
+    else { fx=artL; fw=zW+1; fy=artTop; }
+    var fh=Math.min(Math.floor(rows*0.62)-fy, compact?20:26);
+    if(fh<12) fh=12;
+    var fc=shade(AMBER,0.5+0.08*Math.sin(t*1.5));
+    for(var i=1;i<fw-1;i++){ put(fx+i,fy,'═',fc); put(fx+i,fy+fh-1,'═',fc); }
+    for(var j=1;j<fh-1;j++){ put(fx,fy+j,'║',fc); put(fx+fw-1,fy+j,'║',fc); }
+    put(fx,fy,'╔',fc); put(fx+fw-1,fy,'╗',fc); put(fx,fy+fh-1,'╚',fc); put(fx+fw-1,fy+fh-1,'╝',fc);
+    put(fx+1,fy,'❖',shade(AMBER,0.9)); put(fx+fw-2,fy,'❖',shade(AMBER,0.9));
+    innerFn(fx+1, fy+1, fw-2, fh-2, t);
+    if(!compact){
+      txtC(fx+fw/2, fy+fh, '┤ '+plaque+' ├', shade(AMBER,0.95));
+      var n=Math.floor(clamp((t-1.0)/1.8,0,1)*caption.length);
+      if(n>0) typed(fx+fw/2-caption.length/2, fy+fh+2, caption, MUT, n, t<3.2);
+    }
+  }
+
+  /* --- 3 · Beethoven: a bust, a stave, the Ninth --- */
+  function artBeethoven(ix,iy,iw,ih,t){
+    var x,y;
+    for(y=0;y<ih;y++){ var v=y/ih; var c=mix([30,17,18],[58,32,26],v);
+      for(x=0;x<iw;x++){ if(hash(x*3+9,y*7+3)>0.62) put(ix+x,iy+y,'░',css([c[0]*0.8,c[1]*0.8,c[2]*0.8])); } }
+    /* bust, bottom-left, lit from the right */
+    var bw=Math.min(19,Math.floor(iw*0.34)), bh=ih-1;
+    var bx0=ix+1, by0=iy+ih-bh;
+    var cxh=bx0+bw*0.44, cyh=by0+bh*0.17, rxh=bw*0.50, ryh=bh*0.21;
+    for(y=0;y<bh;y++){
+      var r=y/bh, yy=by0+y;
+      var edge=-1;
+      if(r>=0.30&&r<0.58){
+        edge=Math.floor(bw*0.56);
+        if(r>=0.40&&r<0.47) edge=Math.floor(bw*0.70);       /* nose */
+        else if(r>=0.33&&r<0.40) edge=Math.floor(bw*0.58);  /* brow */
+        else if(r>=0.47&&r<0.52) edge=Math.floor(bw*0.60);  /* lips */
+        else if(r>=0.52) edge=Math.floor(bw*0.54);          /* chin */
+      }
+      for(x=0;x<bw+4;x++){
+        var xx=bx0+x;
+        var eh=Math.pow((xx-cxh)/rxh,2)+Math.pow((yy-cyh)/ryh,2);
+        if(r<0.40 && eh<1){ /* the famous hair */
+          var hn=hash(x*5+1,y*3+7);
+          if(hn>0.15) put(xx,yy, hn>0.7?'▓':'▒', css(eh>0.58&&xx>cxh? [128,88,54] : [44,31,27]));
+          continue;
+        }
+        if(edge>=0){ /* profile, facing right */
+          if(x>bw*0.14&&x<edge) put(xx,yy,'▓', css(x>edge-3?[172,128,94]:[118,84,64]));
+          else if(x===edge) put(xx,yy,'▌', css([214,170,126]));   /* rim light */
+          if(r>=0.41&&r<0.45&&x===Math.floor(bw*0.50)) put(xx,yy,'·',css([18,12,10]));
+          continue;
+        }
+        if(r>=0.56&&r<0.70){ /* cravat */
+          var cvL=bw*0.26, cvR=bw*0.62-(r-0.56)*bw*1.4;
+          if(x>cvL&&x<cvR){ put(xx,yy, hash(x,y)>0.4?'█':'▓', css([230,224,210])); continue; }
+        }
+        if(r>=0.62){ /* coat, shoulders spreading */
+          var sp=clamp((r-0.62)*6,0,1);
+          if(x> bw*0.10-sp*2 && x< bw*0.86+sp*Math.min(5,iw*0.08)) put(xx,yy,'█',css([25,19,21]));
+        }
+      }
+    }
+    /* stave + Ode to Joy */
+    var sx0=ix+Math.floor(iw*0.40), sx1=ix+iw-2, span=sx1-sx0;
+    var sy=iy+Math.max(2,Math.floor(ih*0.16));
+    for(var L=0;L<5;L++) for(x=sx0;x<=sx1;x++) put(x,sy+L*2,'─',css([70,58,74]));
+    var MEL=[2,2,3,4,4,3,2,1,0,0,1,2,2,1,1];
+    var step=span/(MEL.length+1);
+    var px=sx0+((t*0.9)%7)/7*span;
+    for(var n2=0;n2<MEL.length;n2++){
+      var nx=Math.round(sx0+step*(n2+1));
+      var ny=sy+8-MEL[n2]*2+ (MEL[n2]%2===0?0:1);
+      var d2=Math.abs(nx-px);
+      var bright = d2<2 ? 1.6 : nx<px ? 0.95 : 0.55;
+      put(nx,ny, n2%3===2?'♫':'♪', shade(AMBER,bright));
+      if(d2<2) put(nx,ny-1,'·',shade(AMBER,0.9));
+    }
+    /* keyboard */
+    var ky=iy+ih-1, kx0=ix+Math.floor(iw*0.40);
+    for(x=kx0;x<ix+iw-1;x++){
+      var k=(x-kx0);
+      var isBlack=(k%7===1||k%7===2||k%7===4||k%7===5||k%7===6)&&k%2===1;
+      var lit=Math.abs(x-(kx0+(px-sx0)))<1.5;
+      put(x,ky, isBlack?'▀':'█', lit? shade(AMBER,1.4) : css(isBlack?[38,34,40]:[212,206,194]));
+    }
+  }
+
+  /* --- 4 · after van Gogh: the night, swirling --- */
+  function artVanGogh(ix,iy,iw,ih,t){
+    var x,y;
+    var hy=Math.floor(ih*0.70);
+    var V=[[ix+iw*0.34,iy+ih*0.26,iw*0.30],[ix+iw*0.68,iy+ih*0.34,iw*0.24]];
+    for(y=0;y<hy;y++){
+      var v=y/hy; var base=mix([16,24,56],[30,44,84],v);
+      for(x=0;x<iw;x++){
+        var xx=ix+x, yy=iy+y;
+        var best=0, bi=0;
+        for(var k=0;k<2;k++){ var dx=(xx-V[k][0]), dy=(yy-V[k][1])*2.1;
+          var rr=Math.sqrt(dx*dx+dy*dy); var wgt=1-rr/V[k][2]; if(wgt>best){best=wgt;bi=k;} }
+        if(best>0){
+          var dx2=xx-V[bi][0], dy2=(yy-V[bi][1])*2.1;
+          var ang=Math.atan2(dy2,dx2), rr2=Math.sqrt(dx2*dx2+dy2*dy2);
+          var band=Math.sin(ang*3 + rr2*0.55 - t*1.35);
+          if(band>0.30){
+            var lum=0.55+0.45*band+best*0.3;
+            put(xx,yy, band>0.72?'≈':'~', css(mix(base,[132,164,224],clamp(lum-0.4,0,1))));
+            continue;
+          }
+        }
+        if(hash(x*3,y*5)>0.965){ var tw2=0.5+0.5*Math.sin(t*2+x); put(xx,yy,'·',css([150*tw2+60,150*tw2+60,190*tw2+60])); }
+        else if(hash(x*7,y*3)>0.55) put(xx,yy,'░',css([base[0]*0.75,base[1]*0.75,base[2]*0.85]));
+      }
+    }
+    /* eleven stars + a moon */
+    var STARS=[[0.12,0.18],[0.24,0.42],[0.30,0.10],[0.46,0.30],[0.55,0.12],[0.62,0.44],[0.76,0.20],[0.86,0.38],[0.42,0.52],[0.18,0.56],[0.68,0.56]];
+    for(var s3=0;s3<STARS.length;s3++){
+      var stx=ix+Math.floor(iw*STARS[s3][0]), sty=iy+Math.floor(hy*STARS[s3][1]);
+      var ph=0.7+0.3*Math.sin(t*1.8+s3*2.2);
+      put(stx,sty,'✶',css([255*ph,224*ph,120*ph]));
+      put(stx-1,sty,'(',css([190*ph,170*ph,90*ph])); put(stx+1,sty,')',css([190*ph,170*ph,90*ph]));
+    }
+    var mx2=ix+iw-5, my2=iy+2;
+    put(mx2,my2,'◗',css([255,232,150])); put(mx2-1,my2,'(',css([200,180,100])); put(mx2,my2-1,'‿',css([160,140,80])); put(mx2,my2+1,'⌣',css([160,140,80]));
+    /* cypress — the dark flame */
+    var cxx=ix+4;
+    for(y=1;y<ih-1;y++){
+      var p2=1-y/(ih-1);
+      var wv=Math.max(0,Math.round(3.1*p2+1.2*Math.sin(y*0.85+t*0.7)*p2));
+      var xoff=Math.round(Math.sin(y*0.45)*0.9);
+      for(var d3=-wv;d3<=wv;d3++)
+        put(cxx+d3+xoff, iy+y, hash(d3+5,y)>0.4?'█':'▓', css([17,35,20]));
+    }
+    /* hills, village, lit windows */
+    for(x=0;x<iw;x++){
+      var hh=hy+Math.round(1.6*Math.sin(x*0.18+1))+1;
+      for(y=hh;y<ih;y++) put(ix+x,iy+y, y===hh?'▄':'█', css([18,26,46]));
+    }
+    for(var b2=0;b2<7;b2++){
+      var bx2=ix+Math.floor(iw*(0.22+b2*0.105));
+      var byv=iy+ih-3;
+      put(bx2,byv-1,'▄',css([32,32,46])); put(bx2+1,byv-1,'▄',css([32,32,46]));
+      put(bx2,byv,'█',css([27,27,38])); put(bx2+1,byv,'█',css([27,27,38]));
+      if(hash(b2,3)>0.25){ var fw2=0.7+0.3*Math.sin(t*3+b2*5); put(bx2+(b2%2),byv,'▪',css([255*fw2,200*fw2,90*fw2])); }
+    }
+    var chx=ix+Math.floor(iw*0.52);
+    for(y=0;y<4;y++) put(chx,iy+ih-2-y,'█',css([22,24,34]));
+    put(chx,iy+ih-6,'▲',css([26,28,38])); put(chx,iy+ih-7,'†',css([120,120,140]));
+  }
+
+  /* --- 5 · the savanna: silhouettes on a molten horizon --- */
+  function artSavanna(ix,iy,iw,ih,t){
+    var x,y;
+    var hy=Math.floor(ih*0.72);
+    var sx=ix+Math.floor(iw*0.70), sy2=iy+Math.floor(hy*0.80), sr=4.5;
+    /* glowing dusk sky */
+    for(y=0;y<hy;y++){
+      var v=y/hy; var base=mix([212,88,44],[255,206,106],v);
+      for(x=0;x<iw;x++){
+        var xx=ix+x, yy=iy+y;
+        var dx=(xx-sx)*0.55, dy=yy-sy2, dd=Math.sqrt(dx*dx+dy*dy);
+        if(dd<sr){ var inr=1-dd/sr; put(xx,yy, inr>0.5?'█':inr>0.22?'▓':'▒', css(mix([255,182,86],[255,248,202],inr))); continue; }
+        var glow=clamp(1-(dd-sr)/(sr*2.6),0,1);
+        var c=mix(base,[255,226,142],glow*0.55);
+        var h2=hash(x*3,y*7);
+        var sh=0.96+0.04*h2;
+        if(h2>0.975&&v<0.5) put(xx,yy,'─',css([c[0]*0.85,c[1]*0.64,c[2]*0.52]));
+        else put(xx,yy,'░',css([c[0]*sh,c[1]*sh,c[2]*sh]));
+      }
+    }
+    var g1=ix+((t*2.2)%(iw+10))-5;
+    put(Math.round(g1),iy+2,'⌄',css([70,34,26])); put(Math.round(g1)+6,iy+3,'⌄',css([70,34,26]));
+    /* dark land */
+    for(y=hy;y<ih;y++)for(x=0;x<iw;x++){
+      var h3=hash(x*5,y*3); var c2=24+7*h3;
+      put(ix+x,iy+y, h3>0.94?',':'▓', css([c2,c2*0.6,c2*0.4]));
+    }
+    var SIL=css([15,9,7]);
+    /* acacia on the horizon */
+    var ax2=ix+Math.floor(iw*0.14), ayg=iy+hy;
+    for(y=0;y<6;y++) put(ax2,ayg-y,'█',SIL);
+    put(ax2-1,ayg-5,'▟',SIL); put(ax2+1,ayg-5,'▙',SIL);
+    for(var cw2=-8;cw2<=8;cw2++){
+      if(hash(cw2+9,2)>0.06){
+        put(ax2+cw2,ayg-7,'▄',SIL); put(ax2+cw2,ayg-6,'█',SIL);
+        if(Math.abs(cw2)<6&&hash(cw2,5)>0.3) put(ax2+cw2,ayg-8,'▄',SIL);
+      }
+    }
+    /* giraffe, neck against the sky */
+    var gx2=ix+Math.floor(iw*0.42), gb=iy+hy;
+    var bob=Math.round(Math.sin(t*1.2));
+    put(gx2,gb,'█',SIL); put(gx2,gb-1,'█',SIL);
+    put(gx2+4,gb,'█',SIL); put(gx2+4,gb-1,'█',SIL);
+    put(gx2+1,gb,'▌',SIL); put(gx2+3,gb,'▐',SIL);
+    for(x=0;x<6;x++){ put(gx2+x,gb-2,'█',SIL); put(gx2+x,gb-3,'█',SIL); }
+    put(gx2-1,gb-2,'╲',SIL);
+    for(y=1;y<=6;y++) put(gx2+5+Math.floor(y*0.5),gb-3-y,'█',SIL);
+    var hx2=gx2+9, hy2=gb-10+bob;
+    put(hx2,hy2,'█',SIL); put(hx2+1,hy2,'▘',SIL); put(hx2,hy2-1,'˙',SIL); put(hx2-1,hy2,'▝',SIL);
+    /* elephant, walking the horizon */
+    var ex2=ix+Math.floor(iw*0.80)-Math.round(((t*0.9)%(iw*0.18)));
+    var eb=iy+hy;
+    var gait=((t*2.0)|0)%2;
+    for(y=-6;y<=-2;y++)for(x=0;x<12;x++) put(ex2+x,eb+y,'█',SIL);
+    for(y=-7;y<=-3;y++)for(x=-4;x<0;x++) put(ex2+x,eb+y,'█',SIL);
+    put(ex2-2,eb-8,'▄',SIL); put(ex2-1,eb-8,'▄',SIL);
+    var tr=Math.round(Math.sin(t*1.6));
+    put(ex2-5,eb-4,'▐',SIL); put(ex2-5,eb-3,'▐',SIL);
+    put(ex2-5+tr,eb-2,'▌',SIL); put(ex2-5+tr,eb-1,'╷',SIL);
+    put(ex2-4,eb-3,'▔',css([240,232,216]));
+    put(ex2+1,eb-1,'█',SIL); put(ex2+1,eb,gait?'▌':'█',SIL);
+    put(ex2+4,eb-1,'█',SIL); put(ex2+4,eb,gait?'█':'▐',SIL);
+    put(ex2+7,eb-1,'█',SIL); put(ex2+7,eb,gait?'▐':'█',SIL);
+    put(ex2+10,eb-1,'█',SIL); put(ex2+10,eb,'▌',SIL);
+    put(ex2+12,eb-5,'╲',SIL);
+  }
+
+  /* --- 6 · grand canyon: strata dipping into the gorge --- */
+  function artCanyon(ix,iy,iw,ih,t){
+    var x,y;
+    var sky=Math.floor(ih*0.30);
+    for(y=0;y<sky;y++){ var v=y/sky; var c=mix([255,224,180],[252,174,122],v);
+      for(x=0;x<iw;x++){ var h=hash(x*3,y*5);
+        put(ix+x,iy+y, h>0.95?'·':'░', css([c[0]*(0.94+0.06*h),c[1]*(0.94+0.06*h),c[2]*(0.94+0.06*h)])); } }
+    for(y=-1;y<=1;y++)for(x=-2;x<=2;x++){ if(Math.abs(x)*0.6+Math.abs(y)<2)
+      put(ix+Math.floor(iw*0.14)+x,iy+2+y,'▓',css([255,240,196])); }
+    var hk=t*0.5;
+    put(ix+Math.floor(iw*0.55+Math.cos(hk)*iw*0.16), iy+Math.floor(sky*0.55+Math.sin(hk)*1.5),'v',css([90,50,36]));
+    /* stacked mesa ridges, far and pale → near and deep red */
+    var COLS=[[248,180,140],[226,138,98],[198,102,66],[162,68,46],[114,42,30]];
+    for(var L=0;L<5;L++){
+      var base=sky+Math.floor((ih-sky)*L/5)+1;
+      var c=COLS[L];
+      for(x=0;x<iw;x++){
+        var step=Math.floor(hash((x/9|0)+L*31,L*13)*3);
+        var jag=Math.round(hash(x,L*7)*0.9);
+        var top=Math.max(sky, base-step+jag);
+        for(y=top;y<ih;y++){
+          var sh2=0.94+0.07*hash(x*7,y*3);
+          put(ix+x,iy+y, y===top?'▀':'█', css([c[0]*sh2*(y===top?1.08:1),c[1]*sh2,c[2]*sh2]));
+        }
+      }
+    }
+    /* the patient river, glinting through the inner gorge */
+    for(x=Math.floor(iw*0.28);x<Math.floor(iw*0.74);x++){
+      var ry=ih-2-Math.round(Math.sin(x*0.18+1)*1.2);
+      if(hash(x,99)>0.2) put(ix+x,iy+ry,'≈',css(hash(x,(t*3)|0)>0.5?[120,225,210]:[62,162,155]));
+    }
+  }
+
+  /* --- 7 · paris at dusk: the tower sparkles --- */
+  function artEiffel(ix,iy,iw,ih,t){
+    var x,y;
+    for(y=0;y<ih;y++){ var v=y/ih; var c=mix([50,38,86],[206,102,118],Math.pow(v,1.9));
+      for(x=0;x<iw;x++){ var h4=hash(x*3,y*5);
+        if(h4>0.988&&v<0.55){ var tw3=0.5+0.5*Math.sin(t*2.6+h4*40); put(ix+x,iy+y,'·',css([200*tw3+55,200*tw3+55,225*tw3+30])); }
+        else put(ix+x,iy+y,'░', css([c[0]*(0.95+0.05*h4),c[1]*(0.94+0.05*h4),c[2]*(0.95+0.05*h4)])); } }
+    var cx3=ix+Math.floor(iw*0.5), Ht=ih-5;
+    var TW=css([16,13,26]);
+    var sparkle=(t%6)<1.8;
+    for(y=0;y<=Ht;y++){
+      var p=y/Ht;                                   /* 0 top → 1 base */
+      var wt=Math.max(1,Math.round(iw*0.16*Math.pow(p,1.8)+0.6));
+      var yy=iy+2+y;
+      put(cx3-wt,yy,'█',TW); put(cx3+wt,yy,'█',TW);
+      for(var d5=-wt+1;d5<wt;d5++){
+        if(p>0.86 && Math.abs(d5)<wt*0.58) continue;      /* the arch */
+        put(cx3+d5,yy, ((d5+y)%2===0)?'╳':'▒', css([24,20,36]));
+      }
+      if(y===Math.floor(Ht*0.34)||y===Math.floor(Ht*0.62)||y===Math.floor(Ht*0.86)){
+        for(var d6=-wt-1;d6<=wt+1;d6++) put(cx3+d6,yy,'═',css([34,28,48]));
+      }
+      if(sparkle){
+        for(var s4=0;s4<2;s4++){
+          if(hash(y*3+s4,(t*22)|0)>0.6)
+            put(cx3+Math.round((hash(y+s4,(t*17)|0)-0.5)*2*wt),yy,'✦',css([255,252,225]));
+        }
+      }
+    }
+    put(cx3,iy+2,'│',TW);
+    var bk=0.6+0.4*Math.sin(t*4);
+    put(cx3,iy+1,'✹',css([255*bk,120*bk,90*bk]));
+    /* rooftop skyline, windows warm */
+    for(x=0;x<iw;x++){
+      var rh=ih-2-((hash(x>>2,5)*2.6)|0);
+      for(y=rh;y<ih;y++) put(ix+x,iy+y,'█',css([15,12,24]));
+      put(ix+x,iy+rh,'▀',css([30,24,44]));
+      if(hash(x,11)>0.78){ var ww=0.55+0.45*Math.sin(t*2+x*1.7); put(ix+x,iy+ih-1,'▪',css([255*ww,205*ww,110*ww])); }
+    }
+  }
+
   function renderScene(s,t){
-    if(s===0) findScene(t); else if(s===1) saveScene(t); else patternScene(t);
+    if(s===0) findScene(t);
+    else if(s===1) saveScene(t);
+    else if(s===2) patternScene(t);
+    else if(s===3){ stars(t,0.994); frameArt(t, artBeethoven, 'MUSIC · BEETHOVEN', 'shipped early — tonight, the Ninth'); }
+    else if(s===4){ stars(t,0.994); frameArt(t, artVanGogh, 'ART · AFTER VAN GOGH', 'fewer bugs, more starry nights'); }
+    else if(s===5){ stars(t,0.996); frameArt(t, artSavanna, 'WILD · THE SAVANNA', 'the pager stays quiet on safari'); }
+    else if(s===6){ stars(t,0.996); frameArt(t, artCanyon, 'EARTH · GRAND CANYON', 'take the long weekend'); }
+    else { stars(t,0.994); frameArt(t, artEiffel, 'CITY · PARIS', 'deploy friday, paris saturday'); }
   }
 
   /* ---------------- paint ---------------- */
@@ -1244,7 +1557,7 @@ model.<span class="fn">save</span>(book)    <span class="com"># loaded entity �
       "hero.tagline":"<span class=\"g-q\">查詢</span>交給 SQL,<span class=\"g-w\">寫入</span>交給框架。",
       "hero.lede":"用你和你的 AI 都已經會的 ANSI SQL 寫查詢,把繁瑣的 INSERT / UPDATE / DELETE 交給框架。約 600 行、零依賴 —— 對人是幾乎不存在的學習曲線,對 AI 是一次讀得完的 context。",
       "hero.cta1":"在 GitHub 上查看","hero.cta2":"AI 時代的理由",
-      "manifesto.text":"AI 寫程式的時代,更值得 clean code。<span>套用經典 design pattern —— 省 token、穩品質、易管理,產出自然更快。</span>",
+      "manifesto.text":"AI 寫程式的時代,更值得 clean code。<span>套用經典 design pattern —— 省 token、穩品質、易管理,產出更快;省下來的時間,還給生活。</span>",
       "phil.eyebrow":"設計哲學","phil.h2":"和重量級 ORM 相反的取捨",
       "phil.lede":"重量級 ORM 要求先學會查詢 DSL、session 生命週期與 mapping 儀式 —— 對人是門檻,對 AI 是燒不完的 context 與幻覺的溫床。pymodelet 反過來:尊重 SQL,只接手真正繁瑣的部分。",
       "phil.c1title":"查詢 → SQL","phil.c1body":"SELECT 用 ANSI SQL 直接寫 —— 工程師本來就會,模型的訓練語料更是滾瓜爛熟。不發明新的查詢語言:人少學一套 DSL,AI 少燒一份 token、少一個幻覺來源。",
