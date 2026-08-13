@@ -1,0 +1,151 @@
+name: Publish to PyPI
+
+# Tag-triggered release. Trusted Publishing (OIDC) mints a short-lived upload
+# token at publish time, so no API token is ever stored in this repository —
+# the trust is pinned at pypi.org/manage/account/publishing to the owner, the
+# repository, this workflow's file name, and the environment named below.
+#
+#   git tag v0.1.0   && git push origin v0.1.0     -> PyPI
+#   git tag v0.2.0rc1 && git push origin v0.2.0rc1 -> TestPyPI
+#
+# Routing is by PEP 440: a prerelease version (rc/a/b) goes to TestPyPI so a
+# release can be rehearsed before the version number is spent — PyPI never
+# allows a filename or version to be uploaded twice, even after deletion.
+# TestPyPI needs its own pending publisher, registered separately at
+# test.pypi.org with the environment 'testpypi'.
+#
+# workflow_dispatch runs the tests and the build only; it never publishes.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.11', '3.12', '3.13']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run the test suite
+        run: |
+          python -m pip install --quiet pytest
+          PYTHONPATH=src python -m pytest tests -q
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      prerelease: ${{ steps.version.outputs.prerelease }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Guards against tagging v0.2.0 while pyproject.toml still says 0.1.0,
+      # which would publish an artifact under the wrong, unrecoverable version.
+      - name: Check the tag matches the packaged version
+        if: startsWith(github.ref, 'refs/tags/')
+        id: version
+        run: |
+          python -m pip install --quiet packaging
+          python - <<'PY'
+          import os, sys, tomllib
+          from packaging.version import Version
+
+          with open("pyproject.toml", "rb") as fh:
+              declared = Version(tomllib.load(fh)["project"]["version"])
+          tag = os.environ["GITHUB_REF_NAME"]
+          tagged = Version(tag.removeprefix("v"))
+
+          if declared != tagged:
+              sys.exit(
+                  f"tag {tag} carries version {tagged}, but pyproject.toml "
+                  f"declares {declared} — bump one to match the other"
+              )
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+              fh.write(f"version={declared}\n")
+              fh.write(f"prerelease={str(declared.is_prerelease).lower()}\n")
+          print(f"publishing {declared} (prerelease={declared.is_prerelease})")
+          PY
+
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install --quiet build twine
+          python -m build
+          twine check dist/*
+
+      # Runs from outside the checkout so the tests import the installed
+      # package rather than src/ — this is what proves the src-layout wheel
+      # actually exposes 'modelet' as a top-level package.
+      - name: Install the wheel and run the tests against it
+        run: |
+          python -m venv /tmp/smoke
+          /tmp/smoke/bin/pip install --quiet dist/*.whl pytest
+          cd /tmp
+          /tmp/smoke/bin/python -m pytest "$GITHUB_WORKSPACE/tests" -q
+          /tmp/smoke/bin/python -c "import modelet; print('import modelet ->', modelet.__file__)"
+
+      - name: Upload the artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  testpypi:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/') && needs.build.outputs.prerelease == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/pymodelet
+    permissions:
+      id-token: write
+    steps:
+      - name: Download the artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: Publish to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  pypi:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/') && needs.build.outputs.prerelease == 'false'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pymodelet
+    permissions:
+      id-token: write
+    steps:
+      - name: Download the artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

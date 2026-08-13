@@ -5,3 +5,6 @@ __pycache__/
 build/
 dist/
 .venv/
+
+# Credentials — never commit. A PyPI token here would be a public leak.
+.pypirc
