@@ -68,6 +68,11 @@ class _TxnState:
     connection: Any
     owner_thread: int  # threading.get_ident() of the thread that opened it
     completed: bool = False
+    # set when a nested txn() block (or a Model method joining the
+    # transaction) exits with an exception; the outermost block then rolls
+    # back even if the exception was swallowed in between
+    rollback_only: bool = False
+    rollback_cause: BaseException | None = None
 
 
 # source key -> _TxnState. The mapping is never mutated in place: binding a
@@ -326,6 +331,14 @@ class Model:
         called inside, reuse that connection. The outermost block commits on
         clean exit and rolls back on error, then returns the connection.
 
+        Rollback-only, as in Spring: when a nested block, or a Model method
+        joining the transaction, exits with an exception, the transaction is
+        marked rollback-only. If an enclosing block swallows that exception,
+        the outermost block still rolls back and raises ``ModelException``
+        (whose ``cause`` is the first such exception) instead of committing
+        partial work. An exception caught *within* one block, without
+        crossing a ``txn()`` boundary, does not mark it.
+
         The binding lives in a ``ContextVar``: other threads and asyncio
         tasks never see it. A *copy* of the context does carry it, so a bound
         transaction reached from a different thread (``asyncio.to_thread``,
@@ -334,8 +347,15 @@ class Model:
         inside the block that outlives it), raises ``ModelException``
         rather than sharing the connection.
         """
-        if self._bound_state() is not None:
-            yield self  # join the enclosing transaction
+        state = self._bound_state()
+        if state is not None:  # join the enclosing transaction
+            try:
+                yield self
+            except BaseException as e:
+                if not state.rollback_only:
+                    state.rollback_only = True
+                    state.rollback_cause = e
+                raise
             return
 
         with self._source() as cn:
@@ -347,6 +367,16 @@ class Model:
                 except BaseException:
                     self._rollback_quietly(cn)
                     raise
+                if state.rollback_only:
+                    self._rollback_quietly(cn)
+                    cause = state.rollback_cause
+                    raise ModelException(
+                        "Transaction rolled back because it was marked "
+                        "rollback-only: a nested txn() block or Model call "
+                        f"failed with {cause!r} and the exception was "
+                        "swallowed before reaching the outermost txn().",
+                        cause,
+                    ) from cause
                 try:
                     cn.commit()
                 except BaseException:
